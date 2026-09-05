@@ -5,4 +5,4 @@
 - [x] Build complete Menu page
 - [x] Build complete Coffee page
 - [x] Add polished Shop, Our Story, Wholesale, and Visit placeholders
-- [ ] Validate routes, interactions, accessibility, desktop, and mobile layouts
+- [x] Validate routes, interactions, accessibility, desktop, and mobile layouts
