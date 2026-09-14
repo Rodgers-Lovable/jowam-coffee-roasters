@@ -9,7 +9,10 @@ import cuppingImage from "@/assets/jowam-cupping.jpg";
 import originImage from "@/assets/jowam-origin-kenya.jpg";
 import { Button } from "@/components/ui/button";
 import { CoffeeProduct, Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { GoogleReviews } from "@/components/jowam/google-reviews";
+import { LocationMap } from "@/components/jowam/location-map";
 import { coffees } from "@/data/jowam";
+import { siteInfo } from "@/data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
