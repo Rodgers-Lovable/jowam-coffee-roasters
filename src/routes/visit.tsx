@@ -1,6 +1,81 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Clock, MapPin } from "lucide-react";
 import image from "@/assets/jowam-cafe-interior.jpg";
-import { PlaceholderPage } from "@/components/jowam/editorial";
+import { Image } from "@/components/jowam/editorial";
+import { GoogleReviews } from "@/components/jowam/google-reviews";
+import { LocationMap } from "@/components/jowam/location-map";
 import { Button } from "@/components/ui/button";
-export const Route = createFileRoute("/visit")({ head: () => ({ meta: [{ title: "Visit Jowam Coffee Roasters" }, { name: "description", content: "Plan a future visit to Jowam Coffee Roasters. Confirmed location and opening details are coming soon." }, { property: "og:title", content: "Visit Jowam Coffee Roasters" }, { property: "og:description", content: "Location and opening details are coming soon." }, { property: "og:type", content: "website" }, { property: "og:url", content: "/visit" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/visit" }] }), component: VisitPage });
-function VisitPage() { return <PlaceholderPage eyebrow="Visit Jowam" title="Meet us at the café." body="The final café name, address and contact details have not yet been supplied. This structure is ready for confirmed information." image={image} imageAlt="A welcoming café interior with guests"><dl className="mt-8 divide-y divide-border border-y border-border text-sm"><div className="flex justify-between py-4"><dt>Address</dt><dd className="text-muted-foreground">To be confirmed</dd></div><div className="flex justify-between py-4"><dt>Opening hours</dt><dd className="text-muted-foreground">To be confirmed</dd></div><div className="flex justify-between py-4"><dt>Phone & email</dt><dd className="text-muted-foreground">To be confirmed</dd></div></dl><Button className="mt-7" disabled>Directions coming soon</Button></PlaceholderPage>; }
+import { siteInfo } from "@/data/site";
+
+export const Route = createFileRoute("/visit")({
+  head: () => ({
+    meta: [
+      { title: "Visit Jowam Coffee Roasters | Lavington Mall, Nairobi" },
+      { name: "description", content: "Find Jowam Coffee Roasters at Lavington Mall on James Gichuru Road, Nairobi. Open Mon–Sat 7:15 am – 7 pm and Sunday 9 am – 5 pm." },
+      { property: "og:title", content: "Visit Jowam Coffee Roasters" },
+      { property: "og:description", content: "Lavington Mall, James Gichuru Road, Nairobi. Open daily for coffee, breakfast and brunch." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/visit" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "/visit" }],
+  }),
+  component: VisitPage,
+});
+
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteInfo.mapsQuery)}`;
+
+function VisitPage() {
+  return (
+    <main>
+      <section className="mx-auto grid max-w-screen-2xl items-center gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1fr_1fr] lg:px-12 lg:py-20">
+        <div className="max-w-xl">
+          <p className="eyebrow">Visit Jowam</p>
+          <h1 className="mt-5 font-display text-6xl leading-[0.9] sm:text-7xl">Meet us at the café.</h1>
+          <p className="mt-7 text-lg leading-8 text-muted-foreground">You’ll find us at Lavington Mall on James Gichuru Road — open early for coffee, breakfast and unhurried afternoons.</p>
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-2">
+            <div>
+              <p className="eyebrow flex items-center gap-2 text-olive"><MapPin className="size-3.5" /> Location</p>
+              <address className="mt-3 text-sm not-italic leading-6">
+                {siteInfo.addressLine}
+                <br />
+                {siteInfo.city}
+              </address>
+            </div>
+            <div>
+              <p className="eyebrow flex items-center gap-2 text-olive"><Clock className="size-3.5" /> Opening hours</p>
+              <dl className="mt-3 space-y-1.5 text-sm">
+                {siteInfo.hours.map((entry) => (
+                  <div key={entry.day} className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">{entry.day}</dt>
+                    <dd className="tabular-nums">{entry.time}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Button asChild><a href={directionsUrl} target="_blank" rel="noreferrer">Get directions</a></Button>
+            <Button asChild variant="outline"><a href="/menu">See the menu</a></Button>
+          </div>
+          <p className="mt-6 text-xs text-muted-foreground">Phone and email to be confirmed.</p>
+        </div>
+        <div className="aspect-[4/5] max-h-[75vh] overflow-hidden">
+          <Image src={image} alt="A welcoming café interior with guests" width={1200} height={1504} priority sizes="(max-width: 1024px) 100vw, 50vw" />
+        </div>
+      </section>
+
+      <section className="bg-paper-deep">
+        <div className="mx-auto max-w-screen-2xl px-5 py-20 sm:px-8 lg:px-12">
+          <h2 className="font-display text-4xl sm:text-5xl">Find us</h2>
+          <p className="mt-3 text-sm text-muted-foreground">{siteInfo.addressLine}, {siteInfo.city}</p>
+          <LocationMap className="mt-8 aspect-[16/10] w-full md:aspect-[21/9]" />
+        </div>
+      </section>
+
+      <GoogleReviews />
+    </main>
+  );
+}
