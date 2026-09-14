@@ -1,14 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, ShoppingBag } from "lucide-react";
 import { navItems } from "@/data/jowam";
+import logo from "@/assets/jowam-logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 function Brand() {
   return (
-    <Link to="/" className="group inline-flex flex-col leading-none" aria-label="Jowam Coffee Roasters home">
-      <span className="font-display text-[1.7rem] font-semibold leading-[0.75]">Jowam</span>
-      <span className="mt-1.5 text-[0.55rem] font-semibold uppercase tracking-[0.24em] text-muted-foreground">Coffee Roasters</span>
+    <Link to="/" className="group inline-flex items-center gap-3 leading-none" aria-label="Jowam Coffee Roasters home">
+      <img src={logo.url} alt="Jowam Coffee Roasters logo" width={48} height={48} className="size-11 rounded-full object-contain" />
+      <span className="inline-flex flex-col">
+        <span className="font-display text-[1.7rem] font-semibold leading-[0.75]">Jowam</span>
+        <span className="mt-1.5 text-[0.55rem] font-semibold uppercase tracking-[0.24em] text-muted-foreground">Coffee Roasters</span>
+      </span>
     </Link>
   );
 }
