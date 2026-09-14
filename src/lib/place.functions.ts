@@ -5,7 +5,7 @@ export const PLACE_ID = "ChIJldy6YBQZLxgRyNU_M5ty6lI";
 export type PlaceReview = {
   name: string;
   author: string;
-  authorPhoto?: string;
+  authorPhoto?: string | undefined;
   rating: number;
   text: string;
   relativeTime: string;
