@@ -9,7 +9,10 @@ import cuppingImage from "@/assets/jowam-cupping.jpg";
 import originImage from "@/assets/jowam-origin-kenya.jpg";
 import { Button } from "@/components/ui/button";
 import { CoffeeProduct, Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { GoogleReviews } from "@/components/jowam/google-reviews";
+import { LocationMap } from "@/components/jowam/location-map";
 import { coffees } from "@/data/jowam";
+import { siteInfo } from "@/data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -47,7 +50,9 @@ function HomePage() {
 
     <section className="relative min-h-[75svh] overflow-hidden bg-ink text-ink-foreground"><Image src={baristaImage} alt="A barista carefully pouring latte art at the café counter" width={1200} height={1504} sizes="100vw" className="absolute inset-0 object-[center_38%]" /><div className="absolute inset-0 bg-ink/35" /><div className="relative mx-auto flex min-h-[75svh] max-w-screen-2xl items-end px-5 py-14 sm:px-8 lg:px-12"><div className="max-w-2xl"><p className="eyebrow text-ink-foreground/70">The people of Jowam</p><h2 className="mt-4 font-display text-5xl leading-none sm:text-7xl">Care is the craft.</h2></div></div></section>
 
-    <section className="mx-auto grid max-w-screen-2xl gap-10 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:px-12"><div className="aspect-[3/2] overflow-hidden"><Image src={cafeImage} alt="The welcoming café interior in use" width={1600} height={1072} /></div><div className="flex flex-col justify-center"><p className="eyebrow">Visit Jowam</p><h2 className="mt-4 font-display text-5xl sm:text-6xl">Your table is waiting.</h2><p className="mt-6 text-muted-foreground">Café location and address to be confirmed.</p><dl className="mt-7 border-y border-border py-5 text-sm"><div className="flex justify-between gap-5"><dt>Opening hours</dt><dd className="text-right text-muted-foreground">To be confirmed</dd></div></dl><div className="mt-7 flex flex-wrap gap-3"><Button asChild><Link to="/visit">Get directions</Link></Button><Button asChild variant="outline"><Link to="/visit">Visit us</Link></Button></div></div></section>
+    <section className="mx-auto grid max-w-screen-2xl gap-10 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:px-12"><LocationMap className="aspect-[3/2] w-full" /><div className="flex flex-col justify-center"><p className="eyebrow">Visit Jowam</p><h2 className="mt-4 font-display text-5xl sm:text-6xl">Your table is waiting.</h2><p className="mt-6 text-muted-foreground">{siteInfo.addressLine}, {siteInfo.city}</p><dl className="mt-7 divide-y divide-border border-y border-border py-2 text-sm">{siteInfo.hours.map((entry) => <div key={entry.day} className="flex justify-between gap-5 py-2"><dt className="text-muted-foreground">{entry.day}</dt><dd className="tabular-nums">{entry.time}</dd></div>)}</dl><div className="mt-7 flex flex-wrap gap-3"><Button asChild><a href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteInfo.mapsQuery)}`} target="_blank" rel="noreferrer">Get directions</a></Button><Button asChild variant="outline"><Link to="/visit">Visit us</Link></Button></div></div></section>
+
+    <GoogleReviews tone="deep" />
 
     <section className="bg-paper-deep"><div className="mx-auto grid max-w-screen-2xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:px-12"><div className="aspect-[4/3] overflow-hidden"><Image src={cuppingImage} alt="A group learning together around a coffee cupping table" width={1408} height={1056} /></div><div className="flex flex-col justify-center lg:px-12"><SectionIntro eyebrow="Experiences & education" title="Taste. Ask. Discover." body="Cuppings, roastery experiences and workshops will offer an approachable way to go deeper into coffee." /><div className="mt-8"><TextLink to="/coffee">Explore experiences</TextLink></div></div></div></section>
 

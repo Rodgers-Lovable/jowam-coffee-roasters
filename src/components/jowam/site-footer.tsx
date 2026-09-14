@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { siteInfo } from "@/data/site";
 
 export function SiteFooter() {
   return (
@@ -21,8 +22,13 @@ export function SiteFooter() {
             <FooterGroup title="Coffee" links={[["Shop", "/shop"], ["Our coffee", "/coffee"], ["Brew guides", "/coffee"], ["Experiences", "/coffee"]]} />
             <FooterGroup title="Jowam" links={[["Our story", "/our-story"], ["Wholesale", "/wholesale"], ["Training", "/coffee"], ["Contact", "/visit"]]} />
             <div>
-              <p className="eyebrow text-ink-foreground/45">For now</p>
-              <p className="mt-5 text-sm leading-6 text-ink-foreground/70">Location, hours, phone and email are awaiting confirmation.</p>
+              <p className="eyebrow text-ink-foreground/45">Find us</p>
+              <address className="mt-5 text-sm not-italic leading-6 text-ink-foreground/70">
+                {siteInfo.addressLine}
+                <br />
+                {siteInfo.city}
+              </address>
+              <p className="mt-4 text-sm leading-6 text-ink-foreground/70">{siteInfo.hoursSummary}</p>
             </div>
           </div>
         </div>
