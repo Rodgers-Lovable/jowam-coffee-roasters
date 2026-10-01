@@ -77,6 +77,27 @@ describe("loadProducts", () => {
     spy.mockRestore();
   });
 
+  it("calls onFallback with the last good list on the fallback path only", async () => {
+    quiet();
+    const onFallback = vi.fn();
+    await loadProducts({
+      readRows: vi.fn().mockRejectedValue(new Error("down")),
+      cache: memoryStore(),
+      lastGood: memoryStore([kvProduct]),
+      onFallback,
+    });
+    expect(onFallback).toHaveBeenCalledWith([kvProduct]);
+
+    const healthy = vi.fn();
+    await loadProducts({
+      readRows: vi.fn().mockResolvedValue([validRow]),
+      cache: memoryStore(),
+      lastGood: memoryStore(),
+      onFallback: healthy,
+    });
+    expect(healthy).not.toHaveBeenCalled();
+  });
+
   it("falls back when every row is invalid", async () => {
     const spy = quiet();
     const cache = memoryStore();

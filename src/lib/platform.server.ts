@@ -55,18 +55,23 @@ export const productCache: ProductStore = {
     if (memory && Date.now() - memory.at < CACHE_TTL_SECONDS * 1000) return memory.products;
     const hit = await getEdgeCache()?.match(new Request(CACHE_KEY));
     if (!hit) return null;
+    const stamp = Number(hit.headers.get("x-fetched-at"));
+    const fetchedAt = Number.isFinite(stamp) && stamp > 0 ? stamp : Date.now();
+    if (Date.now() - fetchedAt >= CACHE_TTL_SECONDS * 1000) return null;
     const products = (await hit.json()) as Product[];
-    memory = { at: Date.now(), products };
+    memory = { at: fetchedAt, products };
     return products;
   },
   async put(products) {
-    memory = { at: Date.now(), products };
+    const fetchedAt = Date.now();
+    memory = { at: fetchedAt, products };
     await getEdgeCache()?.put(
       new Request(CACHE_KEY),
       new Response(JSON.stringify(products), {
         headers: {
           "content-type": "application/json",
           "cache-control": `public, max-age=${CACHE_TTL_SECONDS}`,
+          "x-fetched-at": String(fetchedAt),
         },
       }),
     );

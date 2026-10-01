@@ -6,6 +6,7 @@ type LoadDeps = {
   readRows: () => Promise<unknown[]>;
   cache: ProductStore;
   lastGood: ProductStore;
+  onFallback?: (products: Product[]) => void;
 };
 
 const reason = (error: unknown) => (error instanceof Error ? error.message : String(error));
@@ -39,7 +40,9 @@ export async function loadProducts(deps: LoadDeps): Promise<Product[]> {
   } catch (error) {
     console.error(`[products] falling back to the last good copy: ${reason(error)}`);
     try {
-      return (await deps.lastGood.get()) ?? [];
+      const lastGood = (await deps.lastGood.get()) ?? [];
+      if (lastGood.length > 0) deps.onFallback?.(lastGood);
+      return lastGood;
     } catch (fallbackError) {
       console.error(`[products] last good read failed: ${reason(fallbackError)}`);
       return [];
@@ -49,11 +52,21 @@ export async function loadProducts(deps: LoadDeps): Promise<Product[]> {
 
 let inFlight: Promise<Product[]> | null = null;
 
+// During a Sheet outage, remember the last good list briefly so requests do not each wait on the Sheet.
+const FALLBACK_TTL_MS = 30_000;
+let fallbackUntil = 0;
+let fallbackProducts: Product[] | null = null;
+
 export function getLiveProducts(): Promise<Product[]> {
+  if (fallbackProducts && Date.now() < fallbackUntil) return Promise.resolve(fallbackProducts);
   inFlight ??= loadProducts({
     readRows: async () => readProductRows(await getSheetConfig()),
     cache: productCache,
     lastGood: lastGoodStore,
+    onFallback: (products) => {
+      fallbackProducts = products;
+      fallbackUntil = Date.now() + FALLBACK_TTL_MS;
+    },
   }).finally(() => {
     inFlight = null;
   });
