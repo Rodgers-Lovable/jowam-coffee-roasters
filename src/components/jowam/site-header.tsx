@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, ShoppingBag } from "lucide-react";
+import { Menu } from "lucide-react";
 import { navItems } from "@/data/jowam";
 import logo from "@/assets/jowam-logo.jpg.asset.json";
+import { CartDrawer } from "@/components/jowam/cart-drawer";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
@@ -30,9 +31,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-1.5">
-          <Button asChild variant="ghost" size="icon" aria-label="Shopping bag">
-            <Link to="/shop"><ShoppingBag /></Link>
-          </Button>
+          <CartDrawer />
           <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild><Button variant="ghost" size="icon" aria-label="Open menu"><Menu /></Button></SheetTrigger>
