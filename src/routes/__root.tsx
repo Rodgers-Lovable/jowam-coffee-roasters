@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/jowam/site-header";
 import { SiteFooter } from "@/components/jowam/site-footer";
 import { Toaster } from "@/components/ui/sonner";
+import { useCartStore } from "@/stores/cart-store";
 
 function NotFoundComponent() {
   return (
@@ -116,6 +117,10 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  useEffect(() => {
+    void useCartStore.persist.rehydrate();
+  }, []);
+
   const { queryClient } = Route.useRouteContext();
 
   return (

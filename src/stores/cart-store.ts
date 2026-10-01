@@ -46,6 +46,7 @@ export const useCartStore = create<CartStore>()(
       // New key, so carts saved by the old Shopify store are ignored.
       name: "jowam-cart",
       version: 1,
+      skipHydration: true,
       storage: createJSONStorage(() => localStorage),
     },
   ),

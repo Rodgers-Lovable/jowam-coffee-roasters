@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { formatKes } from "@/lib/money";
+import type { Product } from "@/lib/products";
 import { getProducts } from "@/lib/products.functions";
 import { useCartStore } from "@/stores/cart-store";
 
@@ -53,6 +54,10 @@ function ProductNotFound() {
 
 function ProductPage() {
   const product = Route.useLoaderData();
+  return <ProductDetail key={product.handle} product={product} />;
+}
+
+function ProductDetail({ product }: { product: Product }) {
   const addLine = useCartStore((state) => state.addLine);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -104,11 +109,12 @@ function ProductPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Options
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div role="group" aria-label="Options" className="mt-3 flex flex-wrap gap-2">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.id}
                     type="button"
+                    aria-pressed={selected?.id === variant.id}
                     onClick={() => setSelectedId(variant.id)}
                     disabled={!variant.available}
                     className={`border px-4 py-2 text-sm transition-colors disabled:opacity-40 ${
