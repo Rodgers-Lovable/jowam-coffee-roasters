@@ -32,6 +32,5 @@ dist-ssr
 *.sw?
 
 /.claude
-AGENTS.md
 
 /docs/superpowers
