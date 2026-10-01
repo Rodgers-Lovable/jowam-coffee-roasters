@@ -103,4 +103,34 @@ describe("parseProductRows", () => {
     ]);
     expect(products.map((p) => p.handle)).toEqual(["kirinyaga", "nyeri", "embu"]);
   });
+
+  it("rejects a variant whose id duplicates one already in the product", () => {
+    const { products, errors } = parseProductRows([
+      row({ Variant: "250g" }),
+      row({ Variant: "250G" }),
+      row({ Variant: "250 g" }),
+      row({ Variant: "250-g" }),
+    ]);
+    expect(products[0]?.variants.map((v) => v.label)).toEqual(["250g", "250 g"]);
+    expect(errors).toHaveLength(2);
+    expect(errors[0]).toMatch(/^Row 3: .*duplicate/i);
+    expect(errors[1]).toMatch(/^Row 5: .*duplicate/i);
+  });
+
+  it("rejects a variant label with no letters or digits", () => {
+    const { products, errors } = parseProductRows([row(), row({ Variant: "!!!" })]);
+    expect(products[0]?.variants).toHaveLength(1);
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toMatch(/^Row 3: .*letter or digit/);
+  });
+
+  it("treats Available case-insensitively and ignores surrounding spaces", () => {
+    const { products } = parseProductRows([
+      row({ Variant: "a", Available: "True" }),
+      row({ Variant: "b", Available: "TRUE " }),
+      row({ Variant: "c", Available: true }),
+      row({ Variant: "d", Available: "no" }),
+    ]);
+    expect(products[0]?.variants.map((v) => v.available)).toEqual([true, true, true, false]);
+  });
 });

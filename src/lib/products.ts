@@ -35,7 +35,7 @@ const rowSchema = z.object({
     (v) => (typeof v === "string" ? Number(v.replace(/,/g, "").trim()) : v),
     z.number({ invalid_type_error: "Price KES must be a number" }).int().positive(),
   ),
-  Available: z.preprocess((v) => v === true || v === "TRUE" || v === "true", z.boolean()),
+  Available: z.preprocess((v) => String(v).trim().toLowerCase() === "true", z.boolean()),
   Image: text,
   Sort: z.preprocess((v) => (v === "" || v == null ? null : Number(v)), z.number().nullable()),
 });
@@ -67,7 +67,7 @@ function isBlankRow(raw: unknown) {
 
 export function parseProductRows(rows: unknown[]): { products: Product[]; errors: string[] } {
   const errors: string[] = [];
-  const byHandle = new Map<string, { product: Product | null; firstRow: number }>();
+  const byHandle = new Map<string, { product: Product | null }>();
 
   rows.forEach((raw, index) => {
     const rowNumber = index + 2; // row 1 is the header
@@ -88,11 +88,10 @@ export function parseProductRows(rows: unknown[]): { products: Product[]; errors
         errors.push(
           `Row ${rowNumber}: product "${r.Handle}" needs a Name and a Category on its first row`,
         );
-        entry = { product: null, firstRow: rowNumber };
+        entry = { product: null };
       } else {
         const driveId = extractDriveId(r.Image);
         entry = {
-          firstRow: rowNumber,
           product: {
             handle: r.Handle,
             name: r.Name,
@@ -107,8 +106,22 @@ export function parseProductRows(rows: unknown[]): { products: Product[]; errors
       byHandle.set(r.Handle, entry);
     }
 
+    const id = variantId(r.Handle, r.Variant);
+    if (id === `${r.Handle}--`) {
+      errors.push(
+        `Row ${rowNumber}: Variant "${r.Variant}" needs at least one letter or digit to make an id`,
+      );
+      return;
+    }
+    if (entry.product?.variants.some((v) => v.id === id)) {
+      errors.push(
+        `Row ${rowNumber}: duplicate Variant "${r.Variant}" for product "${r.Handle}" (it matches another label once spaces, case and symbols are ignored)`,
+      );
+      return;
+    }
+
     entry.product?.variants.push({
-      id: variantId(r.Handle, r.Variant),
+      id,
       label: r.Variant,
       priceKes: r["Price KES"],
       available: r.Available,
