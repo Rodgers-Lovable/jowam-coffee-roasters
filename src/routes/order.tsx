@@ -46,10 +46,11 @@ function OrderPage() {
   const { lines, clear } = useCartStore();
   const [hydrated, setHydrated] = useState(() => useCartStore.persist.hasHydrated());
   useEffect(() => useCartStore.persist.onFinishHydration(() => setHydrated(true)), []);
-  const { data: products = [], isPending } = useProducts();
+  const { data: products = [], isPending, isError, refetch } = useProducts();
   const { items, unavailable, subtotal } = resolveLines(products, lines);
   const form = useForm<OrderForm>({ resolver: zodResolver(orderFormSchema), defaultValues });
   const method = form.watch("method");
+  const tooMany = items.length > 30;
   const [error, setError] = useState<string | null>(null);
   const [placed, setPlaced] = useState<{ ref: string; saved: boolean; link: string } | null>(null);
 
@@ -90,11 +91,25 @@ function OrderPage() {
             {isWhatsApp ? "Open WhatsApp" : "Open email"}
           </a>
         </Button>
+        <p className="mt-4 text-xs text-muted-foreground">
+          If {isWhatsApp ? "WhatsApp" : "your email app"} did not open, tap the button above.
+        </p>
         <div className="mt-6">
           <Link to="/shop" className="text-sm underline underline-offset-4">
             Back to the shop
           </Link>
         </div>
+      </main>
+    );
+  }
+
+  if (hydrated && isError && products.length === 0) {
+    return (
+      <main className="mx-auto max-w-2xl px-5 py-24 text-center sm:px-8">
+        <h1 className="font-display text-5xl">We could not load the shop just now.</h1>
+        <Button className="mt-8" onClick={() => void refetch()}>
+          Try again
+        </Button>
       </main>
     );
   }
@@ -170,9 +185,10 @@ function OrderPage() {
               name="method"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Collection or delivery</FormLabel>
+                  <FormLabel id="order-method-label">Collection or delivery</FormLabel>
                   <FormControl>
                     <RadioGroup
+                      aria-labelledby="order-method-label"
                       value={field.value}
                       onValueChange={field.onChange}
                       className="gap-3"
@@ -240,7 +256,7 @@ function OrderPage() {
               type="submit"
               size="lg"
               className="w-full sm:w-auto"
-              disabled={form.formState.isSubmitting || items.length === 0}
+              disabled={form.formState.isSubmitting || items.length === 0 || tooMany}
             >
               {form.formState.isSubmitting ? (
                 <Loader2 className="animate-spin" />
@@ -249,6 +265,9 @@ function OrderPage() {
               )}
               Place order on WhatsApp
             </Button>
+            {tooMany && (
+              <p className="text-sm text-muted-foreground">Please order 30 items or fewer.</p>
+            )}
           </form>
         </Form>
 
