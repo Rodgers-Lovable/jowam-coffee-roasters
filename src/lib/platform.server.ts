@@ -73,11 +73,35 @@ export const productCache: ProductStore = {
   },
 };
 
+const IMAGE_CACHE_TTL_SECONDS = 86400;
+const imageCacheRequest = (driveId: string) =>
+  new Request(`https://cache.jowam.internal/images/${encodeURIComponent(driveId)}`);
+
+/** Edge cache for proxied images. No-ops when there is no edge cache (vite dev). */
+export const imageCache = {
+  async get(driveId: string): Promise<Response | null> {
+    return (await getEdgeCache()?.match(imageCacheRequest(driveId))) ?? null;
+  },
+  async put(driveId: string, response: Response): Promise<void> {
+    const headers = new Headers(response.headers);
+    headers.set("cache-control", `public, max-age=${IMAGE_CACHE_TTL_SECONDS}`);
+    await getEdgeCache()?.put(
+      imageCacheRequest(driveId),
+      new Response(response.body, { status: 200, headers }),
+    );
+  },
+};
+
 export const lastGoodStore: ProductStore = {
   async get() {
     const kv = (await getWorkerEnv()).PRODUCTS_KV;
     const raw = await kv?.get(LAST_GOOD_KEY);
-    return raw ? (JSON.parse(raw) as Product[]) : null;
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as Product[];
+    } catch {
+      return null; // corrupt copy: treat as missing
+    }
   },
   async put(products) {
     const kv = (await getWorkerEnv()).PRODUCTS_KV;
