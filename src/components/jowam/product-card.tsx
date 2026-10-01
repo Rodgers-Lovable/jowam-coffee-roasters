@@ -20,13 +20,13 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <article className="group flex flex-col border-t border-border pt-5">
+    <article className="group flex h-full flex-col border-t border-border pt-4">
       <Link
         to="/product/$handle"
         params={{ handle: product.handle }}
         className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive"
       >
-        <div className="aspect-[4/5] overflow-hidden bg-muted">
+        <div className="aspect-square overflow-hidden bg-muted">
           {product.image ? (
             <img
               src={product.image}
@@ -35,34 +35,38 @@ export function ProductCard({ product }: { product: Product }) {
               className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
           ) : (
-            <div className="flex size-full items-center justify-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="flex size-full items-center justify-center p-3 text-center text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
               Photography coming soon
             </div>
           )}
         </div>
-        <div className="mt-5 flex items-baseline justify-between gap-4">
-          <h3 className="font-display text-3xl leading-none">{product.name}</h3>
-          <p className="text-sm tabular-nums">
-            {firstAvailable ? (
-              <>
-                {hasChoices ? "From " : ""}
-                {formatKes(fromPrice)}
-              </>
-            ) : (
-              "Sold out"
-            )}
-          </p>
-        </div>
-        <p className="mt-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">
+        <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">
           {product.category}
         </p>
+        <h3 className="mt-1.5 font-display text-xl leading-tight sm:text-2xl">{product.name}</h3>
+        <p className="mt-2 flex items-baseline gap-1.5">
+          {firstAvailable ? (
+            <>
+              {hasChoices && (
+                <span className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                  From
+                </span>
+              )}
+              <span className="font-display text-2xl tabular-nums text-foreground sm:text-3xl">
+                {formatKes(fromPrice)}
+              </span>
+            </>
+          ) : (
+            <span className="font-display text-2xl text-muted-foreground">Sold out</span>
+          )}
+        </p>
         {product.description && (
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
             {product.description}
           </p>
         )}
       </Link>
-      <div className="mt-5 flex gap-2 pt-1">
+      <div className="mt-auto flex flex-wrap gap-2 pt-4">
         {hasChoices ? (
           <Button asChild size="sm" className="flex-1">
             <Link to="/product/$handle" params={{ handle: product.handle }}>
@@ -70,15 +74,18 @@ export function ProductCard({ product }: { product: Product }) {
             </Link>
           </Button>
         ) : (
-          <Button size="sm" className="flex-1" onClick={handleAdd} disabled={!firstAvailable}>
-            {firstAvailable ? "Add to bag" : "Sold out"}
-          </Button>
+          <>
+            <Button size="sm" className="flex-1" onClick={handleAdd} disabled={!firstAvailable}>
+              {firstAvailable ? "Add to bag" : "Sold out"}
+            </Button>
+            {/* "Choose options" already opens the product page, so Details only sits beside Add to bag. */}
+            <Button asChild variant="outline" size="sm">
+              <Link to="/product/$handle" params={{ handle: product.handle }}>
+                Details
+              </Link>
+            </Button>
+          </>
         )}
-        <Button asChild variant="outline" size="sm">
-          <Link to="/product/$handle" params={{ handle: product.handle }}>
-            Details
-          </Link>
-        </Button>
       </div>
     </article>
   );
