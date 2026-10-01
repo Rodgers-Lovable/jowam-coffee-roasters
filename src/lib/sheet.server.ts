@@ -30,12 +30,26 @@ export class SheetError extends Error {
 
 async function callScript(url: string, init: RequestInit, fetchFn: FetchFn) {
   const controller = new AbortController();
+  const timedOut = new Promise<never>((_, reject) => {
+    controller.signal.addEventListener("abort", () =>
+      reject(new SheetError("Sheet request timed out")),
+    );
+  });
+  timedOut.catch(() => {}); // avoid an unhandled rejection when the request finishes first
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
   let response: Response;
+  let body: string;
   try {
+    // The timer keeps running until the body is read, so a stalled body also times out.
     // Apps Script answers with a 302 to script.googleusercontent.com; following it is expected.
-    response = await fetchFn(url, { ...init, redirect: "follow", signal: controller.signal });
+    response = await Promise.race([
+      fetchFn(url, { ...init, redirect: "follow", signal: controller.signal }),
+      timedOut,
+    ]);
+    body = await Promise.race([response.text(), timedOut]);
   } catch (error) {
+    if (error instanceof SheetError) throw error;
     throw new SheetError(
       controller.signal.aborted
         ? "Sheet request timed out"
@@ -45,7 +59,6 @@ async function callScript(url: string, init: RequestInit, fetchFn: FetchFn) {
     clearTimeout(timer);
   }
 
-  const body = await response.text();
   const snippet = body.slice(0, 200);
   if (!response.ok) throw new SheetError(`Sheet responded with status ${response.status}`, snippet);
 

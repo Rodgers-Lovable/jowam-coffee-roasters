@@ -70,6 +70,24 @@ describe("readProductRows", () => {
   });
 });
 
+describe("body read timeout", () => {
+  it("times out when the response body never arrives", async () => {
+    vi.useFakeTimers();
+    const hanging = {
+      ok: true,
+      status: 200,
+      headers: new Headers({ "content-type": "application/json" }),
+      text: () => new Promise<string>(() => {}),
+    } as unknown as Response;
+    const fetchFn = vi.fn(async () => hanging);
+    const pending = readProductRows(config, fetchFn);
+    const assertion = expect(pending).rejects.toThrow("timed out");
+    await vi.advanceTimersByTimeAsync(5_000);
+    await assertion;
+    vi.useRealTimers();
+  });
+});
+
 describe("appendOrderRow", () => {
   it("posts the order with the secret in the body", async () => {
     const fetchFn = respond(JSON.stringify({ ok: true }));
