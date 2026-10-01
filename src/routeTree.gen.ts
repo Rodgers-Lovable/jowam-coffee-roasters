@@ -18,6 +18,7 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as VisitRouteImport } from './routes/visit'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as ApiV1ImagesDriveIdRouteImport } from './routes/api.v1.images.$driveId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1ImagesDriveIdRoute = ApiV1ImagesDriveIdRouteImport.update({
+  id: '/api/v1/images/$driveId',
+  path: '/api/v1/images/$driveId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   VisitRoute: typeof VisitRoute
   WholesaleRoute: typeof WholesaleRoute
   ProductHandleRoute: typeof ProductHandleRoute
+  ApiV1ImagesDriveIdRoute: typeof ApiV1ImagesDriveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/images/$driveId': {
+      id: '/api/v1/images/$driveId'
+      path: '/api/v1/images/$driveId'
+      fullPath: '/api/v1/images/$driveId'
+      preLoaderRoute: typeof ApiV1ImagesDriveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   VisitRoute: VisitRoute,
   WholesaleRoute: WholesaleRoute,
   ProductHandleRoute: ProductHandleRoute,
+  ApiV1ImagesDriveIdRoute: ApiV1ImagesDriveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
