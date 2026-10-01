@@ -89,3 +89,29 @@ export const menuCategories: MenuCategoryData[] = [
     ],
   },
 ];
+
+// Wholesale — broad categories only (brief §16). Programme details are placeholders until confirmed.
+export const wholesaleCategories = ["Cafés", "Restaurants", "Hotels", "Offices", "Hospitality businesses"] as const;
+
+export const wholesalePrinciples = [
+  { title: "Roasted by the people who serve it", body: "The coffee you pour is the coffee we pour at our own café, every day." },
+  { title: "Coffee chosen for your menu", body: "Selection shaped around your guests, your service and how your team brews." },
+  { title: "Hospitality people, working with hospitality people", body: "We understand busy mornings, full tables and the standards behind good service." },
+] as const;
+
+export const wholesaleSteps = [
+  { title: "Conversation", body: "Tell us about your place, your guests and what you serve today." },
+  { title: "Tasting", body: "Taste coffees side by side and talk through what suits your menu." },
+  { title: "Selection", body: "Agree the coffees, quantities and rhythm that fit your service." },
+  { title: "Ongoing supply", body: "Freshly roasted coffee, with a team you can reach when you need us." },
+] as const;
+
+export const wholesaleVolumes = ["Under 5 kg", "5–15 kg", "15–40 kg", "Over 40 kg", "Not sure yet"] as const;
+
+export const wholesaleFaqs = [
+  { q: "Is there a minimum order?", a: "Minimum order details are to be confirmed. Get in touch and we’ll talk it through." },
+  { q: "Where do you deliver?", a: "Delivery areas and schedules are to be confirmed." },
+  { q: "Can you help with equipment?", a: "Equipment support is to be confirmed. Tell us about your setup in your enquiry." },
+  { q: "Do you train our staff?", a: "Training for partner teams is to be confirmed. See our experiences page for current education plans." },
+] as const;
+

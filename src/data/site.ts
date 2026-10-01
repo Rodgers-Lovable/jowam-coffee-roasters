@@ -13,4 +13,10 @@ export const siteInfo = {
     { day: "Sunday", time: "9:00 am – 5:00 pm" },
   ],
   hoursSummary: "Mon–Sat 7:15 am – 7 pm · Sun 9 am – 5 pm",
+  // Placeholder contact details — replace with Jowam's real inbox and WhatsApp number (digits only, with country code).
+  contact: {
+    email: "hello@jowam.example",
+    whatsapp: null as string | null,
+    isPlaceholder: true,
+  },
 } as const;
