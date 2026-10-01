@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, type Mock } from "vitest";
 import type { Product, ProductStore } from "./products";
 import { loadProducts } from "./products.server";
 
@@ -24,7 +24,13 @@ const kvProduct: Product = {
   variants: [{ id: "kv--250g", label: "250g", priceKes: 1000, available: true }],
 };
 
-function memoryStore(initial: Product[] | null = null): ProductStore & { value: Product[] | null } {
+type MemoryStore = {
+  value: Product[] | null;
+  get: Mock<ProductStore["get"]>;
+  put: Mock<ProductStore["put"]>;
+};
+
+function memoryStore(initial: Product[] | null = null): MemoryStore {
   const store = {
     value: initial,
     get: vi.fn(async () => store.value),
