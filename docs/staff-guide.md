@@ -22,7 +22,7 @@ Each row is one thing a customer can buy, such as a size or grind. Rows with the
 
 1. Add a row with every column filled in.
 2. Tick Available.
-3. Wait up to 5 minutes and refresh the shop.
+3. Wait up to 5 minutes, then refresh the shop. Any change to the Sheet takes up to 5 minutes to show.
 
 ### Add another size or grind
 
@@ -46,7 +46,7 @@ Portrait photos (4:5) look best.
 - Change a Handle on a live product. It breaks old links and customers' bags.
 - Type currency signs or commas into Price KES.
 
-If a row has a mistake, the shop skips that row and keeps showing everything else.
+If a row has a mistake, the shop skips that row and keeps showing everything else. A mistake on a product's first row hides the whole product until it is fixed.
 
 ## The Orders tab
 
@@ -65,3 +65,10 @@ Don't edit the other columns. They are the record of what the customer ordered.
 ## Changing the script (admin only)
 
 The Sheet's Apps Script is what the website talks to. After editing it, open Deploy, then Manage deployments, click the pencil on the existing deployment, choose "New version" and Deploy. Do not use "New deployment", because that gives a new web address and the site keeps using the old one.
+
+## Setting up the Sheet (admin only)
+
+The full setup steps are in the notes at the top of the Apps Script file. In short, the Sheet needs two tabs, named exactly `Products` and `Orders`, each with this header row in row 1:
+
+- **Products**: Handle, Name, Category, Description, Variant, Price KES, Available, Image, Sort. Category is a dropdown of Coffee, Equipment and Merch. Available is a tick box.
+- **Orders**: Received at, Ref, Name, Phone, Email, Method, Address, Items, Subtotal KES, Notes, Status. Status is a dropdown of New, Confirmed, Paid, Fulfilled and Cancelled.
