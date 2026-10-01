@@ -11,12 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoffeeRouteImport } from './routes/coffee'
+import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as OrderRouteImport } from './routes/order'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as VisitRouteImport } from './routes/visit'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as ApiV1ImagesDriveIdRouteImport } from './routes/api.v1.images.$driveId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,9 +31,19 @@ const CoffeeRoute = CoffeeRouteImport.update({
   path: '/coffee',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExperiencesRoute = ExperiencesRouteImport.update({
+  id: '/experiences',
+  path: '/experiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderRoute = OrderRouteImport.update({
+  id: '/order',
+  path: '/order',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OurStoryRoute = OurStoryRouteImport.update({
@@ -58,80 +71,106 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1ImagesDriveIdRoute = ApiV1ImagesDriveIdRouteImport.update({
+  id: '/api/v1/images/$driveId',
+  path: '/api/v1/images/$driveId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/shop'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/shop'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   id:
     | '__root__'
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/shop'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
+    | '/api/v1/images/$driveId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoffeeRoute: typeof CoffeeRoute
+  ExperiencesRoute: typeof ExperiencesRoute
   MenuRoute: typeof MenuRoute
+  OrderRoute: typeof OrderRoute
   OurStoryRoute: typeof OurStoryRoute
   ShopRoute: typeof ShopRoute
   VisitRoute: typeof VisitRoute
   WholesaleRoute: typeof WholesaleRoute
   ProductHandleRoute: typeof ProductHandleRoute
+  ApiV1ImagesDriveIdRoute: typeof ApiV1ImagesDriveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -150,11 +189,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoffeeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experiences': {
+      id: '/experiences'
+      path: '/experiences'
+      fullPath: '/experiences'
+      preLoaderRoute: typeof ExperiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/menu': {
       id: '/menu'
       path: '/menu'
       fullPath: '/menu'
       preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order': {
+      id: '/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/our-story': {
@@ -192,18 +245,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/images/$driveId': {
+      id: '/api/v1/images/$driveId'
+      path: '/api/v1/images/$driveId'
+      fullPath: '/api/v1/images/$driveId'
+      preLoaderRoute: typeof ApiV1ImagesDriveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoffeeRoute: CoffeeRoute,
+  ExperiencesRoute: ExperiencesRoute,
   MenuRoute: MenuRoute,
+  OrderRoute: OrderRoute,
   OurStoryRoute: OurStoryRoute,
   ShopRoute: ShopRoute,
   VisitRoute: VisitRoute,
   WholesaleRoute: WholesaleRoute,
   ProductHandleRoute: ProductHandleRoute,
+  ApiV1ImagesDriveIdRoute: ApiV1ImagesDriveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

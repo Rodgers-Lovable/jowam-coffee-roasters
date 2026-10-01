@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/jowam/site-header";
 import { SiteFooter } from "@/components/jowam/site-footer";
+import { Toaster } from "@/components/ui/sonner";
+import { useCartStore } from "@/stores/cart-store";
 
 function NotFoundComponent() {
   return (
@@ -91,7 +93,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "192x192" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -115,6 +119,10 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  useEffect(() => {
+    void useCartStore.persist.rehydrate();
+  }, []);
+
   const { queryClient } = Route.useRouteContext();
 
   return (
@@ -123,6 +131,7 @@ function RootComponent() {
       <SiteHeader />
       <div id="main-content"><Outlet /></div>
       <SiteFooter />
+      <Toaster />
     </QueryClientProvider>
   );
 }

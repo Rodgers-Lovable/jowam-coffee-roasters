@@ -1,41 +1,36 @@
 import { Link } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { formatMoney, type ShopifyProduct } from "@/lib/shopify";
-import { useCartStore } from "@/stores/cart-store";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { formatKes } from "@/lib/money";
+import type { Product } from "@/lib/products";
+import { useCartStore } from "@/stores/cart-store";
 
-export function ProductCard({ product }: { product: ShopifyProduct }) {
-  const addItem = useCartStore((state) => state.addItem);
-  const isLoading = useCartStore((state) => state.isLoading);
+export function ProductCard({ product }: { product: Product }) {
+  const addLine = useCartStore((state) => state.addLine);
+  const available = product.variants.filter((v) => v.available);
+  const firstAvailable = available[0];
+  const priced = available.length > 0 ? available : product.variants;
+  const fromPrice = Math.min(...priced.map((v) => v.priceKes));
+  const hasChoices = product.variants.length > 1;
 
-  const node = product.node;
-  const image = node.images?.edges?.[0]?.node;
-  const variant = node.variants?.edges?.find((v) => v.node.availableForSale)?.node ?? node.variants?.edges?.[0]?.node;
-  const soldOut = !variant?.availableForSale;
-  const hasChoices = node.variants.edges.length > 1;
-
-  const handleAddToCart = async () => {
-    if (!variant) return;
-    await addItem({
-      product,
-      variantId: variant.id,
-      variantTitle: variant.title,
-      price: variant.price,
-      quantity: 1,
-      selectedOptions: variant.selectedOptions ?? [],
-    });
-    toast.success(`${node.title} added to your bag`);
+  const handleAdd = () => {
+    if (!firstAvailable) return;
+    addLine(product.handle, firstAvailable.id);
+    toast.success(`${product.name} added to your bag`);
   };
 
   return (
     <article className="group flex flex-col border-t border-border pt-5">
-      <Link to="/product/$handle" params={{ handle: node.handle }} className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive">
+      <Link
+        to="/product/$handle"
+        params={{ handle: product.handle }}
+        className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive"
+      >
         <div className="aspect-[4/5] overflow-hidden bg-muted">
-          {image ? (
+          {product.image ? (
             <img
-              src={image.url}
-              alt={image.altText ?? node.title}
+              src={product.image}
+              alt={product.name}
               loading="lazy"
               className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
@@ -46,26 +41,43 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           )}
         </div>
         <div className="mt-5 flex items-baseline justify-between gap-4">
-          <h3 className="font-display text-3xl leading-none">{node.title}</h3>
+          <h3 className="font-display text-3xl leading-none">{product.name}</h3>
           <p className="text-sm tabular-nums">
-            {formatMoney(node.priceRange.minVariantPrice.amount, node.priceRange.minVariantPrice.currencyCode)}
+            {firstAvailable ? (
+              <>
+                {hasChoices ? "From " : ""}
+                {formatKes(fromPrice)}
+              </>
+            ) : (
+              "Sold out"
+            )}
           </p>
         </div>
-        {node.productType && <p className="mt-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">{node.productType}</p>}
-        {node.description && <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">{node.description}</p>}
+        <p className="mt-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">
+          {product.category}
+        </p>
+        {product.description && (
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+            {product.description}
+          </p>
+        )}
       </Link>
       <div className="mt-5 flex gap-2 pt-1">
         {hasChoices ? (
-          <Button asChild variant="default" size="sm" className="flex-1">
-            <Link to="/product/$handle" params={{ handle: node.handle }}>Choose options</Link>
+          <Button asChild size="sm" className="flex-1">
+            <Link to="/product/$handle" params={{ handle: product.handle }}>
+              Choose options
+            </Link>
           </Button>
         ) : (
-          <Button size="sm" className="flex-1" onClick={handleAddToCart} disabled={isLoading || soldOut || !variant}>
-            {isLoading ? <Loader2 className="size-4 animate-spin" /> : soldOut ? "Sold out" : "Add to bag"}
+          <Button size="sm" className="flex-1" onClick={handleAdd} disabled={!firstAvailable}>
+            {firstAvailable ? "Add to bag" : "Sold out"}
           </Button>
         )}
         <Button asChild variant="outline" size="sm">
-          <Link to="/product/$handle" params={{ handle: node.handle }}>Details</Link>
+          <Link to="/product/$handle" params={{ handle: product.handle }}>
+            Details
+          </Link>
         </Button>
       </div>
     </article>

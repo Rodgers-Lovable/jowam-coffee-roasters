@@ -19,8 +19,8 @@ export function SiteFooter() {
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             <FooterGroup title="Visit" links={[["Location", "/visit"], ["Opening hours", "/visit"], ["Directions", "/visit"], ["Menu", "/menu"]]} />
-            <FooterGroup title="Coffee" links={[["Shop", "/shop"], ["Our coffee", "/coffee"], ["Brew guides", "/coffee"], ["Experiences", "/coffee"]]} />
-            <FooterGroup title="Jowam" links={[["Our story", "/our-story"], ["Wholesale", "/wholesale"], ["Training", "/coffee"], ["Contact", "/visit"]]} />
+            <FooterGroup title="Coffee" links={[["Shop", "/shop"], ["Our coffee", "/coffee"], ["Brew guides", "/coffee"], ["Experiences", "/experiences"]]} />
+            <FooterGroup title="Jowam" links={[["Our story", "/our-story"], ["Wholesale", "/wholesale"], ["Training", "/experiences", "training"], ["Contact", "/visit"]]} />
             <div>
               <p className="eyebrow text-ink-foreground/45">Find us</p>
               <address className="mt-5 text-sm not-italic leading-6 text-ink-foreground/70">
@@ -41,6 +41,6 @@ export function SiteFooter() {
   );
 }
 
-function FooterGroup({ title, links }: { title: string; links: readonly (readonly [string, string])[] }) {
-  return <div><p className="eyebrow text-ink-foreground/45">{title}</p><ul className="mt-5 space-y-3">{links.map(([label, to]) => <li key={label}><Link to={to} className="text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground">{label}</Link></li>)}</ul></div>;
+function FooterGroup({ title, links }: { title: string; links: readonly (readonly [string, string, string?])[] }) {
+  return <div><p className="eyebrow text-ink-foreground/45">{title}</p><ul className="mt-5 space-y-3">{links.map(([label, to, hash]) => <li key={label}><Link to={to} {...(hash ? { hash } : {})} className="text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground">{label}</Link></li>)}</ul></div>;
 }
