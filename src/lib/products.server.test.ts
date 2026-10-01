@@ -107,4 +107,69 @@ describe("loadProducts", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringMatching(/Row 3:/));
     spy.mockRestore();
   });
+
+  it("treats a cache read error as a miss", async () => {
+    const spy = quiet();
+    const cache = memoryStore();
+    cache.get.mockRejectedValue(new Error("edge down"));
+    const result = await loadProducts({
+      readRows: async () => [validRow],
+      cache,
+      lastGood: memoryStore(),
+    });
+    expect(result.map((p) => p.handle)).toEqual(["nyeri"]);
+    spy.mockRestore();
+  });
+
+  it("still returns fresh products and writes last good when cache.put throws", async () => {
+    const spy = quiet();
+    const cache = memoryStore();
+    cache.put.mockRejectedValue(new Error("full"));
+    const lastGood = memoryStore();
+    const result = await loadProducts({ readRows: async () => [validRow], cache, lastGood });
+    expect(result.map((p) => p.handle)).toEqual(["nyeri"]);
+    expect(lastGood.value).toEqual(result);
+    spy.mockRestore();
+  });
+
+  it("still returns fresh products when lastGood.put throws", async () => {
+    const spy = quiet();
+    const lastGood = memoryStore();
+    lastGood.put.mockRejectedValue(new Error("kv down"));
+    const result = await loadProducts({
+      readRows: async () => [validRow],
+      cache: memoryStore(),
+      lastGood,
+    });
+    expect(result.map((p) => p.handle)).toEqual(["nyeri"]);
+    spy.mockRestore();
+  });
+
+  it("returns an empty list when lastGood.get throws during fallback", async () => {
+    const spy = quiet();
+    const lastGood = memoryStore();
+    lastGood.get.mockRejectedValue(new Error("kv down"));
+    const result = await loadProducts({
+      readRows: async () => {
+        throw new Error("down");
+      },
+      cache: memoryStore(),
+      lastGood,
+    });
+    expect(result).toEqual([]);
+    spy.mockRestore();
+  });
+
+  it("does not log the secret from an error message object", async () => {
+    const spy = quiet();
+    await loadProducts({
+      readRows: async () => {
+        throw new Error("boom");
+      },
+      cache: memoryStore(),
+      lastGood: memoryStore(),
+    });
+    for (const call of spy.mock.calls) expect(call.every((a) => typeof a === "string")).toBe(true);
+    spy.mockRestore();
+  });
 });
