@@ -9,7 +9,8 @@ export function ProductCard({ product }: { product: Product }) {
   const addLine = useCartStore((state) => state.addLine);
   const available = product.variants.filter((v) => v.available);
   const firstAvailable = available[0];
-  const fromPrice = Math.min(...available.map((v) => v.priceKes));
+  const priced = available.length > 0 ? available : product.variants;
+  const fromPrice = Math.min(...priced.map((v) => v.priceKes));
   const hasChoices = product.variants.length > 1;
 
   const handleAdd = () => {
@@ -42,8 +43,14 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-5 flex items-baseline justify-between gap-4">
           <h3 className="font-display text-3xl leading-none">{product.name}</h3>
           <p className="text-sm tabular-nums">
-            {hasChoices ? "From " : ""}
-            {formatKes(fromPrice)}
+            {firstAvailable ? (
+              <>
+                {hasChoices ? "From " : ""}
+                {formatKes(fromPrice)}
+              </>
+            ) : (
+              "Sold out"
+            )}
           </p>
         </div>
         <p className="mt-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">

@@ -15,6 +15,11 @@ import { resolveLines } from "@/lib/order";
 import { useProducts } from "@/lib/use-products";
 import { useCartStore } from "@/stores/cart-store";
 
+function handleToWords(handle: string) {
+  const words = handle.replace(/-/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 export function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const { lines, setQuantity, removeLine } = useCartStore();
@@ -114,7 +119,7 @@ export function CartDrawer() {
                       className="flex items-center gap-4 py-4 text-muted-foreground"
                     >
                       <p className="flex-1 text-sm">
-                        One item is no longer available and will not be ordered.
+                        {handleToWords(line.handle)} is no longer available and will not be ordered.
                       </p>
                       <Button
                         variant="ghost"
@@ -139,11 +144,22 @@ export function CartDrawer() {
                 <p className="text-xs text-muted-foreground">
                   Delivery fee and payment are confirmed on WhatsApp.
                 </p>
-                <Button asChild className="w-full" size="lg" disabled={items.length === 0}>
-                  <Link to="/order" onClick={() => setIsOpen(false)}>
-                    Place order
-                  </Link>
-                </Button>
+                {items.length === 0 ? (
+                  <>
+                    <Button size="lg" className="w-full" disabled>
+                      Place order
+                    </Button>
+                    <p className="text-xs text-muted-foreground">
+                      Nothing in your bag can be ordered right now.
+                    </p>
+                  </>
+                ) : (
+                  <Button asChild className="w-full" size="lg">
+                    <Link to="/order" onClick={() => setIsOpen(false)}>
+                      Place order
+                    </Link>
+                  </Button>
+                )}
               </div>
             </>
           )}
