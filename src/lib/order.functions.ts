@@ -1,13 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
 import { setResponseStatus } from "@tanstack/react-start/server";
 import { clientIp, getSheetConfig, rateLimit } from "@/lib/platform.server";
-import { makeOrderRef, submitOrderSchema } from "@/lib/order";
+import { makeOrderRef, OrderInputError, parseSubmitOrder } from "@/lib/order";
 import { OrderError, placeOrder, type PlaceOrderResult } from "@/lib/order.server";
 import { getLiveProducts } from "@/lib/products.server";
 import { appendOrderRow } from "@/lib/sheet.server";
 
 export const submitOrder = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => submitOrderSchema.parse(data))
+  .inputValidator((data: unknown) => {
+    try {
+      return parseSubmitOrder(data);
+    } catch (error) {
+      if (error instanceof OrderInputError) {
+        setResponseStatus(400);
+        throw new Error(error.message);
+      }
+      throw error;
+    }
+  })
   .handler(async ({ data }): Promise<PlaceOrderResult> => {
     // Honeypot: bots fill every field. Pretend it worked and do nothing.
     if (data.form.company.trim() !== "") {
@@ -29,6 +39,11 @@ export const submitOrder = createServerFn({ method: "POST" })
         setResponseStatus(400);
         throw new Error(error.message);
       }
-      throw error;
+      console.error(
+        "[orders] submit failed",
+        error instanceof Error ? error.message : String(error),
+      );
+      setResponseStatus(500);
+      throw new Error("We could not place your order. Please try again or message us on WhatsApp.");
     }
   });

@@ -5,7 +5,9 @@ import {
   makeOrderRef,
   normalizePhone,
   orderFields,
+  OrderInputError,
   orderFormSchema,
+  parseSubmitOrder,
   resolveLines,
 } from "./order";
 
@@ -144,5 +146,55 @@ describe("orderFields", () => {
       Address: "Lavington",
       Notes: "",
     });
+  });
+});
+
+describe("parseSubmitOrder", () => {
+  const form = {
+    name: "Wanjiru",
+    phone: "0712 345 678",
+    email: "",
+    method: "Pickup",
+    address: "",
+    notes: "",
+    company: "",
+  };
+  const line = { handle: "nyeri", variantId: "nyeri--250g", quantity: 1 };
+
+  it("returns valid input", () => {
+    const result = parseSubmitOrder({ form, lines: [line] });
+    expect(result.form.name).toBe("Wanjiru");
+    expect(result.lines).toHaveLength(1);
+  });
+
+  it("explains an oversized bag", () => {
+    expect(() => parseSubmitOrder({ form, lines: Array(31).fill(line) })).toThrow(
+      new OrderInputError("Please order 30 items or fewer."),
+    );
+  });
+
+  it("uses the first issue message otherwise", () => {
+    expect(() => parseSubmitOrder({ form: { ...form, name: "W" }, lines: [line] })).toThrow(
+      "Enter your name",
+    );
+  });
+
+  it("falls back to a generic message", () => {
+    expect(() => parseSubmitOrder(null)).toThrow(OrderInputError);
+  });
+
+  it("accepts an oversized honeypot value", () => {
+    const result = parseSubmitOrder({
+      form: { ...form, company: "x".repeat(5000) },
+      lines: [line],
+    });
+    expect(result.form.company.length).toBe(500);
+  });
+
+  it("rejects an overlong email", () => {
+    const email = `${"a".repeat(250)}@example.com`;
+    expect(() => parseSubmitOrder({ form: { ...form, email }, lines: [line] })).toThrow(
+      OrderInputError,
+    );
   });
 });

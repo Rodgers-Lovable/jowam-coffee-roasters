@@ -34,11 +34,18 @@ export const orderFormSchema = z
       .string()
       .trim()
       .refine((v) => normalizePhone(v) !== null, "Enter a Kenyan mobile number, e.g. 0712 345 678"),
-    email: z.union([z.literal(""), z.string().trim().email("Enter a valid email address")]),
+    email: z.union([
+      z.literal(""),
+      z
+        .string()
+        .trim()
+        .max(254, "Enter a valid email address")
+        .email("Enter a valid email address"),
+    ]),
     method: z.enum(["Pickup", "Delivery"]),
     address: z.string().trim().max(200, "Keep the address under 200 characters"),
     notes: z.string().trim().max(500, "Keep notes under 500 characters"),
-    company: z.string(),
+    company: z.string().transform((v) => v.slice(0, 500)),
   })
   .superRefine((value, ctx) => {
     if (value.method === "Delivery" && value.address.length === 0) {
@@ -62,6 +69,26 @@ export const submitOrderSchema = z.object({
 });
 
 export type SubmitOrderInput = z.infer<typeof submitOrderSchema>;
+
+export class OrderInputError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "OrderInputError";
+  }
+}
+
+export function parseSubmitOrder(data: unknown): SubmitOrderInput {
+  const result = submitOrderSchema.safeParse(data);
+  if (result.success) return result.data;
+  const tooMany = result.error.issues.some(
+    (issue) => issue.path[0] === "lines" && issue.code === "too_big",
+  );
+  throw new OrderInputError(
+    tooMany
+      ? "Please order 30 items or fewer."
+      : (result.error.issues[0]?.message ?? "Please check your details and try again."),
+  );
+}
 
 export type PricedItem = {
   handle: string;
