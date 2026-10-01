@@ -13,3 +13,16 @@
 - [x] Add Experiences & Training page with register-interest form
 - [x] Point Home, Coffee and footer experience/training links to /experiences
 - [ ] Replace placeholder contact email and add WhatsApp number in `src/data/site.ts`
+
+# Sheet products and WhatsApp ordering
+
+- [x] Load products from the Google Sheet with caching and a last-good fallback
+- [x] Local cart and order page that saves to the Sheet and hands off to WhatsApp
+- [x] Remove Shopify
+- [ ] Set up the Sheet, Apps Script, Drive photo folder and Cloudflare secrets (see docs/staff-guide.md)
+
+# v2
+
+- [ ] Online payment (M-Pesa STK push or a payment gateway)
+- [ ] Stock quantities
+- [ ] Delivery zones and fees on the site
