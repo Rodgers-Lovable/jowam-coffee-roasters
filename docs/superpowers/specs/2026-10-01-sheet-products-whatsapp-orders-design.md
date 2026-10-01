@@ -40,17 +40,17 @@ One Sheet file holds both tabs. One Apps Script project bound to that Sheet serv
 
 One row per variant. Rows that share a Handle form one product. Row 1 is the header row and its labels must match exactly.
 
-| Column | Type | Rules |
-|---|---|---|
-| Handle | text | lowercase letters, numbers and hyphens. Becomes the URL `/product/<handle>` |
-| Name | text | required |
-| Category | dropdown | `Coffee`, `Equipment`, `Merch`. Data validation in the Sheet |
-| Description | text | taken from the first row of the product |
-| Variant | text | required, e.g. `250g Whole Bean` |
-| Price KES | number | required, whole shillings, greater than 0 |
-| Available | checkbox | unticked means sold out |
-| Image | Drive link | taken from the first row of the product; optional |
-| Sort | number | lower shows first; ties sort by Name |
+| Column      | Type       | Rules                                                                       |
+| ----------- | ---------- | --------------------------------------------------------------------------- |
+| Handle      | text       | lowercase letters, numbers and hyphens. Becomes the URL `/product/<handle>` |
+| Name        | text       | required                                                                    |
+| Category    | dropdown   | `Coffee`, `Equipment`, `Merch`. Data validation in the Sheet                |
+| Description | text       | taken from the first row of the product                                     |
+| Variant     | text       | required, e.g. `250g Whole Bean`                                            |
+| Price KES   | number     | required, whole shillings, greater than 0                                   |
+| Available   | checkbox   | unticked means sold out                                                     |
+| Image       | Drive link | taken from the first row of the product; optional                           |
+| Sort        | number     | lower shows first; ties sort by Name                                        |
 
 Product-level fields (Name, Category, Description, Image, Sort) are read from the first row of each handle. Staff can leave them blank on the extra variant rows.
 
@@ -58,31 +58,49 @@ Product-level fields (Name, Category, Description, Image, Sort) are read from th
 
 Written only by the script. Staff edit the Status column.
 
-| Column | Filled by |
-|---|---|
-| Received at | script, Africa/Nairobi time |
-| Ref | site, e.g. `JW-261001-4F7K` |
-| Name | customer |
-| Phone | customer, normalised to `2547XXXXXXXX` |
-| Email | customer, optional |
-| Method | `Pickup` or `Delivery` |
-| Address | customer, delivery only |
-| Items | site, one line per item: `2 × Kiambu AA (250g Whole Bean) @ 1,200` |
-| Subtotal KES | site |
-| Notes | customer |
-| Status | dropdown, starts as `New`. Staff move it to `Confirmed`, `Paid`, `Fulfilled` or `Cancelled` |
+| Column       | Filled by                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------- |
+| Received at  | script, Africa/Nairobi time                                                                 |
+| Ref          | site, e.g. `JW-261001-4F7K`                                                                 |
+| Name         | customer                                                                                    |
+| Phone        | customer, normalised to `2547XXXXXXXX`                                                      |
+| Email        | customer, optional                                                                          |
+| Method       | `Pickup` or `Delivery`                                                                      |
+| Address      | customer, delivery only                                                                     |
+| Items        | site, one line per item: `2 × Kiambu AA (250g Whole Bean) @ 1,200`                          |
+| Subtotal KES | site                                                                                        |
+| Notes        | customer                                                                                    |
+| Status       | dropdown, starts as `New`. Staff move it to `Confirmed`, `Paid`, `Fulfilled` or `Cancelled` |
 
 ## Apps Script web app
 
 Bound to the Sheet and deployed as a web app that executes as the owner, with access set to "Anyone". The shared secret is what stops strangers from using it.
 
-- `doGet(e)`: checks `e.parameter.secret`, reads the Products tab and returns `{ products: Row[] }` as JSON, one object per sheet row with the raw cell values. The site handles grouping and validation, so the script stays small.
+- `doGet(e)`: checks `e.parameter.secret`, reads the Products tab and returns `{ ok: true, products: Row[] }` as JSON, one object per sheet row with the raw cell values. The site handles grouping and validation, so the script stays small.
 - `doPost(e)`: parses the JSON body, checks `body.secret`, takes a `LockService` script lock, appends one row to Orders and returns `{ ok: true }`.
 - A wrong or missing secret returns `{ ok: false, error: "unauthorized" }`. Apps Script cannot set HTTP status codes, so the Worker checks `ok`.
 
 Apps Script answers with a 302 redirect to `script.googleusercontent.com`. The Worker uses `fetch` with `redirect: "follow"`. A POST becomes a GET on that redirect, which is expected and still returns the `doPost` output.
 
 The secret is sent as a query parameter on reads because `doGet` cannot read headers. This request only travels between the Worker and Google, never through the browser.
+
+### Sheet client (`src/lib/sheet.ts`, server only)
+
+All calls to Apps Script go through this one module, so a later move to the Google Sheets API only touches this file. It exposes `readProductRows()` and `appendOrderRow(row)`.
+
+Google sometimes answers with an HTML error page and a 200 status, for example during an outage or when the script is mid-redeploy. The client treats a response as a failure when any of these hold:
+
+- the HTTP status is not 2xx after redirects
+- the `content-type` is not `application/json`
+- the body does not parse as JSON
+- the parsed body has `ok !== true`
+
+Each failure throws a `SheetError` carrying the reason and the first 200 characters of the body, which is logged with `console.error`. Callers never see a raw parse exception. Every request uses an `AbortController` timeout: 5 seconds for reads and writes.
+
+### Ownership and deployment
+
+- The Sheet and the script must belong to a Jowam business Google account, not a staff member's personal account. The web app runs as that account, so if the account is removed the site can no longer read products or save orders.
+- To change the script, open Deploy, then Manage deployments, edit the existing deployment and pick "New version". Creating a new deployment instead gives a new URL and the site keeps calling the old one. Saving the code alone does not change what the live URL runs.
 
 The script source and setup steps live in `docs/apps-script/jowam-sheet.gs` and the staff guide.
 
@@ -167,12 +185,12 @@ If the Sheet write fails, the order still goes through on WhatsApp so the sale i
 
 ## Configuration
 
-| Name | Kind | Purpose |
-|---|---|---|
-| `SHEET_SCRIPT_URL` | Wrangler secret | Apps Script web app URL |
-| `SHEET_SECRET` | Wrangler secret | shared secret, at least 32 random characters |
-| `PRODUCTS_KV` | KV namespace binding | last good product list |
-| `ORDER_RATE_LIMITER` | Rate Limiting binding | order spam limit |
+| Name                 | Kind                  | Purpose                                      |
+| -------------------- | --------------------- | -------------------------------------------- |
+| `SHEET_SCRIPT_URL`   | Wrangler secret       | Apps Script web app URL                      |
+| `SHEET_SECRET`       | Wrangler secret       | shared secret, at least 32 random characters |
+| `PRODUCTS_KV`        | KV namespace binding  | last good product list                       |
+| `ORDER_RATE_LIMITER` | Rate Limiting binding | order spam limit                             |
 
 Local development reads the secrets from `.dev.vars`, which is already in `.gitignore`. A `wrangler.jsonc` is added with the bindings.
 
@@ -196,7 +214,7 @@ Plain-language guide covering:
 
 ## One-time setup (owner)
 
-1. Create the Sheet with the `Products` and `Orders` tabs. Paste in the seed rows from the Shopify export.
+1. Signed in to the Jowam business Google account, create the Sheet with the `Products` and `Orders` tabs. Paste in the seed rows from the Shopify export.
 2. Open Extensions, then Apps Script, paste `docs/apps-script/jowam-sheet.gs`, set the secret in Script Properties and deploy as a web app.
 3. Create the Drive image folder and share it with staff.
 4. Run `wrangler kv namespace create PRODUCTS_KV` and `wrangler secret put` for both secrets.
@@ -205,7 +223,7 @@ Plain-language guide covering:
 
 - Unit tests with Vitest (added as a dev dependency, the project has no test runner yet) for row validation and grouping, Drive link parsing, phone normalisation, ref format and WhatsApp message building.
 - Local end-to-end run against a test copy of the Sheet: product list, product page, sold-out state, cart, order form errors, a successful order row in the Sheet, the WhatsApp link text and the cart clearing.
-- Failure paths: wrong secret, Apps Script unreachable (falls back to KV), invalid rows skipped, Sheet write failure still shows the WhatsApp step.
+- Failure paths: wrong secret, Apps Script unreachable (falls back to KV), HTML error page with a 200 status (treated as a failure), timeout, invalid rows skipped, Sheet write failure still shows the WhatsApp step.
 - Mobile layout check for the shop, product, cart and order pages.
 
 ## Seeding
