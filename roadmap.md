@@ -26,3 +26,8 @@
 - [ ] Online payment (M-Pesa STK push or a payment gateway)
 - [ ] Stock quantities
 - [ ] Delivery zones and fees on the site
+
+# Google reviews
+
+- [x] Call Google Places (New) directly with a server-only key, cached for 12 hours
+- [ ] Create the Places API key (Jowam Google account) and set GOOGLE_PLACES_API_KEY with wrangler secret put

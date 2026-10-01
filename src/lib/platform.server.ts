@@ -1,6 +1,7 @@
 // Hosting adapter. The only file that knows the site runs on Cloudflare Workers.
 // Moving to another host means rewriting this file and the deploy config, nothing else.
 import { getRequestHeader } from "@tanstack/react-start/server";
+import type { PlaceSummary } from "@/lib/place";
 import type { Product, ProductStore } from "@/lib/products";
 import { SheetError, type SheetConfig } from "@/lib/sheet.server";
 
@@ -18,6 +19,7 @@ type WorkerEnv = {
   ORDER_RATE_LIMITER?: RateLimiter;
   SHEET_SCRIPT_URL?: string;
   SHEET_SECRET?: string;
+  GOOGLE_PLACES_API_KEY?: string;
 };
 
 async function getWorkerEnv(): Promise<WorkerEnv> {
@@ -41,6 +43,12 @@ export async function getSheetConfig(): Promise<SheetConfig> {
   const secret = env.SHEET_SECRET ?? process.env["SHEET_SECRET"];
   if (!url || !secret) throw new SheetError("SHEET_SCRIPT_URL or SHEET_SECRET is not set");
   return { url, secret };
+}
+
+/** Server-only Google Places key, or null when it is not configured. */
+export async function getPlacesApiKey(): Promise<string | null> {
+  const env = await getWorkerEnv();
+  return env.GOOGLE_PLACES_API_KEY ?? process.env["GOOGLE_PLACES_API_KEY"] ?? null;
 }
 
 const CACHE_TTL_SECONDS = 300;
@@ -93,6 +101,42 @@ export const imageCache = {
     await getEdgeCache()?.put(
       imageCacheRequest(driveId),
       new Response(response.body, { status: 200, headers }),
+    );
+  },
+};
+
+// Reviews change slowly, and each Places call counts against a small free allowance.
+const REVIEWS_TTL_SECONDS = 12 * 60 * 60;
+const REVIEWS_CACHE_KEY = "https://cache.jowam.internal/place-summary/v1";
+let reviewsMemory: { at: number; summary: PlaceSummary } | null = null;
+
+/** Per isolate memory, then the edge cache, for the Google Places summary. */
+export const placeSummaryCache = {
+  async get(): Promise<PlaceSummary | null> {
+    if (reviewsMemory && Date.now() - reviewsMemory.at < REVIEWS_TTL_SECONDS * 1000) {
+      return reviewsMemory.summary;
+    }
+    const hit = await getEdgeCache()?.match(new Request(REVIEWS_CACHE_KEY));
+    if (!hit) return null;
+    const stamp = Number(hit.headers.get("x-fetched-at"));
+    const fetchedAt = Number.isFinite(stamp) && stamp > 0 ? stamp : Date.now();
+    if (Date.now() - fetchedAt >= REVIEWS_TTL_SECONDS * 1000) return null;
+    const summary = (await hit.json()) as PlaceSummary;
+    reviewsMemory = { at: fetchedAt, summary };
+    return summary;
+  },
+  async put(summary: PlaceSummary): Promise<void> {
+    const fetchedAt = Date.now();
+    reviewsMemory = { at: fetchedAt, summary };
+    await getEdgeCache()?.put(
+      new Request(REVIEWS_CACHE_KEY),
+      new Response(JSON.stringify(summary), {
+        headers: {
+          "content-type": "application/json",
+          "cache-control": `public, max-age=${REVIEWS_TTL_SECONDS}`,
+          "x-fetched-at": String(fetchedAt),
+        },
+      }),
     );
   },
 };
