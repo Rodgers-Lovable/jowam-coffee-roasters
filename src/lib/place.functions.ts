@@ -1,80 +1,57 @@
 import { createServerFn } from "@tanstack/react-start";
+import { EMPTY_PLACE_SUMMARY, PLACE_ID, toPlaceSummary, type PlaceSummary } from "@/lib/place";
+import { getPlacesApiKey, placeSummaryCache } from "@/lib/platform.server";
 
-export const PLACE_ID = "ChIJldy6YBQZLxgRyNU_M5ty6lI";
+const PLACES_URL = `https://places.googleapis.com/v1/places/${PLACE_ID}`;
+const TIMEOUT_MS = 8_000;
 
-export type PlaceReview = {
-  name: string;
-  author: string;
-  authorPhoto?: string | undefined;
-  rating: number;
-  text: string;
-  relativeTime: string;
-};
+export const getPlaceReviews = createServerFn({ method: "GET" }).handler(
+  async (): Promise<PlaceSummary> => {
+    try {
+      const cached = await placeSummaryCache.get();
+      if (cached) return cached;
+    } catch (error) {
+      console.error(
+        "[reviews] cache read failed",
+        error instanceof Error ? error.message : String(error),
+      );
+    }
 
-export type PlaceSummary = {
-  rating: number | null;
-  reviewCount: number | null;
-  mapsUri: string | null;
-  reviews: PlaceReview[];
-};
+    const apiKey = await getPlacesApiKey();
+    if (!apiKey) return EMPTY_PLACE_SUMMARY; // reviews section stays hidden until a key is set
 
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_maps";
-const CACHE_TTL_MS = 60 * 60 * 1000;
-let cache: { at: number; data: PlaceSummary } | null = null;
+    let response: Response;
+    try {
+      response = await fetch(PLACES_URL, {
+        headers: {
+          "X-Goog-Api-Key": apiKey,
+          "X-Goog-FieldMask": "rating,userRatingCount,googleMapsUri,reviews",
+        },
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+      });
+    } catch (error) {
+      console.error(
+        "[reviews] Places request failed",
+        error instanceof Error ? error.message : String(error),
+      );
+      return EMPTY_PLACE_SUMMARY;
+    }
 
-export const getPlaceReviews = createServerFn({ method: "GET" }).handler(async (): Promise<PlaceSummary> => {
-  if (cache && Date.now() - cache.at < CACHE_TTL_MS) return cache.data;
+    if (!response.ok) {
+      const body = (await response.text()).slice(0, 200);
+      console.error(`[reviews] Places responded ${response.status}: ${body}`);
+      return EMPTY_PLACE_SUMMARY;
+    }
 
-  const lovableKey = process.env["LOVABLE_API_KEY"];
-  const connectionKey = process.env["GOOGLE_MAPS_API_KEY"];
-  if (!lovableKey || !connectionKey) {
-    return { rating: null, reviewCount: null, mapsUri: null, reviews: [] };
-  }
-
-  const response = await fetch(`${GATEWAY_URL}/places/v1/places/${PLACE_ID}`, {
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": connectionKey,
-      "X-Goog-FieldMask": "rating,userRatingCount,googleMapsUri,reviews",
-    },
-  });
-
-  if (!response.ok) {
-    const errorBody = await response.text();
-    console.error(`Google Places request failed [${response.status}]: ${errorBody}`);
-    return { rating: null, reviewCount: null, mapsUri: null, reviews: [] };
-  }
-
-  const place = (await response.json()) as {
-    rating?: number;
-    userRatingCount?: number;
-    googleMapsUri?: string;
-    reviews?: Array<{
-      name?: string;
-      rating?: number;
-      text?: { text?: string };
-      originalText?: { text?: string };
-      relativePublishTimeDescription?: string;
-      authorAttribution?: { displayName?: string; photoUri?: string };
-    }>;
-  };
-
-  const data: PlaceSummary = {
-    rating: place.rating ?? null,
-    reviewCount: place.userRatingCount ?? null,
-    mapsUri: place.googleMapsUri ?? null,
-    reviews: (place.reviews ?? [])
-      .map((review, index) => ({
-        name: review.name ?? `review-${index}`,
-        author: review.authorAttribution?.displayName ?? "Google reviewer",
-        authorPhoto: review.authorAttribution?.photoUri,
-        rating: review.rating ?? 0,
-        text: (review.text?.text ?? review.originalText?.text ?? "").trim(),
-        relativeTime: review.relativePublishTimeDescription ?? "",
-      }))
-      .filter((review) => review.text.length > 0),
-  };
-
-  cache = { at: Date.now(), data };
-  return data;
-});
+    const summary = toPlaceSummary(await response.json());
+    try {
+      await placeSummaryCache.put(summary);
+    } catch (error) {
+      console.error(
+        "[reviews] cache write failed",
+        error instanceof Error ? error.message : String(error),
+      );
+    }
+    return summary;
+  },
+);

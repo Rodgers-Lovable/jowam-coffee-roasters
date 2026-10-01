@@ -1,3 +1,5 @@
 # Copy to .dev.vars (git-ignored) and fill in. Used by `npm run dev:local` and `wrangler dev`.
 SHEET_SCRIPT_URL=https://script.google.com/macros/s/REPLACE_ME/exec
 SHEET_SECRET=REPLACE_WITH_AT_LEAST_32_RANDOM_CHARACTERS
+# Server-only Google Places (New) key for the reviews section. Never prefix it with VITE_.
+GOOGLE_PLACES_API_KEY=REPLACE_WITH_YOUR_PLACES_API_KEY
