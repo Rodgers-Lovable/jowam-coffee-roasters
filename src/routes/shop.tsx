@@ -84,7 +84,7 @@ function ShopPage() {
               </div>
             </div>
           ) : (
-            <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product.handle} product={product} />
               ))}
