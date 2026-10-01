@@ -115,3 +115,14 @@ export const wholesaleFaqs = [
   { q: "Do you train our staff?", a: "Training for partner teams is to be confirmed. See our experiences page for current education plans." },
 ] as const;
 
+// Experiences — formats are representative; durations, group sizes and prices are to be confirmed.
+export const experienceFormats = [
+  { id: "cupping", title: "Public cupping", body: "Taste several coffees side by side, the way roasters do. Compare, ask questions and find out what you enjoy. No experience needed.", image: "cupping" },
+  { id: "roastery", title: "Roastery visit", body: "See green coffee become the coffee in your cup. Stand by the roaster, smell the change and taste the result.", image: "roastery" },
+  { id: "brewing", title: "Home brewing workshop", body: "Get more from your coffee at home. Grind, ratio and technique for the brewer you already own.", image: "products" },
+  { id: "training", title: "Barista training", body: "Hands-on time behind the bar: espresso, milk and the habits that make service consistent.", image: "barista" },
+] as const;
+
+export const experienceDetails = ["Duration", "Group size", "Price"] as const;
+
+export const experienceInterests = [...experienceFormats.map((f) => f.title), "Private or team event"] as const;

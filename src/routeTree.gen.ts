@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoffeeRouteImport } from './routes/coffee'
+import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -26,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const CoffeeRoute = CoffeeRouteImport.update({
   id: '/coffee',
   path: '/coffee',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExperiencesRoute = ExperiencesRouteImport.update({
+  id: '/experiences',
+  path: '/experiences',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -62,6 +68,7 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/coffee': typeof CoffeeRoute
+  '/experiences': typeof ExperiencesRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
     | '/our-story'
     | '/shop'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
     | '/our-story'
     | '/shop'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/coffee'
+    | '/experiences'
     | '/menu'
     | '/our-story'
     | '/shop'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoffeeRoute: typeof CoffeeRoute
+  ExperiencesRoute: typeof ExperiencesRoute
   MenuRoute: typeof MenuRoute
   OurStoryRoute: typeof OurStoryRoute
   ShopRoute: typeof ShopRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/coffee'
       fullPath: '/coffee'
       preLoaderRoute: typeof CoffeeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experiences': {
+      id: '/experiences'
+      path: '/experiences'
+      fullPath: '/experiences'
+      preLoaderRoute: typeof ExperiencesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoffeeRoute: CoffeeRoute,
+  ExperiencesRoute: ExperiencesRoute,
   MenuRoute: MenuRoute,
   OurStoryRoute: OurStoryRoute,
   ShopRoute: ShopRoute,
