@@ -7,7 +7,7 @@ import baristaImage from "@/assets/jowam-barista.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
 import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
-import { experienceDetails, experienceFormats, experienceInterests } from "@/data/jowam";
+import { experienceFormats, experienceInterests } from "@/data/jowam";
 
 export const Route = createFileRoute("/experiences")({
   head: () => ({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/experiences")({
       {
         name: "description",
         content:
-          "Cuppings, roastery visits, home brewing workshops and barista training with Jowam Coffee Roasters in Nairobi. Register your interest.",
+          "Cuppings, roastery visits, home brewing workshops and barista training that Jowam Coffee Roasters is planning in Nairobi. Register your interest to hear about dates.",
       },
       { property: "og:title", content: "Coffee Experiences & Training | Jowam" },
       { property: "og:description", content: "Taste. Ask. Discover. Coffee experiences at Jowam." },
@@ -57,9 +57,9 @@ const images = {
 } as const;
 
 const expectations = [
-  { title: "No experience needed", body: "Come curious. Every session starts from the basics." },
-  { title: "Small groups", body: "Room to taste, ask questions and get hands-on." },
-  { title: "Coffee to take home", body: "Leave with something to keep exploring." },
+  { title: "No experience needed", body: "Every session starts from the basics. Come with questions." },
+  { title: "Small groups", body: "Few enough people that everyone gets to taste, ask and try." },
+  { title: "Real coffee, real equipment", body: "You work with the coffees and gear we use at the café every day." },
 ] as const;
 
 const registerFields: EnquiryField[] = [
@@ -102,8 +102,9 @@ function ExperiencesPage() {
             <em>Discover.</em>
           </h1>
           <p className="mt-7 text-lg leading-8 text-muted-foreground">
-            Cuppings, roastery visits and hands-on sessions for anyone who wants to know a little
-            more about what’s in the cup.
+            We’re putting together cuppings, roastery visits and hands-on sessions for anyone who
+            wants to know a bit more about what’s in the cup. Register and we’ll tell you when the
+            first dates are set.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -135,23 +136,13 @@ function ExperiencesPage() {
       <section className="mx-auto max-w-screen-2xl px-5 pb-24 sm:px-8 md:pb-32 lg:px-12">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <SectionIntro eyebrow="Ways to join us" title="Four ways in." />
-          <p className="text-xs text-cherry">
-            Formats are representative. Dates, durations and prices to be confirmed.
+          <p className="max-w-xs text-sm leading-6 text-muted-foreground">
+            Dates, lengths and prices go out to everyone on the interest list first.
           </p>
         </div>
         <div className="mt-16 space-y-20 md:space-y-28">
           {experienceFormats.map((format, i) => {
             const image = images[format.image];
-            const details = (
-              <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-border pt-5 text-sm">
-                {experienceDetails.map((d) => (
-                  <div key={d}>
-                    <dt className="text-muted-foreground">{d}</dt>
-                    <dd className="mt-1">TBC</dd>
-                  </div>
-                ))}
-              </dl>
-            );
             if (i === 2)
               return (
                 <article key={format.id} id={format.id} className="scroll-mt-24">
@@ -171,7 +162,6 @@ function ExperiencesPage() {
                     </div>
                     <div>
                       <p className="text-lg leading-8 text-muted-foreground">{format.body}</p>
-                      {details}
                     </div>
                   </div>
                 </article>
@@ -194,7 +184,6 @@ function ExperiencesPage() {
                   <p className="text-xs text-cherry">0{i + 1}</p>
                   <h3 className="mt-4 font-display text-5xl sm:text-6xl">{format.title}</h3>
                   <p className="mt-6 text-lg leading-8 text-muted-foreground">{format.body}</p>
-                  {details}
                 </div>
               </article>
             );
@@ -212,11 +201,8 @@ function ExperiencesPage() {
               <em>our roastery.</em>
             </h2>
             <p className="mt-7 max-w-lg leading-7 text-ink-foreground/70">
-              Private tastings for friends, team sessions for colleagues and coffee experiences for
-              special occasions, shaped around your group.
-            </p>
-            <p className="mt-5 text-xs uppercase text-ink-foreground/45">
-              Event formats to be confirmed
+              A tasting with friends, a session for your team or something for a birthday. Tell us
+              about your group and what you have in mind, and we’ll work out a plan with you.
             </p>
             <div className="mt-9">
               <Button asChild variant="hero" size="lg">
@@ -243,11 +229,8 @@ function ExperiencesPage() {
           <div>
             <p className="eyebrow">What to expect</p>
             <h2 className="mt-4 font-display text-5xl leading-none">
-              Relaxed, generous, hands-on.
+              Relaxed and hands-on.
             </h2>
-            <p className="mt-5 text-xs text-cherry">
-              Placeholder until session details are confirmed.
-            </p>
           </div>
           <div className="grid border-t border-border sm:grid-cols-3">
             {expectations.map((e) => (
@@ -271,35 +254,16 @@ function ExperiencesPage() {
               Be first to hear about new sessions.
             </h2>
             <p className="mt-6 max-w-md leading-7 text-muted-foreground">
-              Tell us what you’d like to try and when suits you. We’ll get in touch as dates are
-              set.
+              Tell us what you’d like to try and which days suit you. We’ll be in touch once dates
+              are set.
             </p>
           </div>
           <EnquiryForm
             fields={registerFields}
             preset={preset}
             submitLabel="Register interest"
-            subject={(v) => `Experience interest — ${String(v["interest"] ?? "")}`}
+            subject={(v) => `Experience interest: ${String(v["interest"] ?? "")}`}
           />
-        </div>
-      </section>
-
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-screen-2xl px-5 py-24 sm:px-8 lg:px-12">
-          <SectionIntro eyebrow="From the journal" title="Read before you taste." />
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              "Why Kenyan coffee tastes the way it does",
-              "Washed vs natural coffee",
-              "How we roast at Jowam",
-            ].map((title, i) => (
-              <article key={title} className="border-t border-border pt-5">
-                <p className="text-xs uppercase text-muted-foreground">Future article · 0{i + 1}</p>
-                <h3 className="mt-12 font-display text-3xl leading-tight">{title}</h3>
-                <p className="mt-4 text-sm text-cherry">Journal coming later</p>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
     </main>

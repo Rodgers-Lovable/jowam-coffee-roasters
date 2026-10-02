@@ -250,7 +250,7 @@ export function EnquiryForm({
           <p className={`text-xs leading-5 ${muted}`}>
             Sending opens your email app with your details filled in.
             {siteInfo.contact.isPlaceholder &&
-              " Contact details on this page are placeholders until Jowam's inbox is confirmed."}
+              " Our email inbox is still being set up, so if you don’t hear back within a few days, ask for us at the café."}
           </p>
           {sent && (
             <p role="status" className="text-sm">
