@@ -5,6 +5,14 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { loadEnv } from "vite";
+
+// Load server-only settings (Sheet URL and secret, Places key) from .env into process.env for
+// `npm run dev`. Values already set in the environment win. Only VITE_-prefixed values ever reach
+// the browser bundle, so these stay on the server. Production reads them from Wrangler secrets.
+for (const [key, value] of Object.entries(loadEnv("development", process.cwd(), ""))) {
+  process.env[key] ??= value;
+}
 
 export default defineConfig({
   tanstackStart: {

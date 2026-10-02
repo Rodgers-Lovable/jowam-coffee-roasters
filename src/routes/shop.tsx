@@ -1,13 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import heroImage from "@/assets/jowam-coffee-products.jpg";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
+import heroImage from "@/assets/jowam-bags-counter.jpg";
+import lineupImage from "@/assets/jowam-bags-lineup.jpg";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { ProductCard } from "@/components/jowam/product-card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { fetchProducts } from "@/lib/shopify";
+import { siteInfo } from "@/data/site";
+import { getProducts } from "@/lib/products.functions";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -22,36 +20,18 @@ export const Route = createFileRoute("/shop")({
     ],
     links: [{ rel: "canonical", href: "/shop" }],
   }),
+  loader: () => getProducts(),
   component: ShopPage,
 });
 
 const assurances = [
   { title: "Roasted to order", body: "Every bag is roasted in small batches at our Lavington roastery and rested, never stockpiled." },
   { title: "Kenyan single origins", body: "We buy from washing stations and smallholder groups whose work we can trace and taste." },
-  { title: "Nairobi delivery", body: "Delivery options and timelines are shown at checkout. Collection at the café is available too." },
+  { title: "Nairobi delivery", body: "Order here and we confirm delivery or collection with you on WhatsApp." },
 ];
 
-function ProductGridSkeleton() {
-  return (
-    <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-      {[0, 1, 2].map((i) => (
-        <div key={i} className="border-t border-border pt-5">
-          <Skeleton className="aspect-[4/5] w-full rounded-none" />
-          <Skeleton className="mt-5 h-7 w-2/3 rounded-none" />
-          <Skeleton className="mt-3 h-4 w-full rounded-none" />
-          <Skeleton className="mt-2 h-4 w-4/5 rounded-none" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function ShopPage() {
-  const { data: products, isLoading, isError, refetch, isFetching } = useQuery({
-    queryKey: ["shopify-products"],
-    queryFn: () => fetchProducts(24),
-    staleTime: 5 * 60 * 1000,
-  });
+  const products = Route.useLoaderData();
 
   return (
     <main>
@@ -71,7 +51,7 @@ function ShopPage() {
             </div>
           </div>
           <div className="aspect-[4/5] max-h-[70vh] overflow-hidden">
-            <Image src={heroImage} alt="Bags of Jowam roasted specialty coffee" width={1200} height={1500} priority sizes="(max-width: 1024px) 100vw, 55vw" />
+            <Image src={heroImage} alt="Jowam coffees from Bungoma, Nyeri, Meru, Murang'a and Kirinyaga lined up on the café counter" width={1116} height={1200} priority sizes="(max-width: 1024px) 100vw, 55vw" />
           </div>
         </div>
       </section>
@@ -81,37 +61,32 @@ function ShopPage() {
         <SectionIntro
           eyebrow="Current releases"
           title="Freshly roasted, ready to brew."
-          body="Bags are roasted to order. Prices, grind options and availability come straight from our store."
+          body="Bags are roasted to order. Pick what you like and we confirm delivery and payment on WhatsApp."
         />
 
         <div className="mt-14">
-          {isLoading ? (
-            <ProductGridSkeleton />
-          ) : isError ? (
+          {products.length === 0 ? (
             <div className="border-t border-border py-16 text-center">
-              <h3 className="font-display text-4xl">We couldn't load the coffee just now.</h3>
+              <h3 className="font-display text-4xl">The shop is being restocked</h3>
               <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-                Something interrupted the connection to our store. Please try again in a moment.
-              </p>
-              <Button className="mt-7" onClick={() => refetch()} disabled={isFetching}>
-                {isFetching ? <Loader2 className="size-4 animate-spin" /> : "Try again"}
-              </Button>
-            </div>
-          ) : !products || products.length === 0 ? (
-            <div className="border-t border-border py-16 text-center">
-              <h3 className="font-display text-4xl">No products found</h3>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-                Our online shop is being stocked. In the meantime, come and buy a bag at the café in Lavington Mall.
+                Message us and we will tell you what is on the roaster this week, or buy a bag at
+                the café in Lavington Mall.
               </p>
               <div className="mt-7 flex flex-wrap justify-center gap-3">
-                <Button asChild><Link to="/visit">Visit the café</Link></Button>
-                <Button asChild variant="outline"><Link to="/coffee">See our coffees</Link></Button>
+                {siteInfo.contact.whatsapp && (
+                  <Button asChild>
+                    <a href={`https://wa.me/${siteInfo.contact.whatsapp}`}>Order on WhatsApp</a>
+                  </Button>
+                )}
+                <Button asChild variant="outline">
+                  <Link to="/visit">Visit the café</Link>
+                </Button>
               </div>
             </div>
           ) : (
-            <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4">
               {products.map((product) => (
-                <ProductCard key={product.node.id} product={product} />
+                <ProductCard key={product.handle} product={product} />
               ))}
             </div>
           )}
@@ -136,7 +111,7 @@ function ShopPage() {
       <section className="mx-auto max-w-screen-2xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="aspect-[5/4] overflow-hidden">
-            <Image src={roasteryImage} alt="Coffee being roasted at the Jowam roastery" width={1200} height={960} />
+            <Image src={lineupImage} alt="Bags of Jowam coffee lined up at the café bar with a takeaway cup" width={1200} height={942} />
           </div>
           <div className="max-w-xl">
             <p className="eyebrow">Buying for a team</p>

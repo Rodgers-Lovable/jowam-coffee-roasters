@@ -1,0 +1,34 @@
+Handle,Name,Category,Description,Variant,Price KES,Available,Image,Sort
+nyeri-aa-gatomboya,Nyeri AA Gatomboya,Coffee,"Washed SL28 and SL34 from the Gatomboya factory in Nyeri. Blackcurrant, grapefruit and brown sugar with a juicy finish.",250g Whole Bean,1450,TRUE,,1
+nyeri-aa-gatomboya,,,,250g Ground,1450,TRUE,,
+nyeri-aa-gatomboya,,,,500g Whole Bean,2700,TRUE,,
+nyeri-aa-gatomboya,,,,1kg Whole Bean,5000,TRUE,,
+kirinyaga-ab-karimikui,Kirinyaga AB Karimikui,Coffee,"Washed coffee grown on the slopes of Mount Kenya. Red berries, honey and a hint of jasmine.",250g Whole Bean,1350,TRUE,,2
+kirinyaga-ab-karimikui,,,,250g Ground,1350,TRUE,,
+kirinyaga-ab-karimikui,,,,1kg Whole Bean,4700,TRUE,,
+embu-natural,Embu Natural,Coffee,"Dried in the cherry on raised beds in Embu. Ripe stone fruit, cocoa and warm spice.",250g Whole Bean,1500,TRUE,,3
+embu-natural,,,,250g Ground,1500,TRUE,,
+kiambu-peaberry,Kiambu Peaberry,Coffee,"Small round peaberry beans from a family estate in Kiambu. Cherry, lime and cane sugar.",250g Whole Bean,1600,TRUE,,4
+kiambu-peaberry,,,,250g Ground,1600,FALSE,,
+muranga-honey,Murang'a Honey,Coffee,"Ruiru 11 and Batian, honey processed. Dried apricot, caramel and a soft, round body.",250g Whole Bean,1400,TRUE,,5
+muranga-honey,,,,1kg Whole Bean,4900,FALSE,,
+jowam-house-espresso,Jowam House Espresso,Coffee,"Our everyday espresso, a blend of Meru and Embu coffees. Milk chocolate, toffee and orange peel. Made for milk drinks.",250g Whole Bean,1200,TRUE,,6
+jowam-house-espresso,,,,250g Espresso Grind,1200,TRUE,,
+jowam-house-espresso,,,,1kg Whole Bean,4200,TRUE,,
+kenya-decaf,Kenya Decaf,Coffee,"Kenyan coffee decaffeinated with the sugarcane process. Plum, cocoa and brown sugar, without the caffeine.",250g Whole Bean,1500,TRUE,,7
+kenya-decaf,,,,250g Ground,1500,TRUE,,
+discovery-set,Discovery Set,Coffee,"Three 100g bags from this month's roasts, picked by our roasters. A good way to find your favourite.",3 x 100g Whole Bean,1800,TRUE,,8
+mt-elgon-limited,Mount Elgon Limited,Coffee,"A small lot from the western slopes of Mount Elgon. Sold out until the next harvest.",250g Whole Bean,1900,FALSE,,9
+hario-v60-dripper,Hario V60 Dripper 02,Equipment,"Ceramic pour-over dripper that brews one to four cups. The same dripper we use on our brew bar.",White,3200,TRUE,,20
+hario-v60-dripper,,,,Black,3200,FALSE,,
+v60-paper-filters,V60 Paper Filters,Equipment,"Pack of 100 white paper filters for the size 02 dripper.",Pack of 100,650,TRUE,,21
+aeropress,AeroPress Original,Equipment,"Quick, forgiving and easy to clean. Makes a clean cup at home, at work or on the road.",Standard,6500,TRUE,,22
+timemore-c2-grinder,Timemore C2 Hand Grinder,Equipment,"Steel burr hand grinder with steady grind size from espresso to French press.",Grey,9500,TRUE,,23
+gooseneck-kettle,Gooseneck Pour-Over Kettle,Equipment,"600ml stainless steel kettle with a slim spout for a steady, even pour.",600ml,4800,TRUE,,24
+jowam-canvas-tote,Jowam Canvas Tote,Merch,"Heavy cotton tote with the Jowam logo. Fits two bags of coffee and your laptop.",Natural,1500,TRUE,,40
+jowam-ceramic-mug,Jowam Ceramic Mug,Merch,"350ml stoneware mug, made in Nairobi.",Cream,1800,TRUE,,41
+jowam-ceramic-mug,,,,Charcoal,1800,TRUE,,
+jowam-t-shirt,Jowam T-Shirt,Merch,"Soft cotton t-shirt with a small embroidered logo on the chest.",S,2500,TRUE,,42
+jowam-t-shirt,,,,M,2500,TRUE,,
+jowam-t-shirt,,,,L,2500,TRUE,,
+jowam-t-shirt,,,,XL,2500,FALSE,,
