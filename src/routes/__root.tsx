@@ -121,7 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   useEffect(() => {
-    void useCartStore.persist.rehydrate();
+    void useCartStore.persist?.rehydrate();
   }, []);
 
   const { queryClient } = Route.useRouteContext();
