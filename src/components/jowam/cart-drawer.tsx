@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { confirmChannel } from "@/data/site";
 import { formatKes } from "@/lib/money";
 import { resolveLines } from "@/lib/order";
 import { useProducts } from "@/lib/use-products";
@@ -142,7 +143,7 @@ export function CartDrawer() {
                   <span className="font-display text-3xl tabular-nums">{formatKes(subtotal)}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Delivery fee and payment are confirmed on WhatsApp.
+                  Delivery fee and payment are confirmed by {confirmChannel}.
                 </p>
                 {items.length === 0 ? (
                   <>

@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import fallbackImage from "@/assets/jowam-bags-latte.jpg";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { confirmChannel } from "@/data/site";
 import { formatKes } from "@/lib/money";
 import type { Product } from "@/lib/products";
 import { getProducts } from "@/lib/products.functions";
@@ -43,7 +45,7 @@ function ProductNotFound() {
       <p className="eyebrow">Shop Jowam</p>
       <h1 className="mt-5 font-display text-6xl">We couldn't find that coffee.</h1>
       <p className="mx-auto mt-5 max-w-md text-base leading-7 text-muted-foreground">
-        It may have sold out or moved. Have a look at what we are roasting right now.
+        It may have sold out or been renamed. Have a look at what we’re roasting right now.
       </p>
       <Button asChild className="mt-8">
         <Link to="/shop">Back to the shop</Link>
@@ -83,13 +85,11 @@ function ProductDetail({ product }: { product: Product }) {
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="aspect-[4/5] overflow-hidden bg-muted">
-          {product.image ? (
-            <img src={product.image} alt={product.name} className="size-full object-cover" />
-          ) : (
-            <div className="flex size-full items-center justify-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Photography coming soon
-            </div>
-          )}
+          <img
+            src={product.image || fallbackImage}
+            alt={product.image ? product.name : "Bags of Jowam coffee beside a latte"}
+            className="size-full object-cover"
+          />
         </div>
 
         <div className="max-w-xl">
@@ -147,7 +147,7 @@ function ProductDetail({ product }: { product: Product }) {
             </div>
             <div className="flex justify-between gap-6 py-4">
               <dt className="text-muted-foreground">Delivery</dt>
-              <dd className="text-right">Fee and timing confirmed on WhatsApp</dd>
+              <dd className="text-right">Fee and timing confirmed by {confirmChannel}</dd>
             </div>
             <div className="flex justify-between gap-6 py-4">
               <dt className="text-muted-foreground">Collection</dt>

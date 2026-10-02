@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import fallbackImage from "@/assets/jowam-bags-latte.jpg";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { formatKes } from "@/lib/money";
@@ -27,18 +28,12 @@ export function ProductCard({ product }: { product: Product }) {
         className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive"
       >
         <div className="aspect-square overflow-hidden bg-muted">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              loading="lazy"
-              className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-            />
-          ) : (
-            <div className="flex size-full items-center justify-center p-3 text-center text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-              Photography coming soon
-            </div>
-          )}
+          <img
+            src={product.image || fallbackImage}
+            alt={product.image ? product.name : "Bags of Jowam coffee beside a latte"}
+            loading="lazy"
+            className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          />
         </div>
         <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-olive">
           {product.category}
