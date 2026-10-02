@@ -6,20 +6,19 @@ import { ProductCard } from "@/components/jowam/product-card";
 import { Button } from "@/components/ui/button";
 import { confirmChannel, siteInfo } from "@/data/site";
 import { getProducts } from "@/lib/products.functions";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop")({
-  head: () => ({
-    meta: [
-      { title: "Shop Coffee | Jowam Coffee Roasters" },
-      { name: "description", content: "Buy Jowam's freshly roasted Kenyan specialty coffee online, with whole bean and ground options delivered across Nairobi." },
-      { property: "og:title", content: "Shop Jowam Coffee" },
-      { property: "og:description", content: "Freshly roasted Kenyan specialty coffee and coffee goods from our Lavington roastery." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/shop" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/shop" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Shop Coffee | Jowam Coffee Roasters",
+      description: "Buy Jowam's freshly roasted Kenyan specialty coffee online, with whole bean and ground options delivered across Nairobi.",
+      path: "/shop",
+      ogTitle: "Shop Jowam Coffee",
+      ogDescription: "Freshly roasted Kenyan specialty coffee and coffee goods from our Lavington roastery.",
+      image: heroImage,
+      imageAlt: "Jowam coffee bags lined up on the café counter",
+    }),
   loader: () => getProducts(),
   component: ShopPage,
 });
