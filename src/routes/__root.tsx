@@ -16,6 +16,7 @@ import { SiteHeader } from "@/components/jowam/site-header";
 import { SiteFooter } from "@/components/jowam/site-footer";
 import { Toaster } from "@/components/ui/sonner";
 import { useCartStore } from "@/stores/cart-store";
+import { cafeJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -98,6 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "192x192" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
+    scripts: [cafeJsonLd()],
   }),
   shellComponent: RootShell,
   component: RootComponent,

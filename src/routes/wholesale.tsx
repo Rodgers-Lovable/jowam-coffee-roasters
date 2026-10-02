@@ -20,24 +20,19 @@ import {
   wholesaleSteps,
   wholesaleVolumes,
 } from "@/data/jowam";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/wholesale")({
-  head: () => ({
-    meta: [
-      { title: "Wholesale Coffee | Jowam Coffee Roasters" },
-      {
-        name: "description",
-        content:
-          "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
-      },
-      { property: "og:title", content: "Wholesale Coffee | Jowam" },
-      { property: "og:description", content: "Serve the coffee we roast and pour at our own café." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/wholesale" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/wholesale" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Wholesale Coffee | Jowam Coffee Roasters",
+      description: "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
+      path: "/wholesale",
+      ogTitle: "Wholesale Coffee | Jowam",
+      ogDescription: "Serve the coffee we roast and pour at our own café.",
+      image: baristaImage,
+      imageAlt: "A barista preparing coffee at Jowam",
+    }),
   component: WholesalePage,
 });
 
@@ -86,7 +81,7 @@ function WholesalePage() {
         />
         <div className="absolute inset-0 bg-ink/55" />
         <div className="relative mx-auto flex min-h-[calc(100svh-5rem)] max-w-screen-2xl flex-col justify-end px-5 pb-14 sm:px-8 lg:px-12">
-          <p className="eyebrow text-ink-foreground/70">Wholesale</p>
+          <p className="eyebrow text-ink-foreground/70">Wholesale coffee supplier in Nairobi</p>
           <h1 className="mt-4 font-display text-7xl leading-[0.88] sm:text-8xl lg:text-[8.5rem]">
             Serve
             <br />

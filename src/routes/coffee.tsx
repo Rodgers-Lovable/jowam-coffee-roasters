@@ -7,24 +7,18 @@ import productsImage from "@/assets/jowam-bags-black-coffee.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/coffee")({
-  head: () => ({
-    meta: [
-      { title: "Our Coffee | Jowam Coffee Roasters" },
-      {
-        name: "description",
-        content:
-          "How Jowam sources and roasts Kenyan coffee from Bungoma, Nyeri, Meru, Murang’a and Kirinyaga, and how to pick one you will enjoy.",
-      },
-      { property: "og:title", content: "Our Coffee | Jowam Coffee Roasters" },
-      { property: "og:description", content: "Kenyan coffee, roasted by Jowam in Nairobi." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/coffee" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/coffee" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Our Coffee | Jowam Coffee Roasters",
+      description: "How Jowam sources and roasts Kenyan coffee from Bungoma, Nyeri, Meru, Murang’a and Kirinyaga, and how to pick one you will enjoy.",
+      path: "/coffee",
+      ogDescription: "Kenyan coffee, roasted by Jowam in Nairobi.",
+      image: roasteryImage,
+      imageAlt: "Coffee roasting at the Jowam drum roaster",
+    }),
   component: CoffeePage,
 });
 
@@ -101,7 +95,7 @@ function CoffeePage() {
         />
         <div className="absolute inset-0 bg-ink/55" />
         <div className="relative mx-auto flex min-h-[78svh] max-w-screen-2xl flex-col justify-end px-5 py-14 sm:px-8 lg:px-12">
-          <p className="eyebrow text-ink-foreground/70">From green coffee to your cup</p>
+          <p className="eyebrow text-ink-foreground/70">Kenyan coffee, roasted in Nairobi</p>
           <h1 className="mt-4 max-w-5xl font-display text-7xl leading-[0.88] sm:text-8xl lg:text-[7rem]">
             Coffee,
             <br />

@@ -2,9 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import image from "@/assets/jowam-cafe-interior.jpg";
 import { PlaceholderPage } from "@/components/jowam/editorial";
 import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/seo";
 
 // Facts only: no founding story or people are named until Jowam supplies them.
-export const Route = createFileRoute("/our-story")({ head: () => ({ meta: [{ title: "Our Story | Jowam Coffee Roasters" }, { name: "description", content: "Jowam is a café and coffee roastery at Lavington Mall, Nairobi. We roast Kenyan coffee, run a full kitchen and keep the tables open all day." }, { property: "og:title", content: "Our Story | Jowam" }, { property: "og:description", content: "A café and coffee roastery at Lavington Mall, Nairobi." }, { property: "og:type", content: "website" }, { property: "og:url", content: "/our-story" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/our-story" }] }), component: OurStoryPage });
+export const Route = createFileRoute("/our-story")({ head: () =>
+    pageHead({
+      title: "Our Story | Jowam Coffee Roasters",
+      description: "Jowam is a café and coffee roastery at Lavington Mall, Nairobi. We roast Kenyan coffee, run a full kitchen and keep the tables open all day.",
+      path: "/our-story",
+      ogTitle: "Our Story | Jowam",
+      ogDescription: "A café and coffee roastery at Lavington Mall, Nairobi.",
+      image: image,
+      imageAlt: "Guests talking over coffee in the Jowam café",
+    }), component: OurStoryPage });
 
 function OurStoryPage() {
   return (
