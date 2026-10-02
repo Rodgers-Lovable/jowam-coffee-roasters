@@ -1,4 +1,4 @@
-import productsImage from "@/assets/jowam-coffee-products.jpg";
+import productsImage from "@/assets/jowam-bags-latte.jpg";
 
 export type Dietary = "V" | "VG" | "GF" | "S";
 export type MenuItemData = {

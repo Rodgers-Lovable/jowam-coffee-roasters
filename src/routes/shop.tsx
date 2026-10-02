@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImage from "@/assets/jowam-coffee-products.jpg";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
+import heroImage from "@/assets/jowam-bags-counter.jpg";
+import lineupImage from "@/assets/jowam-bags-lineup.jpg";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { ProductCard } from "@/components/jowam/product-card";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ function ShopPage() {
             </div>
           </div>
           <div className="aspect-[4/5] max-h-[70vh] overflow-hidden">
-            <Image src={heroImage} alt="Bags of Jowam roasted specialty coffee" width={1200} height={1500} priority sizes="(max-width: 1024px) 100vw, 55vw" />
+            <Image src={heroImage} alt="Jowam coffees from Bungoma, Nyeri, Meru, Murang'a and Kirinyaga lined up on the café counter" width={1116} height={1200} priority sizes="(max-width: 1024px) 100vw, 55vw" />
           </div>
         </div>
       </section>
@@ -111,7 +111,7 @@ function ShopPage() {
       <section className="mx-auto max-w-screen-2xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="aspect-[5/4] overflow-hidden">
-            <Image src={roasteryImage} alt="Coffee being roasted at the Jowam roastery" width={1200} height={960} />
+            <Image src={lineupImage} alt="Bags of Jowam coffee lined up at the café bar with a takeaway cup" width={1200} height={942} />
           </div>
           <div className="max-w-xl">
             <p className="eyebrow">Buying for a team</p>
