@@ -165,7 +165,7 @@ function CoffeePage() {
 
       <section id="origin" className="scroll-mt-36 bg-paper-deep">
         <div className="mx-auto grid max-w-screen-2xl lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="min-h-[34rem]">
+          <div className="min-h-136">
             <Image
               src={originImage}
               alt="Ripe coffee cherries being selected in the Kenyan highlands"
@@ -221,7 +221,7 @@ function CoffeePage() {
 
       <section id="roastery" className="scroll-mt-36 bg-ink text-ink-foreground">
         <div className="mx-auto max-w-screen-2xl">
-          <div className="aspect-[16/7] min-h-[25rem] overflow-hidden">
+          <div className="aspect-16/7 min-h-100 overflow-hidden">
             <Image
               src={roasteryImage}
               alt="Freshly roasted coffee entering a cooling tray"
@@ -285,7 +285,7 @@ function CoffeePage() {
         id="brewing"
         className="mx-auto grid max-w-screen-2xl scroll-mt-36 gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:px-12"
       >
-        <div className="aspect-[4/3] overflow-hidden">
+        <div className="aspect-4/3 overflow-hidden">
           <Image
             src={productsImage}
             alt="A cup of black coffee beside bags of Jowam coffee and roasted beans"
@@ -311,7 +311,7 @@ function CoffeePage() {
 
       <section className="bg-paper-deep">
         <div className="mx-auto grid max-w-screen-2xl lg:grid-cols-2">
-          <div className="min-h-[34rem]">
+          <div className="min-h-136">
             <Image
               src={baristaImage}
               alt="A barista pouring a coffee in the café"
@@ -350,7 +350,7 @@ function CoffeePage() {
             <TextLink to="/experiences">Register your interest</TextLink>
           </div>
         </div>
-        <div className="aspect-[4/3] overflow-hidden">
+        <div className="aspect-4/3 overflow-hidden">
           <Image
             src={cuppingImage}
             alt="Cupping bowls set out on a table for a Jowam coffee tasting"

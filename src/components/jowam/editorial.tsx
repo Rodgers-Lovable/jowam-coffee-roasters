@@ -154,7 +154,7 @@ export function PlaceholderPage({
           <p className="mt-7 text-lg leading-8 text-muted-foreground">{body}</p>
           {children}
         </div>
-        <div className="aspect-[4/5] max-h-[75vh] overflow-hidden">
+        <div className="aspect-4/5 max-h-[75vh] overflow-hidden">
           <Image
             src={image}
             alt={imageAlt}

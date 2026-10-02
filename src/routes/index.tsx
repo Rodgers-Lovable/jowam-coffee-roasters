@@ -92,7 +92,7 @@ function HomePage() {
             at the table at lunch. We open at 7:15 am from Monday to Saturday (9 am on Sundays).
           </p>
         </div>
-        <div className="aspect-[4/5] overflow-hidden lg:mt-20">
+        <div className="aspect-4/5 overflow-hidden lg:mt-20">
           <Image
             src={cafeImage}
             alt="A lively café filled with guests talking over coffee"
@@ -106,7 +106,7 @@ function HomePage() {
       <section className="bg-paper-deep py-24 md:py-32">
         <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="aspect-[4/5] overflow-hidden">
+            <div className="aspect-4/5 overflow-hidden">
               <Image
                 src={pastaImage}
                 alt="A plate of pasta with parmesan and parsley at the café"
@@ -153,7 +153,7 @@ function HomePage() {
               </TextLink>
             </div>
           </div>
-          <div className="min-h-[35rem]">
+          <div className="min-h-140">
             <Image
               src={roasteryImage}
               alt="A coffee roaster guiding freshly roasted beans into a cooling tray"
@@ -199,7 +199,7 @@ function HomePage() {
       </section>
 
       <section className="mx-auto grid max-w-screen-2xl gap-10 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:px-12">
-        <LocationMap className="aspect-[3/2] w-full" />
+        <LocationMap className="aspect-3/2 w-full" />
         <div className="flex flex-col justify-center">
           <p className="eyebrow">Visit Jowam</p>
           <h2 className="mt-4 font-display text-5xl sm:text-6xl">Your table is waiting.</h2>
@@ -235,7 +235,7 @@ function HomePage() {
 
       <section className="bg-paper-deep">
         <div className="mx-auto grid max-w-screen-2xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:px-12">
-          <div className="aspect-[4/3] overflow-hidden">
+          <div className="aspect-4/3 overflow-hidden">
             <Image
               src={cuppingImage}
               alt="Cupping bowls set out on a table for a coffee tasting"
@@ -273,7 +273,7 @@ function HomePage() {
               </TextLink>
             </div>
           </div>
-          <div className="aspect-[3/2] overflow-hidden">
+          <div className="aspect-3/2 overflow-hidden">
             <Image
               src={cafeImage}
               alt="Coffee being enjoyed in an active hospitality setting"
@@ -286,7 +286,7 @@ function HomePage() {
 
       <section className="mx-auto max-w-screen-2xl px-5 py-24 sm:px-8 md:py-32 lg:px-12">
         <SectionIntro eyebrow="Life at Jowam" title="Coffee is only part of the story." />
-        <div className="mt-12 grid auto-rows-[15rem] grid-cols-2 gap-3 md:auto-rows-[20rem] md:grid-cols-4">
+        <div className="mt-12 grid auto-rows-60 grid-cols-2 gap-3 md:auto-rows-80 md:grid-cols-4">
           <div className="col-span-2 row-span-2 overflow-hidden">
             <Image src={heroImage} alt="Friends sharing a café table" width={1600} height={1072} />
           </div>
