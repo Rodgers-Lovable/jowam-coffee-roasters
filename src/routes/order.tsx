@@ -44,8 +44,9 @@ const defaultValues: OrderForm = {
 
 function OrderPage() {
   const { lines, clear } = useCartStore();
-  const [hydrated, setHydrated] = useState(() => useCartStore.persist.hasHydrated());
-  useEffect(() => useCartStore.persist.onFinishHydration(() => setHydrated(true)), []);
+  const [hydrated, setHydrated] = useState(() => useCartStore.persist?.hasHydrated() ?? false);
+  // persist is undefined during server rendering (no localStorage), so guard it.
+  useEffect(() => useCartStore.persist?.onFinishHydration(() => setHydrated(true)), []);
   const { data: products = [], isPending, isError, refetch } = useProducts();
   const { items, unavailable, subtotal } = resolveLines(products, lines);
   const form = useForm<OrderForm>({ resolver: zodResolver(orderFormSchema), defaultValues });
