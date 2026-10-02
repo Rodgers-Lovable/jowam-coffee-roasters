@@ -6,20 +6,19 @@ import { GoogleReviews } from "@/components/jowam/google-reviews";
 import { LocationMap } from "@/components/jowam/location-map";
 import { Button } from "@/components/ui/button";
 import { siteInfo } from "@/data/site";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/visit")({
-  head: () => ({
-    meta: [
-      { title: "Visit Jowam Coffee Roasters | Lavington Mall, Nairobi" },
-      { name: "description", content: "Find Jowam Coffee Roasters at Lavington Mall on James Gichuru Road, Nairobi. Open Monday to Saturday 7:15 am to 7 pm and Sunday 9 am to 5 pm." },
-      { property: "og:title", content: "Visit Jowam Coffee Roasters" },
-      { property: "og:description", content: "Lavington Mall, James Gichuru Road, Nairobi. Open every day for coffee, breakfast and lunch." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/visit" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/visit" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Visit Jowam Coffee Roasters | Lavington Mall, Nairobi",
+      description: "Find Jowam Coffee Roasters at Lavington Mall on James Gichuru Road, Nairobi. Open Monday to Saturday 7:15 am to 7 pm and Sunday 9 am to 5 pm.",
+      path: "/visit",
+      ogTitle: "Visit Jowam Coffee Roasters",
+      ogDescription: "Lavington Mall, James Gichuru Road, Nairobi. Open every day for coffee, breakfast and lunch.",
+      image: image,
+      imageAlt: "Guests at tables inside the Jowam café",
+    }),
   component: VisitPage,
 });
 

@@ -8,24 +8,19 @@ import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
 import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
 import { experienceFormats, experienceInterests } from "@/data/jowam";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/experiences")({
-  head: () => ({
-    meta: [
-      { title: "Coffee Experiences & Training | Jowam Coffee Roasters" },
-      {
-        name: "description",
-        content:
-          "Cuppings, roastery visits, home brewing workshops and barista training that Jowam Coffee Roasters is planning in Nairobi. Register your interest to hear about dates.",
-      },
-      { property: "og:title", content: "Coffee Experiences & Training | Jowam" },
-      { property: "og:description", content: "Taste. Ask. Discover. Coffee experiences at Jowam." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/experiences" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/experiences" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Coffee Experiences & Training | Jowam Coffee Roasters",
+      description: "Cuppings, roastery visits, brewing workshops and barista training planned by Jowam Coffee Roasters in Nairobi. Register to hear about dates first.",
+      path: "/experiences",
+      ogTitle: "Coffee Experiences & Training | Jowam",
+      ogDescription: "Taste. Ask. Discover. Coffee experiences at Jowam.",
+      image: cuppingImage,
+      imageAlt: "Cupping bowls set out for a coffee tasting",
+    }),
   component: ExperiencesPage,
 });
 

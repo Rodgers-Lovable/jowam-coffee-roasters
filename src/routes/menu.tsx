@@ -6,11 +6,17 @@ import { MenuCategory, Image, TextLink } from "@/components/jowam/editorial";
 import { menuCategories } from "@/data/jowam";
 import { Button } from "@/components/ui/button";
 import { siteInfo } from "@/data/site";
+import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/menu")({ head: () => ({ meta: [
-  { title: "Menu | Jowam Coffee Roasters" }, { name: "description", content: "The Jowam café menu: breakfast, burgers, steaks, Kenyan classics, Indian dishes, pizza, coffee, shakes and more, with prices in KSh." },
-  { property: "og:title", content: "Menu | Jowam Coffee Roasters" }, { property: "og:description", content: "Breakfast, burgers, steaks, Kenyan classics, Indian dishes, pizza and coffee we roast ourselves." }, { property: "og:type", content: "website" }, { property: "og:url", content: "/menu" }, { name: "twitter:card", content: "summary_large_image" },
-], links: [{ rel: "canonical", href: "/menu" }] }), component: MenuPage });
+export const Route = createFileRoute("/menu")({ head: () =>
+    pageHead({
+      title: "Menu | Jowam Coffee Roasters",
+      description: "The Jowam café menu: breakfast, burgers, steaks, Kenyan classics, Indian dishes, pizza, coffee, shakes and more, with prices in KSh.",
+      path: "/menu",
+      ogDescription: "Breakfast, burgers, steaks, Kenyan classics, Indian dishes, pizza and coffee we roast ourselves.",
+      image: heroImage,
+      imageAlt: "Grilled beef with pepper sauce and fries",
+    }), component: MenuPage });
 
 function MenuPage() {
   const food = menuCategories.filter((category) => category.group === "food");

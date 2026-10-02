@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { confirmChannel } from "@/data/site";
 import { formatKes } from "@/lib/money";
+import { pageHead, productJsonLd } from "@/lib/seo";
 import type { Product } from "@/lib/products";
 import { getProducts } from "@/lib/products.functions";
 import { useCartStore } from "@/stores/cart-store";
@@ -24,15 +25,18 @@ export const Route = createFileRoute("/product/$handle")({
     const description =
       loaderData?.description ||
       "A freshly roasted coffee release from Jowam Coffee Roasters in Nairobi.";
+    if (!loaderData) return { meta: [{ title }, { name: "description", content: description }] };
+    const head = pageHead({
+      title,
+      description,
+      path: `/product/${loaderData.handle}`,
+      image: loaderData.image ?? fallbackImage,
+      imageAlt: loaderData.image ? loaderData.name : "Bags of Jowam coffee beside a latte",
+    });
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
+      ...head,
+      meta: [...head.meta, { property: "og:type", content: "product" }],
+      scripts: [productJsonLd(loaderData)],
     };
   },
   notFoundComponent: ProductNotFound,

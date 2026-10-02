@@ -14,28 +14,19 @@ import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import { GoogleReviews } from "@/components/jowam/google-reviews";
 import { LocationMap } from "@/components/jowam/location-map";
 import { siteInfo } from "@/data/site";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Jowam Coffee Roasters | Café and Coffee Roastery in Lavington, Nairobi" },
-      {
-        name: "description",
-        content:
-          "Café and coffee roastery at Lavington Mall, Nairobi. Breakfast, burgers, steaks and Kenyan classics, plus Kenyan coffee we roast ourselves, by the cup or by the bag.",
-      },
-      { property: "og:title", content: "Jowam Coffee Roasters" },
-      {
-        property: "og:description",
-        content:
-          "Coffee, food and good company at Lavington Mall, with Kenyan coffee we roast ourselves.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Jowam Coffee Roasters · Café & Roastery, Lavington Mall",
+      description: "Café and coffee roastery at Lavington Mall, Nairobi. Breakfast, burgers and Kenyan classics, plus Kenyan coffee we roast ourselves, by the cup or the bag.",
+      path: "/",
+      ogTitle: "Jowam Coffee Roasters",
+      ogDescription: "Coffee, food and good company at Lavington Mall, with Kenyan coffee we roast ourselves.",
+      image: heroImage,
+      imageAlt: "Friends sharing coffee and brunch at Jowam",
+    }),
   component: HomePage,
 });
 
@@ -54,7 +45,7 @@ function HomePage() {
         />
         <div className="absolute inset-0 bg-ink/35" />
         <div className="relative mx-auto flex min-h-[calc(100svh-5rem)] max-w-screen-2xl flex-col justify-end px-5 pb-10 sm:px-8 sm:pb-14 lg:px-12">
-          <p className="eyebrow mb-5 text-ink-foreground/80">Coffee · Food · Good company</p>
+          <p className="eyebrow mb-5 text-ink-foreground/80">Café & coffee roastery · Lavington, Nairobi</p>
           <h1 className="max-w-4xl font-display text-6xl leading-[0.88] sm:text-8xl lg:text-[7.5rem]">
             Come for coffee.
             <br />

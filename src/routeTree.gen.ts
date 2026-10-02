@@ -16,6 +16,7 @@ import { Route as MenuRouteImport } from './routes/menu'
 import { Route as OrderRouteImport } from './routes/order'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as VisitRouteImport } from './routes/visit'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
@@ -56,6 +57,11 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VisitRoute = VisitRouteImport.update({
   id: '/visit',
   path: '/visit',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
   '/product/$handle': typeof ProductHandleRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/our-story'
     | '/shop'
+    | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/our-story'
     | '/shop'
+    | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/our-story'
     | '/shop'
+    | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
     | '/product/$handle'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   OrderRoute: typeof OrderRoute
   OurStoryRoute: typeof OurStoryRoute
   ShopRoute: typeof ShopRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VisitRoute: typeof VisitRoute
   WholesaleRoute: typeof WholesaleRoute
   ProductHandleRoute: typeof ProductHandleRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/visit': {
       id: '/visit'
       path: '/visit'
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderRoute: OrderRoute,
   OurStoryRoute: OurStoryRoute,
   ShopRoute: ShopRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   VisitRoute: VisitRoute,
   WholesaleRoute: WholesaleRoute,
   ProductHandleRoute: ProductHandleRoute,
