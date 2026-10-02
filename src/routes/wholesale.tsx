@@ -10,10 +10,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CoffeeProduct, Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
+import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import {
-  coffees,
   wholesaleCategories,
   wholesaleFaqs,
   wholesalePrinciples,
@@ -28,10 +28,10 @@ export const Route = createFileRoute("/wholesale")({
       {
         name: "description",
         content:
-          "Serve Jowam coffee at your café, restaurant, hotel, office or hospitality business. Start a wholesale conversation with Jowam Coffee Roasters.",
+          "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
       },
       { property: "og:title", content: "Wholesale Coffee | Jowam" },
-      { property: "og:description", content: "Serve Jowam at your place." },
+      { property: "og:description", content: "Serve the coffee we roast and pour at our own café." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/wholesale" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -59,7 +59,7 @@ const enquiryFields: EnquiryField[] = [
   {
     type: "select",
     name: "volume",
-    label: "Approximate weekly coffee",
+    label: "Roughly how much coffee you use a week",
     options: wholesaleVolumes,
     wide: true,
   },
@@ -155,18 +155,15 @@ function WholesalePage() {
                 </article>
               ))}
             </div>
-            <p className="mt-6 text-xs uppercase text-cherry">
-              Programme specifics to be confirmed
-            </p>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-screen-2xl px-5 py-24 sm:px-8 md:py-32 lg:px-12">
         <SectionIntro
-          eyebrow="How it could work"
+          eyebrow="How it works"
           title="From first cup to every morning."
-          body="An illustrative outline of how a partnership might begin. Final steps will follow Jowam’s wholesale programme."
+          body="It starts with a chat and a tasting. No forms to sign before you know you like the coffee."
         />
         <ol className="mt-16 grid border-t border-border md:grid-cols-4">
           {wholesaleSteps.map((s, i) => (
@@ -186,16 +183,14 @@ function WholesalePage() {
         <div className="mx-auto max-w-screen-2xl px-5 py-24 sm:px-8 md:py-32 lg:px-12">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionIntro
-              eyebrow="Representative releases"
+              eyebrow="Currently roasting"
               title="Coffees for your bar."
-              body="Shown for design purposes. Wholesale coffees and pricing will be shared on enquiry."
+              body="These are the coffees in our retail shop right now. Wholesale prices and bag sizes are shared when you enquire."
             />
             <TextLink to="/coffee">Our approach to coffee</TextLink>
           </div>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
-            {coffees.map((coffee) => (
-              <CoffeeProduct key={coffee.name} coffee={coffee} />
-            ))}
+          <div className="mt-12">
+            <FeaturedCoffees />
           </div>
         </div>
       </section>
@@ -233,7 +228,7 @@ function WholesalePage() {
             inverse
             fields={enquiryFields}
             submitLabel="Send enquiry"
-            subject={(v) => `Wholesale enquiry — ${String(v["business"] ?? "")}`}
+            subject={(v) => `Wholesale enquiry: ${String(v["business"] ?? "")}`}
           />
         </div>
       </section>
@@ -242,8 +237,8 @@ function WholesalePage() {
         <div>
           <p className="eyebrow">Questions</p>
           <h2 className="mt-4 font-display text-5xl leading-none">Good to know.</h2>
-          <p className="mt-5 text-xs text-cherry">
-            Answers are placeholders until programme details are confirmed.
+          <p className="mt-5 max-w-sm text-sm leading-6 text-muted-foreground">
+            Pricing and terms depend on what you need, so we share them after we talk.
           </p>
         </div>
         <Accordion type="single" collapsible className="border-t border-border">

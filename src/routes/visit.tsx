@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Clock, MapPin } from "lucide-react";
 import image from "@/assets/jowam-cafe-interior.jpg";
 import { Image } from "@/components/jowam/editorial";
@@ -11,9 +11,9 @@ export const Route = createFileRoute("/visit")({
   head: () => ({
     meta: [
       { title: "Visit Jowam Coffee Roasters | Lavington Mall, Nairobi" },
-      { name: "description", content: "Find Jowam Coffee Roasters at Lavington Mall on James Gichuru Road, Nairobi. Open Mon–Sat 7:15 am – 7 pm and Sunday 9 am – 5 pm." },
+      { name: "description", content: "Find Jowam Coffee Roasters at Lavington Mall on James Gichuru Road, Nairobi. Open Monday to Saturday 7:15 am to 7 pm and Sunday 9 am to 5 pm." },
       { property: "og:title", content: "Visit Jowam Coffee Roasters" },
-      { property: "og:description", content: "Lavington Mall, James Gichuru Road, Nairobi. Open daily for coffee, breakfast and brunch." },
+      { property: "og:description", content: "Lavington Mall, James Gichuru Road, Nairobi. Open every day for coffee, breakfast and lunch." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/visit" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,7 +32,7 @@ function VisitPage() {
         <div className="max-w-xl">
           <p className="eyebrow">Visit Jowam</p>
           <h1 className="mt-5 font-display text-6xl leading-[0.9] sm:text-7xl">Meet us at the café.</h1>
-          <p className="mt-7 text-lg leading-8 text-muted-foreground">You’ll find us at Lavington Mall on James Gichuru Road — open early for coffee, breakfast and unhurried afternoons.</p>
+          <p className="mt-7 text-lg leading-8 text-muted-foreground">You’ll find us at Lavington Mall on James Gichuru Road. We open early for coffee and breakfast, and there’s no rush to leave.</p>
 
           <div className="mt-10 grid gap-8 sm:grid-cols-2">
             <div>
@@ -58,12 +58,11 @@ function VisitPage() {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <Button asChild><a href={directionsUrl} target="_blank" rel="noreferrer">Get directions</a></Button>
-            <Button asChild variant="outline"><a href="/menu">See the menu</a></Button>
+            <Button asChild variant="outline"><Link to="/menu">See the menu</Link></Button>
           </div>
-          <p className="mt-6 text-xs text-muted-foreground">Phone and email to be confirmed.</p>
         </div>
         <div className="aspect-[4/5] max-h-[75vh] overflow-hidden">
-          <Image src={image} alt="A welcoming café interior with guests" width={1200} height={1504} priority sizes="(max-width: 1024px) 100vw, 50vw" />
+          <Image src={image} alt="Guests at tables inside the Jowam café" width={1200} height={1504} priority sizes="(max-width: 1024px) 100vw, 50vw" />
         </div>
       </section>
 

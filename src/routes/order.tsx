@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { siteInfo } from "@/data/site";
+import { confirmChannel, siteInfo } from "@/data/site";
 import { formatKes } from "@/lib/money";
 import { orderFormSchema, resolveLines, type OrderForm } from "@/lib/order";
 import { submitOrder } from "@/lib/order.functions";
@@ -84,7 +84,7 @@ function OrderPage() {
         <p className="mx-auto mt-6 max-w-md text-base leading-7 text-muted-foreground">
           {placed.saved
             ? "We have your order. Send the message so we can confirm delivery and payment with you."
-            : "Please send the message so we receive your order. We will confirm delivery and payment with you there."}
+            : "Please send the message so your order reaches us. We’ll confirm delivery and payment with you there."}
         </p>
         <Button asChild size="lg" className="mt-8">
           <a href={placed.link} target="_blank" rel="noopener noreferrer">
@@ -160,7 +160,7 @@ function OrderPage() {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone (WhatsApp)</FormLabel>
+                  <FormLabel>Phone{siteInfo.contact.whatsapp ? " (WhatsApp)" : ""}</FormLabel>
                   <FormControl>
                     <Input type="tel" autoComplete="tel" placeholder="0712 345 678" {...field} />
                   </FormControl>
@@ -261,10 +261,12 @@ function OrderPage() {
             >
               {form.formState.isSubmitting ? (
                 <Loader2 className="animate-spin" />
-              ) : (
+              ) : siteInfo.contact.whatsapp ? (
                 <MessageCircle />
+              ) : (
+                <Mail />
               )}
-              Place order on WhatsApp
+              {siteInfo.contact.whatsapp ? "Place order on WhatsApp" : "Place order"}
             </Button>
             {tooMany && (
               <p className="text-sm text-muted-foreground">Please order 30 items or fewer.</p>
@@ -298,7 +300,7 @@ function OrderPage() {
             <span className="font-display text-3xl tabular-nums">{formatKes(subtotal)}</span>
           </div>
           <p className="mt-3 text-xs leading-5 text-muted-foreground">
-            Delivery fee and payment (M-Pesa or on pickup) are confirmed on WhatsApp.
+            Delivery fee and payment (M-Pesa or on pickup) are confirmed by {confirmChannel}.
           </p>
         </aside>
       </div>
