@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BedDouble, Building2, ConciergeBell, Coffee, UtensilsCrossed } from "lucide-react";
 import baristaImage from "@/assets/jowam-barista.jpg";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
+import portafiltersImage from "@/assets/jowam-portafilters.jpg";
 import cafeImage from "@/assets/jowam-cafe-interior.jpg";
 import { Button } from "@/components/ui/button";
 import {
@@ -133,10 +133,10 @@ function WholesalePage() {
         <div className="mx-auto grid max-w-screen-2xl lg:grid-cols-[0.9fr_1.1fr]">
           <div className="min-h-[28rem] lg:min-h-[44rem]">
             <Image
-              src={roasteryImage}
-              alt="Freshly roasted coffee turning in the cooling tray"
-              width={1600}
-              height={1072}
+              src={portafiltersImage}
+              alt="Two portafilters, one with whole beans and one with freshly ground coffee"
+              width={866}
+              height={1126}
               sizes="(max-width: 1024px) 100vw, 45vw"
             />
           </div>

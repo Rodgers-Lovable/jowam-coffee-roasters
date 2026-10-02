@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import cuppingImage from "@/assets/jowam-cupping.jpg";
+import cuppingImage from "@/assets/jowam-cupping-table.jpg";
 import roasteryImage from "@/assets/jowam-roastery.jpg";
-import productsImage from "@/assets/jowam-coffee-products.jpg";
+import productsImage from "@/assets/jowam-portafilters.jpg";
 import baristaImage from "@/assets/jowam-barista.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/experiences")({
 const images = {
   cupping: {
     src: cuppingImage,
-    alt: "People tasting and comparing coffees around a cupping table",
-    width: 1408,
-    height: 1056,
+    alt: "Cupping bowls set out on a table for a coffee tasting",
+    width: 868,
+    height: 980,
   },
   roastery: {
     src: roasteryImage,
@@ -44,9 +44,9 @@ const images = {
   },
   products: {
     src: productsImage,
-    alt: "Coffee and brewing equipment ready for a home brewing session",
-    width: 1408,
-    height: 1056,
+    alt: "Two portafilters, one with whole beans and one with freshly ground coffee",
+    width: 866,
+    height: 1126,
   },
   barista: {
     src: baristaImage,
@@ -117,9 +117,9 @@ function ExperiencesPage() {
         <div className="aspect-[4/3] overflow-hidden lg:aspect-[4/5] lg:max-h-[78vh]">
           <Image
             src={cuppingImage}
-            alt="A group learning together around a coffee cupping table"
-            width={1408}
-            height={1056}
+            alt="Cupping bowls set out on a table for a coffee tasting"
+            width={868}
+            height={980}
             priority
             sizes="(max-width: 1024px) 100vw, 55vw"
           />
