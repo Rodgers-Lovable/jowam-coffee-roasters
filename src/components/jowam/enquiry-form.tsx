@@ -57,9 +57,11 @@ export function EnquiryForm({
   fields,
   subject,
   submitLabel,
+  to,
   inverse = false,
   preset,
 }: {
+  to: string;
   fields: readonly EnquiryField[];
   subject: (values: Values) => string;
   submitLabel: string;
@@ -87,7 +89,7 @@ export function EnquiryForm({
   const onSubmit = (values: Values) => {
     const title = subject(values);
     const links = {
-      mailto: buildMailto(title, toEnquiry(values)),
+      mailto: buildMailto(to, title, toEnquiry(values)),
       whatsapp: buildWhatsApp(title, toEnquiry(values)),
     };
     setSent(links);
@@ -248,9 +250,7 @@ export function EnquiryForm({
             )}
           </div>
           <p className={`text-xs leading-5 ${muted}`}>
-            Sending opens your email app with your details filled in.
-            {siteInfo.contact.isPlaceholder &&
-              " Our email inbox is still being set up, so if you don’t hear back within a few days, ask for us at the café."}
+            Sending opens your email app with your details filled in, addressed to {to}.
           </p>
           {sent && (
             <p role="status" className="text-sm">

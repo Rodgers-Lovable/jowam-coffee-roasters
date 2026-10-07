@@ -22,6 +22,7 @@ export function SiteFooter() {
                 {siteInfo.city}
               </address>
               <p className="mt-4 text-sm leading-6 text-ink-foreground/70">{siteInfo.hoursSummary}</p>
+              <a href={`mailto:${siteInfo.contact.hello}`} className="mt-4 block break-all text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground">{siteInfo.contact.hello}</a>
             </div>
           </div>
         </div>

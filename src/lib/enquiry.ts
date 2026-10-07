@@ -9,8 +9,8 @@ function formatBody(fields: EnquiryFields) {
     .join("\n");
 }
 
-export function buildMailto(subject: string, fields: EnquiryFields) {
-  return `mailto:${siteInfo.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formatBody(fields))}`;
+export function buildMailto(to: string, subject: string, fields: EnquiryFields) {
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formatBody(fields))}`;
 }
 
 export function buildWhatsApp(subject: string, fields: EnquiryFields) {

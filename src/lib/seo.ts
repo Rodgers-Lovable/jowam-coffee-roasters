@@ -49,6 +49,7 @@ export function cafeJsonLd() {
     "@id": `${siteInfo.url}/#cafe`,
     name: siteInfo.name,
     url: siteInfo.url,
+    email: siteInfo.contact.hello,
     logo: absoluteUrl(logo),
     image: absoluteUrl(heroImage),
     address: {

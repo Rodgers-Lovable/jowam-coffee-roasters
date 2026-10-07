@@ -1,3 +1,4 @@
+import { siteInfo } from "@/data/site";
 import { buildMailto, buildWhatsApp } from "@/lib/enquiry";
 import {
   formatItemsText,
@@ -64,6 +65,7 @@ export async function placeOrder(
 
   const subject = `Jowam order ${ref}`;
   const fields = orderFields({ ref, items, subtotal, form });
-  const link = buildWhatsApp(subject, fields) ?? buildMailto(subject, fields);
+  const link =
+    buildWhatsApp(subject, fields) ?? buildMailto(siteInfo.contact.sales, subject, fields);
   return { ref, saved, link };
 }
