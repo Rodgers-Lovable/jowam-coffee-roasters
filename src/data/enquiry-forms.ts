@@ -9,7 +9,6 @@ export type EnquiryFormConfig = {
   /** Fixed on the server. Never take a recipient from the browser. */
   shopTo: string;
   subject: (values: Values) => string;
-  /** Opening line of the confirmation email sent back to the person who filled the form. */
   confirmation: string;
 };
 
