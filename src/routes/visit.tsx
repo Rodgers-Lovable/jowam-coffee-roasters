@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Clock, MapPin } from "lucide-react";
-import image from "@/assets/jowam-cafe-interior.jpg";
+import image from "@/assets/jowam-v60-bar.jpg";
 import { Image } from "@/components/jowam/editorial";
 import { GoogleReviews } from "@/components/jowam/google-reviews";
 import { LocationMap } from "@/components/jowam/location-map";
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/visit")({
       ogTitle: "Visit Jowam Coffee Roasters",
       ogDescription: "Lavington Mall, James Gichuru Road, Nairobi. Open every day for coffee, breakfast and lunch.",
       image: image,
-      imageAlt: "Guests at tables inside the Jowam café",
+      imageAlt: "A V60 brewing at the Jowam bar",
     }),
   component: VisitPage,
 });
@@ -61,7 +61,7 @@ function VisitPage() {
           </div>
         </div>
         <div className="aspect-[4/5] max-h-[75vh] overflow-hidden">
-          <Image src={image} alt="Guests at tables inside the Jowam café" width={1200} height={1504} priority sizes="(max-width: 1024px) 100vw, 50vw" />
+          <Image src={image} alt="A V60 brewing at the Jowam bar, with the coffee plant mural behind" width={916} height={1214} priority sizes="(max-width: 1024px) 100vw, 50vw" />
         </div>
       </section>
 
