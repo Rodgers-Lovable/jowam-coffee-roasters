@@ -11,15 +11,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
-import { siteInfo } from "@/data/site";
-import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
+import { EnquiryForm } from "@/components/jowam/enquiry-form";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import {
   wholesaleCategories,
   wholesaleFaqs,
   wholesalePrinciples,
   wholesaleSteps,
-  wholesaleVolumes,
 } from "@/data/jowam";
 import { pageHead } from "@/lib/seo";
 
@@ -39,34 +37,6 @@ export const Route = createFileRoute("/wholesale")({
 });
 
 const categoryIcons = [Coffee, UtensilsCrossed, BedDouble, Building2, ConciergeBell];
-
-const enquiryFields: EnquiryField[] = [
-  { type: "text", name: "name", label: "Your name", required: true },
-  { type: "text", name: "business", label: "Business name", required: true },
-  { type: "email", name: "email", label: "Email", required: true },
-  { type: "tel", name: "phone", label: "Phone" },
-  {
-    type: "select",
-    name: "businessType",
-    label: "Type of business",
-    options: wholesaleCategories,
-    required: true,
-  },
-  { type: "text", name: "location", label: "Location", placeholder: "Area, city" },
-  {
-    type: "select",
-    name: "volume",
-    label: "Roughly how much coffee you use a week",
-    options: wholesaleVolumes,
-    wide: true,
-  },
-  {
-    type: "textarea",
-    name: "message",
-    label: "Tell us about your place",
-    placeholder: "What you serve, how you brew, what you’re looking for",
-  },
-];
 
 function WholesalePage() {
   return (
@@ -221,13 +191,7 @@ function WholesalePage() {
               would suit your service.
             </p>
           </div>
-          <EnquiryForm
-            inverse
-            to={siteInfo.contact.sales}
-            fields={enquiryFields}
-            submitLabel="Send enquiry"
-            subject={(v) => `Wholesale enquiry: ${String(v["business"] ?? "")}`}
-          />
+          <EnquiryForm inverse form="wholesale" submitLabel="Send enquiry" />
         </div>
       </section>
 

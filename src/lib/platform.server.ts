@@ -17,9 +17,11 @@ type EdgeCache = {
 type WorkerEnv = {
   PRODUCTS_KV?: KvNamespace;
   ORDER_RATE_LIMITER?: RateLimiter;
+  ENQUIRY_RATE_LIMITER?: RateLimiter;
   SHEET_SCRIPT_URL?: string;
   SHEET_SECRET?: string;
   GOOGLE_PLACES_API_KEY?: string;
+  RESEND_API_KEY?: string;
 };
 
 async function getWorkerEnv(): Promise<WorkerEnv> {
@@ -49,6 +51,12 @@ export async function getSheetConfig(): Promise<SheetConfig> {
 export async function getPlacesApiKey(): Promise<string | null> {
   const env = await getWorkerEnv();
   return env.GOOGLE_PLACES_API_KEY ?? process.env["GOOGLE_PLACES_API_KEY"] ?? null;
+}
+
+/** Server-only Resend key, or null when it is not configured. */
+export async function getResendApiKey(): Promise<string | null> {
+  const env = await getWorkerEnv();
+  return env.RESEND_API_KEY ?? process.env["RESEND_API_KEY"] ?? null;
 }
 
 const CACHE_TTL_SECONDS = 300;
@@ -163,8 +171,11 @@ export const lastGoodStore: ProductStore = {
 };
 
 /** True when the request is allowed. Allows everything when no limiter is bound (local dev). */
-export async function rateLimit(key: string): Promise<boolean> {
-  const limiter = (await getWorkerEnv()).ORDER_RATE_LIMITER;
+export async function rateLimit(
+  key: string,
+  binding: "ORDER_RATE_LIMITER" | "ENQUIRY_RATE_LIMITER" = "ORDER_RATE_LIMITER",
+): Promise<boolean> {
+  const limiter = (await getWorkerEnv())[binding];
   if (!limiter) return true;
   return (await limiter.limit({ key })).success;
 }

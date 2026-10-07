@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { confirmChannel } from "@/data/site";
 import type { EnquiryFields } from "@/lib/enquiry";
 import type { Product } from "@/lib/products";
 
@@ -34,14 +35,12 @@ export const orderFormSchema = z
       .string()
       .trim()
       .refine((v) => normalizePhone(v) !== null, "Enter a Kenyan mobile number, e.g. 0712 345 678"),
-    email: z.union([
-      z.literal(""),
-      z
-        .string()
-        .trim()
-        .max(254, "Enter a valid email address")
-        .email("Enter a valid email address"),
-    ]),
+    email: z
+      .string()
+      .trim()
+      .min(1, "Enter your email so we can send your confirmation")
+      .max(254, "Enter a valid email address")
+      .email("Enter a valid email address"),
     method: z.enum(["Pickup", "Delivery"]),
     address: z.string().trim().max(200, "Keep the address under 200 characters"),
     notes: z.string().trim().max(500, "Keep notes under 500 characters"),
@@ -146,7 +145,7 @@ export function orderFields(order: {
   return {
     Order: order.ref,
     Items: `\n${formatItemsText(order.items)}`,
-    Subtotal: `KES ${plainNumber.format(order.subtotal)} (delivery fee confirmed on WhatsApp)`,
+    Subtotal: `KES ${plainNumber.format(order.subtotal)} (delivery fee confirmed by ${confirmChannel})`,
     Name: form.name,
     Phone: normalizePhone(form.phone) ?? form.phone,
     Email: form.email,

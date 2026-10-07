@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { confirmChannel } from "@/data/site";
 import type { Product } from "./products";
 import {
   formatItemsText,
@@ -94,7 +95,7 @@ describe("orderFormSchema", () => {
   const base = {
     name: "Wanjiru",
     phone: "0712345678",
-    email: "",
+    email: "wanjiru@example.com",
     method: "Pickup" as const,
     address: "",
     notes: "",
@@ -109,6 +110,12 @@ describe("orderFormSchema", () => {
     const result = orderFormSchema.safeParse({ ...base, method: "Delivery" });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0]?.path).toEqual(["address"]);
+  });
+
+  it("requires an email", () => {
+    const result = orderFormSchema.safeParse({ ...base, email: "" });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.path).toEqual(["email"]);
   });
 
   it("rejects a non Kenyan phone number", () => {
@@ -128,7 +135,7 @@ describe("orderFields", () => {
       form: {
         name: "Wanjiru",
         phone: "0712345678",
-        email: "",
+        email: "wanjiru@example.com",
         method: "Delivery",
         address: "Lavington",
         notes: "",
@@ -138,10 +145,10 @@ describe("orderFields", () => {
     expect(fields).toEqual({
       Order: "JW-261001-ABCD",
       Items: "\n1 × Nyeri (250g) @ 1,200",
-      Subtotal: "KES 1,200 (delivery fee confirmed on WhatsApp)",
+      Subtotal: `KES 1,200 (delivery fee confirmed by ${confirmChannel})`,
       Name: "Wanjiru",
       Phone: "254712345678",
-      Email: "",
+      Email: "wanjiru@example.com",
       Method: "Delivery",
       Address: "Lavington",
       Notes: "",
@@ -153,7 +160,7 @@ describe("parseSubmitOrder", () => {
   const form = {
     name: "Wanjiru",
     phone: "0712 345 678",
-    email: "",
+    email: "wanjiru@example.com",
     method: "Pickup",
     address: "",
     notes: "",
