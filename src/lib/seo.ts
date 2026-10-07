@@ -1,4 +1,4 @@
-import heroImage from "@/assets/jowam-hospitality-hero.jpg";
+import heroImage from "@/assets/jowam-team-roaster.jpg";
 import logo from "@/assets/logo-160.jpg";
 import { siteInfo } from "@/data/site";
 import type { Product } from "@/lib/products";

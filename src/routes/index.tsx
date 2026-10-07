@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
-import heroImage from "@/assets/jowam-hospitality-hero.jpg";
+import heroImage from "@/assets/jowam-team-roaster.jpg";
 import pastaImage from "@/assets/jowam-pasta.jpg";
 import burgerImage from "@/assets/jowam-burger.jpg";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
-import baristaImage from "@/assets/jowam-barista.jpg";
+import roasteryImage from "@/assets/jowam-meru-beans.jpg";
+import baristaImage from "@/assets/jowam-latte-croissant.jpg";
 import cafeImage from "@/assets/jowam-cafe-interior.jpg";
 import cuppingImage from "@/assets/jowam-cupping-table.jpg";
 import originImage from "@/assets/jowam-origin-kenya.jpg";
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       ogTitle: "Jowam Coffee Roasters",
       ogDescription: "Coffee, food and good company at Lavington Mall, with Kenyan coffee we roast ourselves.",
       image: heroImage,
-      imageAlt: "Friends sharing coffee and brunch at Jowam",
+      imageAlt: "Two people with bags of Jowam coffee in front of the roaster",
     }),
   component: HomePage,
 });
@@ -36,9 +36,9 @@ function HomePage() {
       <section className="relative min-h-[calc(100svh-5rem)] overflow-hidden bg-ink text-ink-foreground">
         <Image
           src={heroImage}
-          alt="Friends sharing coffee and brunch in a warm contemporary café"
+          alt="Two people at a table with bags of Jowam coffee, the roaster and grinder behind them"
           width={1600}
-          height={1072}
+          height={1066}
           priority
           sizes="100vw"
           className="hero-image absolute inset-0"
@@ -147,9 +147,9 @@ function HomePage() {
           <div className="min-h-140">
             <Image
               src={roasteryImage}
-              alt="A coffee roaster guiding freshly roasted beans into a cooling tray"
-              width={1600}
-              height={1072}
+              alt="Freshly roasted beans spilling from a bag of Jowam Meru medium roast"
+              width={1119}
+              height={1400}
             />
           </div>
         </div>
@@ -172,11 +172,11 @@ function HomePage() {
       <section className="relative min-h-[75svh] overflow-hidden bg-ink text-ink-foreground">
         <Image
           src={baristaImage}
-          alt="A barista carefully pouring latte art at the café counter"
-          width={1200}
-          height={1504}
+          alt="A latte with rosetta art beside a croissant and a small pot of honey"
+          width={1400}
+          height={1400}
           sizes="100vw"
-          className="absolute inset-0 object-[center_38%]"
+          className="absolute inset-0"
         />
         <div className="absolute inset-0 bg-ink/35" />
         <div className="relative mx-auto flex min-h-[75svh] max-w-screen-2xl items-end px-5 py-14 sm:px-8 lg:px-12">
@@ -279,7 +279,7 @@ function HomePage() {
         <SectionIntro eyebrow="Life at Jowam" title="Coffee is only part of the story." />
         <div className="mt-12 grid auto-rows-60 grid-cols-2 gap-3 md:auto-rows-80 md:grid-cols-4">
           <div className="col-span-2 row-span-2 overflow-hidden">
-            <Image src={heroImage} alt="Friends sharing a café table" width={1600} height={1072} />
+            <Image src={heroImage} alt="Two people with bags of Jowam coffee in front of the roaster" width={1600} height={1066} />
           </div>
           <div className="overflow-hidden">
             <Image
@@ -298,7 +298,7 @@ function HomePage() {
             />
           </div>
           <div className="overflow-hidden">
-            <Image src={baristaImage} alt="Barista preparing a coffee" width={1200} height={1504} />
+            <Image src={baristaImage} alt="A latte and a croissant at the café" width={1400} height={1400} />
           </div>
         </div>
         <div className="mt-7">

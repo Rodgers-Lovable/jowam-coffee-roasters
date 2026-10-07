@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BedDouble, Building2, ConciergeBell, Coffee, UtensilsCrossed } from "lucide-react";
-import baristaImage from "@/assets/jowam-barista.jpg";
+import heroImage from "@/assets/jowam-bags-counter-four.jpg";
 import portafiltersImage from "@/assets/jowam-portafilters.jpg";
 import cafeImage from "@/assets/jowam-cafe-interior.jpg";
 import { Button } from "@/components/ui/button";
@@ -26,12 +26,13 @@ export const Route = createFileRoute("/wholesale")({
   head: () =>
     pageHead({
       title: "Wholesale Coffee | Jowam Coffee Roasters",
-      description: "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
+      description:
+        "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
       path: "/wholesale",
       ogTitle: "Wholesale Coffee | Jowam",
       ogDescription: "Serve the coffee we roast and pour at our own café.",
-      image: baristaImage,
-      imageAlt: "A barista preparing coffee at Jowam",
+      image: heroImage,
+      imageAlt: "Bags of Jowam coffee on the café counter",
     }),
   component: WholesalePage,
 });
@@ -71,10 +72,10 @@ function WholesalePage() {
     <main>
       <section className="relative min-h-[calc(100svh-5rem)] overflow-hidden bg-ink text-ink-foreground">
         <Image
-          src={baristaImage}
-          alt="A barista preparing specialty coffee in a busy hospitality setting"
-          width={1200}
-          height={1504}
+          src={heroImage}
+          alt="Four bags of Jowam coffee from Kirinyaga, Bungoma and Meru on the café counter"
+          width={1600}
+          height={1206}
           priority
           sizes="100vw"
           className="absolute inset-0 object-[center_35%]"
@@ -126,7 +127,7 @@ function WholesalePage() {
 
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto grid max-w-screen-2xl lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="min-h-[28rem] lg:min-h-[44rem]">
+          <div className="min-h-112 lg:min-h-176">
             <Image
               src={portafiltersImage}
               alt="Two portafilters, one with whole beans and one with freshly ground coffee"
