@@ -53,7 +53,7 @@ function OrderPage() {
   const method = form.watch("method");
   const tooMany = items.length > 30;
   const [error, setError] = useState<string | null>(null);
-  const [placed, setPlaced] = useState<{ ref: string; saved: boolean; link: string } | null>(null);
+  const [placed, setPlaced] = useState<Awaited<ReturnType<typeof submitOrder>> | null>(null);
 
   const onSubmit = async (values: OrderForm) => {
     setError(null);
@@ -66,13 +66,31 @@ function OrderPage() {
       });
       setPlaced(result);
       clear();
-      window.open(result.link, "_blank", "noopener");
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "We could not place your order. Please try again.",
       );
     }
   };
+
+  if (placed?.notified) {
+    return (
+      <main className="mx-auto max-w-2xl px-5 py-20 text-center sm:px-8">
+        <CheckCircle2 className="mx-auto size-12 text-olive" />
+        <p className="eyebrow mt-6">Order {placed.ref}</p>
+        <h1 className="mt-4 font-display text-5xl leading-[0.95] sm:text-6xl">Order received.</h1>
+        <p className="mx-auto mt-6 max-w-md text-base leading-7 text-muted-foreground">
+          We’ve emailed you a confirmation. We’ll be in touch by {confirmChannel} to confirm the
+          delivery fee and payment.
+        </p>
+        <div className="mt-8">
+          <Link to="/shop" className="text-sm underline underline-offset-4">
+            Back to the shop
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (placed) {
     const isWhatsApp = placed.link.startsWith("https://wa.me/");
@@ -93,7 +111,7 @@ function OrderPage() {
           </a>
         </Button>
         <p className="mt-4 text-xs text-muted-foreground">
-          If {isWhatsApp ? "WhatsApp" : "your email app"} did not open, tap the button above.
+          Our order email didn’t go through, so this message is how your order reaches us.
         </p>
         <div className="mt-6">
           <Link to="/shop" className="text-sm underline underline-offset-4">
@@ -173,7 +191,7 @@ function OrderPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email (optional)</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input type="email" autoComplete="email" {...field} />
                   </FormControl>
@@ -259,14 +277,8 @@ function OrderPage() {
               className="w-full sm:w-auto"
               disabled={form.formState.isSubmitting || items.length === 0 || tooMany}
             >
-              {form.formState.isSubmitting ? (
-                <Loader2 className="animate-spin" />
-              ) : siteInfo.contact.whatsapp ? (
-                <MessageCircle />
-              ) : (
-                <Mail />
-              )}
-              {siteInfo.contact.whatsapp ? "Place order on WhatsApp" : "Place order"}
+              {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
+              Place order
             </Button>
             {tooMany && (
               <p className="text-sm text-muted-foreground">Please order 30 items or fewer.</p>

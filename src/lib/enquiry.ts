@@ -2,10 +2,16 @@ import { siteInfo } from "@/data/site";
 
 export type EnquiryFields = Record<string, string | string[] | undefined>;
 
-function formatBody(fields: EnquiryFields) {
+/** Label and value pairs with blanks dropped and lists joined, in field order. */
+export function filledEntries(fields: EnquiryFields): [string, string][] {
   return Object.entries(fields)
     .filter(([, value]) => (Array.isArray(value) ? value.length > 0 : Boolean(value?.trim())))
-    .map(([label, value]) => `${label}: ${Array.isArray(value) ? value.join(", ") : value}`)
+    .map(([label, value]) => [label, Array.isArray(value) ? value.join(", ") : (value ?? "")]);
+}
+
+function formatBody(fields: EnquiryFields) {
+  return filledEntries(fields)
+    .map(([label, value]) => `${label}: ${value}`)
     .join("\n");
 }
 
