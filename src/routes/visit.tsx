@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, Mail, MapPin } from "lucide-react";
 import image from "@/assets/jowam-v60-bar.jpg";
 import { Image } from "@/components/jowam/editorial";
 import { GoogleReviews } from "@/components/jowam/google-reviews";
@@ -52,6 +52,10 @@ function VisitPage() {
                   </div>
                 ))}
               </dl>
+            </div>
+            <div>
+              <p className="eyebrow flex items-center gap-2 text-olive"><Mail className="size-3.5" /> Email</p>
+              <a href={`mailto:${siteInfo.contact.hello}`} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.hello}</a>
             </div>
           </div>
 

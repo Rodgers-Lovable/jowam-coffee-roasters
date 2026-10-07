@@ -44,6 +44,9 @@ describe("placeOrder", () => {
     expect(result.ref).toBe("JW-261001-ABCD");
     expect(result.saved).toBe(true);
     expect(result.link).toMatch(/^(mailto:|https:\/\/wa\.me\/)/);
+    if (result.link.startsWith("mailto:")) {
+      expect(result.link).toMatch(/^mailto:sales@jowamroasters\.com\?/);
+    }
     expect(decodeURIComponent(result.link)).toContain("JW-261001-ABCD");
     expect(append).toHaveBeenCalledWith({
       ref: "JW-261001-ABCD",

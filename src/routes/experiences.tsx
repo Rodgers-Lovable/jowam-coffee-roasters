@@ -6,6 +6,7 @@ import productsImage from "@/assets/jowam-french-press.jpg";
 import baristaImage from "@/assets/jowam-portafilter-grounds.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
+import { siteInfo } from "@/data/site";
 import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
 import { experienceFormats, experienceInterests } from "@/data/jowam";
 import { pageHead } from "@/lib/seo";
@@ -259,6 +260,7 @@ function ExperiencesPage() {
             </p>
           </div>
           <EnquiryForm
+            to={siteInfo.contact.hello}
             fields={registerFields}
             preset={preset}
             submitLabel="Register interest"

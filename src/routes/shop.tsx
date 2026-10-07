@@ -62,6 +62,13 @@ function ShopPage() {
           title="Freshly roasted, ready to brew."
           body={`Bags are roasted to order. Pick what you like and we confirm delivery and payment by ${confirmChannel}.`}
         />
+        <p className="mt-4 text-sm text-muted-foreground">
+          Questions about an order? Email{" "}
+          <a href={`mailto:${siteInfo.contact.sales}`} className="underline underline-offset-4">
+            {siteInfo.contact.sales}
+          </a>
+          .
+        </p>
 
         <div className="mt-14">
           {products.length === 0 ? (

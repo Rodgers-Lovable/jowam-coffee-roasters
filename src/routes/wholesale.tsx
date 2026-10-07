@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { siteInfo } from "@/data/site";
 import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import {
@@ -222,6 +223,7 @@ function WholesalePage() {
           </div>
           <EnquiryForm
             inverse
+            to={siteInfo.contact.sales}
             fields={enquiryFields}
             submitLabel="Send enquiry"
             subject={(v) => `Wholesale enquiry: ${String(v["business"] ?? "")}`}
