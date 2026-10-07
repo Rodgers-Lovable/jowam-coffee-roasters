@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import cuppingImage from "@/assets/jowam-cupping-table.jpg";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
-import productsImage from "@/assets/jowam-portafilters.jpg";
-import baristaImage from "@/assets/jowam-barista.jpg";
+import roasteryImage from "@/assets/jowam-team-roaster.jpg";
+import productsImage from "@/assets/jowam-french-press.jpg";
+import baristaImage from "@/assets/jowam-portafilter-grounds.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
-import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
-import { experienceFormats, experienceInterests } from "@/data/jowam";
+import { EnquiryForm } from "@/components/jowam/enquiry-form";
+import { experienceFormats } from "@/data/jowam";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/experiences")({
   head: () =>
     pageHead({
       title: "Coffee Experiences & Training | Jowam Coffee Roasters",
-      description: "Cuppings, roastery visits, brewing workshops and barista training planned by Jowam Coffee Roasters in Nairobi. Register to hear about dates first.",
+      description:
+        "Cuppings, roastery visits, brewing workshops and barista training planned by Jowam Coffee Roasters in Nairobi. Register to hear about dates first.",
       path: "/experiences",
       ogTitle: "Coffee Experiences & Training | Jowam",
       ogDescription: "Taste. Ask. Discover. Coffee experiences at Jowam.",
@@ -33,54 +34,35 @@ const images = {
   },
   roastery: {
     src: roasteryImage,
-    alt: "Freshly roasted coffee pouring into the cooling tray",
+    alt: "Two people at a table with bags of Jowam coffee, the roaster and grinder behind them",
     width: 1600,
-    height: 1072,
+    height: 1066,
   },
   products: {
     src: productsImage,
-    alt: "Two portafilters, one with whole beans and one with freshly ground coffee",
-    width: 866,
-    height: 1126,
+    alt: "A French press brewing on a scale, with a gooseneck kettle and Chemex behind",
+    width: 1125,
+    height: 1400,
   },
   barista: {
     src: baristaImage,
-    alt: "A barista pouring milk into an espresso at the bar",
-    width: 1200,
-    height: 1504,
+    alt: "A portafilter of freshly ground coffee, seen from above",
+    width: 1018,
+    height: 1400,
   },
 } as const;
 
 const expectations = [
-  { title: "No experience needed", body: "Every session starts from the basics. Come with questions." },
+  {
+    title: "No experience needed",
+    body: "Every session starts from the basics. Come with questions.",
+  },
   { title: "Small groups", body: "Few enough people that everyone gets to taste, ask and try." },
-  { title: "Real coffee, real equipment", body: "You work with the coffees and gear we use at the café every day." },
+  {
+    title: "Real coffee, real equipment",
+    body: "You work with the coffees and gear we use at the café every day.",
+  },
 ] as const;
-
-const registerFields: EnquiryField[] = [
-  { type: "text", name: "name", label: "Your name", required: true },
-  { type: "email", name: "email", label: "Email", required: true },
-  { type: "tel", name: "phone", label: "Phone", wide: true },
-  {
-    type: "radio",
-    name: "interest",
-    label: "I’m interested in",
-    options: experienceInterests,
-    required: true,
-  },
-  {
-    type: "checkboxes",
-    name: "days",
-    label: "Days that suit you",
-    options: ["Weekdays", "Weekends"],
-  },
-  {
-    type: "textarea",
-    name: "notes",
-    label: "Anything else",
-    placeholder: "Group size, experience level, dates in mind",
-  },
-];
 
 const PRIVATE_EVENT = "Private or team event";
 
@@ -110,7 +92,7 @@ function ExperiencesPage() {
             </Button>
           </div>
         </div>
-        <div className="aspect-[4/3] overflow-hidden lg:aspect-[4/5] lg:max-h-[78vh]">
+        <div className="aspect-4/3 overflow-hidden lg:aspect-4/5 lg:max-h-[78vh]">
           <Image
             src={cuppingImage}
             alt="Cupping bowls set out on a table for a coffee tasting"
@@ -141,7 +123,7 @@ function ExperiencesPage() {
             if (i === 2)
               return (
                 <article key={format.id} id={format.id} className="scroll-mt-24">
-                  <div className="aspect-[16/7] min-h-[18rem] overflow-hidden">
+                  <div className="aspect-16/7 min-h-72 overflow-hidden">
                     <Image
                       src={image.src}
                       alt={image.alt}
@@ -167,7 +149,7 @@ function ExperiencesPage() {
                 id={format.id}
                 className="grid scroll-mt-24 gap-10 lg:grid-cols-2 lg:items-center lg:gap-16"
               >
-                <div className={`aspect-[4/3] overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                <div className={`aspect-4/3 overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -207,12 +189,12 @@ function ExperiencesPage() {
               </Button>
             </div>
           </div>
-          <div className="min-h-[30rem]">
+          <div className="min-h-120">
             <Image
               src={roasteryImage}
-              alt="Coffee roasting at the drum roaster"
+              alt="Two people at a table with bags of Jowam coffee, the roaster and grinder behind them"
               width={1600}
-              height={1072}
+              height={1066}
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
@@ -223,9 +205,7 @@ function ExperiencesPage() {
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="eyebrow">What to expect</p>
-            <h2 className="mt-4 font-display text-5xl leading-none">
-              Relaxed and hands-on.
-            </h2>
+            <h2 className="mt-4 font-display text-5xl leading-none">Relaxed and hands-on.</h2>
           </div>
           <div className="grid border-t border-border sm:grid-cols-3">
             {expectations.map((e) => (
@@ -253,12 +233,7 @@ function ExperiencesPage() {
               are set.
             </p>
           </div>
-          <EnquiryForm
-            fields={registerFields}
-            preset={preset}
-            submitLabel="Register interest"
-            subject={(v) => `Experience interest: ${String(v["interest"] ?? "")}`}
-          />
+          <EnquiryForm form="experiences" preset={preset} submitLabel="Register interest" />
         </div>
       </section>
     </main>

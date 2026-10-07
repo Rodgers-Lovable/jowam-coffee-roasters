@@ -1,4 +1,4 @@
-import heroImage from "@/assets/jowam-hospitality-hero.jpg";
+import heroImage from "@/assets/jowam-team-roaster.jpg";
 import logo from "@/assets/logo-160.jpg";
 import { siteInfo } from "@/data/site";
 import type { Product } from "@/lib/products";
@@ -49,6 +49,7 @@ export function cafeJsonLd() {
     "@id": `${siteInfo.url}/#cafe`,
     name: siteInfo.name,
     url: siteInfo.url,
+    email: siteInfo.contact.hello,
     logo: absoluteUrl(logo),
     image: absoluteUrl(heroImage),
     address: {

@@ -1,3 +1,6 @@
+import { siteInfo } from "@/data/site";
+import type { SendEmail } from "@/lib/email.server";
+import { orderCustomerEmail, orderShopEmail } from "@/lib/email-templates";
 import { buildMailto, buildWhatsApp } from "@/lib/enquiry";
 import {
   formatItemsText,
@@ -20,10 +23,12 @@ export class OrderError extends Error {
 type PlaceOrderDeps = {
   loadProducts: () => Promise<Product[]>;
   appendOrderRow: (row: OrderRow) => Promise<void>;
+  sendEmail: SendEmail;
   makeRef?: () => string;
 };
 
-export type PlaceOrderResult = { ref: string; saved: boolean; link: string };
+/** notified: the shop email went out. link: the message fallback for when it did not. */
+export type PlaceOrderResult = { ref: string; saved: boolean; notified: boolean; link: string };
 
 export async function placeOrder(
   input: SubmitOrderInput,
@@ -64,6 +69,35 @@ export async function placeOrder(
 
   const subject = `Jowam order ${ref}`;
   const fields = orderFields({ ref, items, subtotal, form });
-  const link = buildWhatsApp(subject, fields) ?? buildMailto(subject, fields);
-  return { ref, saved, link };
+  const shop = orderShopEmail({ ref, name: form.name, fields });
+  const customer = orderCustomerEmail({ ref, name: form.name, fields });
+  const [shopResult, customerResult] = await Promise.allSettled([
+    deps.sendEmail({
+      ...shop,
+      to: siteInfo.contact.sales,
+      replyTo: form.email,
+      idempotencyKey: `order-${ref}-shop`,
+    }),
+    deps.sendEmail({
+      ...customer,
+      to: form.email,
+      replyTo: siteInfo.contact.sales,
+      idempotencyKey: `order-${ref}-customer`,
+    }),
+  ]);
+  for (const [who, result] of [
+    ["shop", shopResult],
+    ["customer", customerResult],
+  ] as const) {
+    if (result.status === "rejected") {
+      console.error(
+        `[orders] could not email the ${who} about ${ref}`,
+        result.reason instanceof Error ? result.reason.message : String(result.reason),
+      );
+    }
+  }
+
+  const link =
+    buildWhatsApp(subject, fields) ?? buildMailto(siteInfo.contact.sales, subject, fields);
+  return { ref, saved, notified: shopResult.status === "fulfilled", link };
 }

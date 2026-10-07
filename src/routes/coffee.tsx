@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import roasteryImage from "@/assets/jowam-roastery.jpg";
+import heroImage from "@/assets/jowam-nyeri-espresso.jpg";
+import shelfImage from "@/assets/jowam-bags-shelf.jpg";
 import originImage from "@/assets/jowam-origin-kenya.jpg";
-import baristaImage from "@/assets/jowam-barista.jpg";
+import baristaImage from "@/assets/jowam-latte-art.jpg";
 import cuppingImage from "@/assets/jowam-cupping-table.jpg";
 import productsImage from "@/assets/jowam-bags-black-coffee.jpg";
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,8 @@ export const Route = createFileRoute("/coffee")({
       description: "How Jowam sources and roasts Kenyan coffee from Bungoma, Nyeri, Meru, Murang’a and Kirinyaga, and how to pick one you will enjoy.",
       path: "/coffee",
       ogDescription: "Kenyan coffee, roasted by Jowam in Nairobi.",
-      image: roasteryImage,
-      imageAlt: "Coffee roasting at the Jowam drum roaster",
+      image: heroImage,
+      imageAlt: "A bag of Jowam Nyeri dark roast beside an espresso",
     }),
   component: CoffeePage,
 });
@@ -85,10 +86,10 @@ function CoffeePage() {
     <main>
       <section className="relative min-h-[78svh] overflow-hidden bg-ink text-ink-foreground">
         <Image
-          src={roasteryImage}
-          alt="Coffee roasting in progress at a drum roaster"
-          width={1600}
-          height={1072}
+          src={heroImage}
+          alt="A bag of Jowam Nyeri dark roast beside an espresso and roasted beans at the café"
+          width={1400}
+          height={1400}
           priority
           sizes="100vw"
           className="absolute inset-0"
@@ -217,10 +218,10 @@ function CoffeePage() {
         <div className="mx-auto max-w-screen-2xl">
           <div className="aspect-16/7 min-h-100 overflow-hidden">
             <Image
-              src={roasteryImage}
-              alt="Freshly roasted coffee entering a cooling tray"
+              src={shelfImage}
+              alt="Bags of Jowam Nyeri and Meru medium roast lined up on a shelf"
               width={1600}
-              height={1072}
+              height={1220}
               sizes="100vw"
             />
           </div>
@@ -308,9 +309,9 @@ function CoffeePage() {
           <div className="min-h-136">
             <Image
               src={baristaImage}
-              alt="A barista pouring a coffee in the café"
-              width={1200}
-              height={1504}
+              alt="A cappuccino with leaf latte art beside a croissant"
+              width={1300}
+              height={1177}
             />
           </div>
           <div className="flex flex-col justify-center px-5 py-20 sm:px-8 lg:px-14">

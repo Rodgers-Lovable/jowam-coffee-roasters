@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BedDouble, Building2, ConciergeBell, Coffee, UtensilsCrossed } from "lucide-react";
-import baristaImage from "@/assets/jowam-barista.jpg";
+import heroImage from "@/assets/jowam-bags-counter-four.jpg";
 import portafiltersImage from "@/assets/jowam-portafilters.jpg";
 import cafeImage from "@/assets/jowam-cafe-interior.jpg";
 import { Button } from "@/components/ui/button";
@@ -11,14 +11,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
-import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
+import { EnquiryForm } from "@/components/jowam/enquiry-form";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import {
   wholesaleCategories,
   wholesaleFaqs,
   wholesalePrinciples,
   wholesaleSteps,
-  wholesaleVolumes,
 } from "@/data/jowam";
 import { pageHead } from "@/lib/seo";
 
@@ -26,55 +25,28 @@ export const Route = createFileRoute("/wholesale")({
   head: () =>
     pageHead({
       title: "Wholesale Coffee | Jowam Coffee Roasters",
-      description: "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
+      description:
+        "Wholesale Kenyan coffee for cafés, restaurants, hotels and offices in Nairobi, roasted by the team behind Jowam café at Lavington Mall.",
       path: "/wholesale",
       ogTitle: "Wholesale Coffee | Jowam",
       ogDescription: "Serve the coffee we roast and pour at our own café.",
-      image: baristaImage,
-      imageAlt: "A barista preparing coffee at Jowam",
+      image: heroImage,
+      imageAlt: "Bags of Jowam coffee on the café counter",
     }),
   component: WholesalePage,
 });
 
 const categoryIcons = [Coffee, UtensilsCrossed, BedDouble, Building2, ConciergeBell];
 
-const enquiryFields: EnquiryField[] = [
-  { type: "text", name: "name", label: "Your name", required: true },
-  { type: "text", name: "business", label: "Business name", required: true },
-  { type: "email", name: "email", label: "Email", required: true },
-  { type: "tel", name: "phone", label: "Phone" },
-  {
-    type: "select",
-    name: "businessType",
-    label: "Type of business",
-    options: wholesaleCategories,
-    required: true,
-  },
-  { type: "text", name: "location", label: "Location", placeholder: "Area, city" },
-  {
-    type: "select",
-    name: "volume",
-    label: "Roughly how much coffee you use a week",
-    options: wholesaleVolumes,
-    wide: true,
-  },
-  {
-    type: "textarea",
-    name: "message",
-    label: "Tell us about your place",
-    placeholder: "What you serve, how you brew, what you’re looking for",
-  },
-];
-
 function WholesalePage() {
   return (
     <main>
       <section className="relative min-h-[calc(100svh-5rem)] overflow-hidden bg-ink text-ink-foreground">
         <Image
-          src={baristaImage}
-          alt="A barista preparing specialty coffee in a busy hospitality setting"
-          width={1200}
-          height={1504}
+          src={heroImage}
+          alt="Four bags of Jowam coffee from Kirinyaga, Bungoma and Meru on the café counter"
+          width={1600}
+          height={1206}
           priority
           sizes="100vw"
           className="absolute inset-0 object-[center_35%]"
@@ -126,7 +98,7 @@ function WholesalePage() {
 
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto grid max-w-screen-2xl lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="min-h-[28rem] lg:min-h-[44rem]">
+          <div className="min-h-112 lg:min-h-176">
             <Image
               src={portafiltersImage}
               alt="Two portafilters, one with whole beans and one with freshly ground coffee"
@@ -219,12 +191,7 @@ function WholesalePage() {
               would suit your service.
             </p>
           </div>
-          <EnquiryForm
-            inverse
-            fields={enquiryFields}
-            submitLabel="Send enquiry"
-            subject={(v) => `Wholesale enquiry: ${String(v["business"] ?? "")}`}
-          />
+          <EnquiryForm inverse form="wholesale" submitLabel="Send enquiry" />
         </div>
       </section>
 

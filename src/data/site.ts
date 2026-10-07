@@ -18,11 +18,12 @@ export const siteInfo = {
     { days: ["Sunday"], opens: "09:00", closes: "17:00" },
   ],
   hoursSummary: "Mon to Sat 7:15 am to 7 pm · Sun 9 am to 5 pm",
-  // Placeholder contact details: replace with Jowam's real inbox and WhatsApp number (digits only, with country code).
+  // hello@ takes general and experience enquiries; sales@ takes shop orders and wholesale.
+  // WhatsApp number: digits only, with country code, or null until there is one.
   contact: {
-    email: "hello@jowam.example",
+    hello: "hello@jowamroasters.com",
+    sales: "sales@jowamroasters.com",
     whatsapp: null as string | null,
-    isPlaceholder: true,
   },
 } as const;
 
