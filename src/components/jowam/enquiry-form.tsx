@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { ArrowRight, Mail, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -24,58 +23,44 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { siteInfo } from "@/data/site";
-import { buildMailto, buildWhatsApp, type EnquiryFields } from "@/lib/enquiry";
-
-type BaseField = { name: string; label: string; required?: boolean; wide?: boolean };
-export type EnquiryField =
-  | (BaseField & { type: "text" | "email" | "tel" | "textarea"; placeholder?: string })
-  | (BaseField & { type: "select" | "radio" | "checkboxes"; options: readonly string[] });
-
-type Values = Record<string, string | string[]>;
-
-function buildSchema(fields: readonly EnquiryField[]) {
-  const shape: Record<string, z.ZodTypeAny> = {};
-  for (const field of fields) {
-    if (field.type === "checkboxes") {
-      shape[field.name] = field.required
-        ? z.array(z.string()).min(1, "Choose at least one option")
-        : z.array(z.string());
-    } else if (field.type === "email") {
-      shape[field.name] = field.required
-        ? z.string().trim().email("Enter a valid email address")
-        : z.union([z.literal(""), z.string().trim().email("Enter a valid email address")]);
-    } else {
-      shape[field.name] = field.required
-        ? z.string().trim().min(1, `${field.label} is required`)
-        : z.string().trim();
-    }
-  }
-  return z.object(shape);
-}
+import { enquiryForms, type EnquiryFormId } from "@/data/enquiry-forms";
+import {
+  buildEnquirySchema,
+  buildMailto,
+  buildWhatsApp,
+  labelledFields,
+  type EnquiryValues,
+} from "@/lib/enquiry";
+import { submitEnquiry } from "@/lib/enquiry.functions";
 
 export function EnquiryForm({
-  fields,
-  subject,
+  form: formId,
   submitLabel,
-  to,
   inverse = false,
   preset,
 }: {
-  to: string;
-  fields: readonly EnquiryField[];
-  subject: (values: Values) => string;
+  form: EnquiryFormId;
   submitLabel: string;
   inverse?: boolean;
   preset?: Record<string, string> | undefined;
 }) {
-  const schema = useMemo(() => buildSchema(fields), [fields]);
+  const { fields, shopTo, subject } = enquiryForms[formId];
+  const schema = useMemo(() => buildEnquirySchema(fields), [fields]);
   const defaultValues = useMemo(
     () =>
-      Object.fromEntries(fields.map((f) => [f.name, f.type === "checkboxes" ? [] : ""])) as Values,
+      Object.fromEntries([
+        ["company", ""],
+        ...fields.map((f) => [f.name, f.type === "checkboxes" ? [] : ""]),
+      ]) as EnquiryValues,
     [fields],
   );
-  const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues });
-  const [sent, setSent] = useState<{ mailto: string; whatsapp: string | null } | null>(null);
+  const form = useForm<EnquiryValues>({
+    resolver: zodResolver(schema) as unknown as Resolver<EnquiryValues>,
+    defaultValues,
+  });
+  const [status, setStatus] = useState<
+    { state: "sent" } | { state: "failed"; message: string; mailto: string } | null
+  >(null);
 
   useEffect(() => {
     if (!preset) return;
@@ -83,21 +68,22 @@ export function EnquiryForm({
       form.setValue(name, value, { shouldDirty: true });
   }, [preset, form]);
 
-  const toEnquiry = (values: Values): EnquiryFields =>
-    Object.fromEntries(fields.map((f) => [f.label, values[f.name]]));
-
-  const onSubmit = (values: Values) => {
-    const title = subject(values);
-    const links = {
-      mailto: buildMailto(to, title, toEnquiry(values)),
-      whatsapp: buildWhatsApp(title, toEnquiry(values)),
-    };
-    setSent(links);
-    window.location.href = links.mailto;
+  const onSubmit = async (values: EnquiryValues) => {
+    setStatus(null);
+    try {
+      await submitEnquiry({ data: { form: formId, values } });
+      setStatus({ state: "sent" });
+    } catch (err) {
+      setStatus({
+        state: "failed",
+        message: err instanceof Error ? err.message : "We couldn’t send your message just now.",
+        mailto: buildMailto(shopTo, subject(values), labelledFields(fields, values)),
+      });
+    }
   };
 
   const sendWhatsApp = form.handleSubmit((values) => {
-    const link = buildWhatsApp(subject(values), toEnquiry(values));
+    const link = buildWhatsApp(subject(values), labelledFields(fields, values));
     if (link) window.open(link, "_blank", "noopener,noreferrer");
   });
 
@@ -111,6 +97,18 @@ export function EnquiryForm({
   const label = `eyebrow ${inverse ? "text-ink-foreground/70" : "text-muted-foreground"}`;
   const message = inverse ? "text-ink-foreground" : "";
   const muted = inverse ? "text-ink-foreground/65" : "text-muted-foreground";
+
+  if (status?.state === "sent") {
+    return (
+      <div role="status" className="flex flex-col items-start gap-4">
+        <CheckCircle2 className="size-10" />
+        <p className="font-display text-4xl leading-none">Thanks, we have your message.</p>
+        <p className={`max-w-md leading-7 ${muted}`}>
+          We’ve emailed you a copy. Look out for our reply from {shopTo}.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -230,10 +228,22 @@ export function EnquiryForm({
           />
         ))}
 
+        <div aria-hidden="true" className="hidden">
+          <label>
+            Company
+            <input tabIndex={-1} autoComplete="off" {...form.register("company")} />
+          </label>
+        </div>
+
         <div className="flex flex-col gap-5 sm:col-span-2">
           <div className="flex flex-wrap gap-3">
-            <Button type="submit" size="lg" variant={inverse ? "hero" : "default"}>
-              <Mail />
+            <Button
+              type="submit"
+              size="lg"
+              variant={inverse ? "hero" : "default"}
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <Mail />}
               {submitLabel}
               <ArrowRight />
             </Button>
@@ -249,29 +259,13 @@ export function EnquiryForm({
               </Button>
             )}
           </div>
-          <p className={`text-xs leading-5 ${muted}`}>
-            Sending opens your email app with your details filled in, addressed to {to}.
-          </p>
-          {sent && (
-            <p role="status" className="text-sm">
-              Email app didn’t open?{" "}
-              <a href={sent.mailto} className="underline underline-offset-4">
-                Try again
+          <p className={`text-xs leading-5 ${muted}`}>We’ll email you a copy of your message.</p>
+          {status?.state === "failed" && (
+            <p role="alert" className="text-sm">
+              {status.message}{" "}
+              <a href={status.mailto} className="underline underline-offset-4">
+                Send it from your email app instead
               </a>
-              {sent.whatsapp && (
-                <>
-                  {" "}
-                  or{" "}
-                  <a
-                    href={sent.whatsapp}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline underline-offset-4"
-                  >
-                    message us on WhatsApp
-                  </a>
-                </>
-              )}
               .
             </p>
           )}

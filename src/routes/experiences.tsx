@@ -6,9 +6,8 @@ import productsImage from "@/assets/jowam-french-press.jpg";
 import baristaImage from "@/assets/jowam-portafilter-grounds.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
-import { siteInfo } from "@/data/site";
-import { EnquiryForm, type EnquiryField } from "@/components/jowam/enquiry-form";
-import { experienceFormats, experienceInterests } from "@/data/jowam";
+import { EnquiryForm } from "@/components/jowam/enquiry-form";
+import { experienceFormats } from "@/data/jowam";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/experiences")({
@@ -64,31 +63,6 @@ const expectations = [
     body: "You work with the coffees and gear we use at the café every day.",
   },
 ] as const;
-
-const registerFields: EnquiryField[] = [
-  { type: "text", name: "name", label: "Your name", required: true },
-  { type: "email", name: "email", label: "Email", required: true },
-  { type: "tel", name: "phone", label: "Phone", wide: true },
-  {
-    type: "radio",
-    name: "interest",
-    label: "I’m interested in",
-    options: experienceInterests,
-    required: true,
-  },
-  {
-    type: "checkboxes",
-    name: "days",
-    label: "Days that suit you",
-    options: ["Weekdays", "Weekends"],
-  },
-  {
-    type: "textarea",
-    name: "notes",
-    label: "Anything else",
-    placeholder: "Group size, experience level, dates in mind",
-  },
-];
 
 const PRIVATE_EVENT = "Private or team event";
 
@@ -259,13 +233,7 @@ function ExperiencesPage() {
               are set.
             </p>
           </div>
-          <EnquiryForm
-            to={siteInfo.contact.hello}
-            fields={registerFields}
-            preset={preset}
-            submitLabel="Register interest"
-            subject={(v) => `Experience interest: ${String(v["interest"] ?? "")}`}
-          />
+          <EnquiryForm form="experiences" preset={preset} submitLabel="Register interest" />
         </div>
       </section>
     </main>
