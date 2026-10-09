@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, Mail, MapPin } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone, UtensilsCrossed } from "lucide-react";
 import image from "@/assets/jowam-v60-bar.jpg";
 import { Image } from "@/components/jowam/editorial";
 import { GoogleReviews } from "@/components/jowam/google-reviews";
@@ -52,10 +52,18 @@ function VisitPage() {
                   </div>
                 ))}
               </dl>
+              <p className="mt-3 flex items-center gap-2 text-sm text-muted-foreground"><UtensilsCrossed className="size-3.5" /> Kitchen serves food {siteInfo.kitchenHours}</p>
             </div>
             <div>
               <p className="eyebrow flex items-center gap-2 text-olive"><Mail className="size-3.5" /> Email</p>
               <a href={`mailto:${siteInfo.contact.hello}`} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.hello}</a>
+            </div>
+            <div>
+              <p className="eyebrow flex items-center gap-2 text-olive"><Phone className="size-3.5" /> Call or WhatsApp</p>
+              <a href={`tel:${siteInfo.contact.phone.replaceAll(" ", "")}`} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.phone}</a>
+              {siteInfo.contact.whatsapp && (
+                <a href={`https://wa.me/${siteInfo.contact.whatsapp}`} target="_blank" rel="noreferrer" className="mt-1.5 flex items-center gap-2 text-sm underline-offset-4 hover:underline"><MessageCircle className="size-3.5" /> Message us on WhatsApp</a>
+              )}
             </div>
           </div>
 
