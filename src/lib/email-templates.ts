@@ -77,7 +77,7 @@ export function orderCustomerEmail(order: {
     ...layout(
       [
         `Thanks for your order, ${firstName(order.name)}.`,
-        `We have order ${order.ref} and will be in touch by ${confirmChannel} to confirm the delivery fee and payment (M-Pesa or on pickup). Here is what you ordered.`,
+        `We have order ${order.ref} and will be in touch by ${confirmChannel} to confirm delivery and payment by M-Pesa paybill. Here is what you ordered.`,
       ],
       order.fields,
       `Questions about your order? Reply to this email.\n\n${cafeFooter}`,

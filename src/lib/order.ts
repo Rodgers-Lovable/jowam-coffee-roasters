@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { confirmChannel } from "@/data/site";
 import type { EnquiryFields } from "@/lib/enquiry";
 import type { Product } from "@/lib/products";
 
@@ -145,7 +144,7 @@ export function orderFields(order: {
   return {
     Order: order.ref,
     Items: `\n${formatItemsText(order.items)}`,
-    Subtotal: `KES ${plainNumber.format(order.subtotal)} (delivery fee confirmed by ${confirmChannel})`,
+    Subtotal: `KES ${plainNumber.format(order.subtotal)}`,
     Name: form.name,
     Phone: normalizePhone(form.phone) ?? form.phone,
     Email: form.email,

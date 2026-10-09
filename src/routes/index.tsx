@@ -136,7 +136,7 @@ function HomePage() {
             </h2>
             <p className="mt-7 max-w-lg leading-7 text-ink-foreground/70">
               Every espresso and filter at the bar is roasted by our own team, using coffee from
-              Bungoma, Nyeri, Meru, Murang’a and Kirinyaga.
+              Bungoma, Nyeri, Meru, Murang’a, Kirinyaga and Kisii.
             </p>
             <div className="mt-8">
               <TextLink to="/coffee" inverse>
@@ -160,7 +160,7 @@ function HomePage() {
           <SectionIntro
             eyebrow="Currently roasting"
             title="Coffee with a sense of place."
-            body="Kenyan coffees from the shop, roasted in small batches. Order a bag for collection or delivery in Nairobi."
+            body="Kenyan coffees from the shop, roasted in small batches. Order a bag to collect at the café, or for delivery within Nairobi and outside it."
           />
           <TextLink to="/shop">Shop all coffee</TextLink>
         </div>
@@ -238,7 +238,7 @@ function HomePage() {
             <SectionIntro
               eyebrow="Experiences & education"
               title="Taste. Ask. Discover."
-              body="We are planning cuppings, roastery visits and brewing workshops for anyone curious about coffee. Register your interest and we will tell you when dates are set."
+              body="We are planning cuppings, roastery visits and private tastings for anyone curious about coffee. Register your interest and we will tell you when dates are set."
             />
             <div className="mt-8">
               <TextLink to="/experiences">See what we are planning</TextLink>

@@ -143,7 +143,7 @@ export function CartDrawer() {
                   <span className="font-display text-3xl tabular-nums">{formatKes(subtotal)}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Delivery fee and payment are confirmed by {confirmChannel}.
+                  Delivery and payment are confirmed by {confirmChannel}.
                 </p>
                 {items.length === 0 ? (
                   <>
