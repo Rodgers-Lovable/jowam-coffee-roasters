@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { legalDocs, legalPath } from "@/data/legal";
 import { getLiveProducts } from "@/lib/products.server";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -12,6 +13,7 @@ const PAGES = [
   "/wholesale",
   "/visit",
   "/experiences",
+  ...legalDocs.map((doc) => legalPath(doc.slug)),
 ];
 
 const escapeXml = (value: string) =>
