@@ -6,7 +6,7 @@ import baristaImage from "@/assets/jowam-latte-art.jpg";
 import cuppingImage from "@/assets/jowam-cupping-table.jpg";
 import productsImage from "@/assets/jowam-bags-black-coffee.jpg";
 import { Button } from "@/components/ui/button";
-import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { Image, ParentCompanyLink, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import { siteInfo } from "@/data/site";
 import { pageHead } from "@/lib/seo";
@@ -178,7 +178,7 @@ function CoffeePage() {
               are worth tasting side by side.
             </p>
             <p className="mt-5 leading-7 text-muted-foreground">
-              Our green coffee comes from our parent company, Jowam Coffee Traders Ltd, and our
+              Our green coffee comes from our parent company, <ParentCompanyLink />, and our
               current bags come from six growing areas.
             </p>
             <div className="mt-9 flex flex-wrap gap-3 text-sm">
