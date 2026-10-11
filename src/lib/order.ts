@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { LEGAL_UPDATED } from "@/data/legal";
 import type { EnquiryFields } from "@/lib/enquiry";
 import type { Product } from "@/lib/products";
 
@@ -43,6 +44,9 @@ export const orderFormSchema = z
     method: z.enum(["Pickup", "Delivery"]),
     address: z.string().trim().max(200, "Keep the address under 200 characters"),
     notes: z.string().trim().max(500, "Keep notes under 500 characters"),
+    acceptTerms: z
+      .boolean()
+      .refine((v) => v, "Please accept the Terms of Sale, Delivery and Refund policies to order"),
     company: z.string().transform((v) => v.slice(0, 500)),
   })
   .superRefine((value, ctx) => {
@@ -151,5 +155,6 @@ export function orderFields(order: {
     Method: form.method,
     Address: form.method === "Delivery" ? form.address : "",
     Notes: form.notes,
+    Accepted: `Terms of Sale, Delivery and Refund policies; read Privacy Policy (version ${LEGAL_UPDATED})`,
   };
 }

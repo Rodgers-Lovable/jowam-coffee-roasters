@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { legalPath } from "@/data/legal";
 import { confirmChannel, siteInfo } from "@/data/site";
 import { formatKes } from "@/lib/money";
 import { orderFormSchema, resolveLines, type OrderForm } from "@/lib/order";
@@ -39,8 +41,23 @@ const defaultValues: OrderForm = {
   method: "Pickup",
   address: "",
   notes: "",
+  acceptTerms: false,
   company: "",
 };
+
+// Opens in a new tab so the details typed so far stay in the form.
+function PolicyLink({ slug, children }: { slug: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={legalPath(slug)}
+      target="_blank"
+      rel="noopener"
+      className="underline underline-offset-4 hover:text-foreground"
+    >
+      {children}
+    </a>
+  );
+}
 
 function OrderPage() {
   const { lines, clear } = useCartStore();
@@ -254,6 +271,32 @@ function OrderPage() {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="acceptTerms"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-start gap-3">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(checked) => field.onChange(checked === true)}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal leading-6 text-muted-foreground">
+                      I agree to the <PolicyLink slug="terms">Terms of Sale</PolicyLink>,{" "}
+                      <PolicyLink slug="delivery">Delivery Policy</PolicyLink> and{" "}
+                      <PolicyLink slug="refunds">Refund and Returns Policy</PolicyLink>, and I have
+                      read the <PolicyLink slug="privacy">Privacy Policy</PolicyLink>.
+                    </FormLabel>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
