@@ -1,6 +1,8 @@
 export const siteInfo = {
   name: "Jowam Coffee Roasters",
   url: "https://jowamroasters.com",
+  // Parent company that supplies our green coffee; every mention on the site links to it.
+  parentCompany: { name: "Jowam Coffee Traders Ltd", url: "https://jowamcoffee.co.ke" },
   addressLine: "Lavington Mall, James Gichuru Road",
   city: "Nairobi, Kenya",
   mapsQuery: "Jowam Coffee Roasters, Lavington Mall, James Gichuru Road, Nairobi",
