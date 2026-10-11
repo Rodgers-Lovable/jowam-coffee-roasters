@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import { siteInfo } from "@/data/site";
+import logo from "@/assets/logo-256.jpg";
 
 const socialIcons = { Instagram: SiInstagram, TikTok: SiTiktok } as const;
 
@@ -10,6 +11,15 @@ export function SiteFooter() {
       <div className="mx-auto max-w-screen-2xl px-5 py-16 sm:px-8 md:py-24 lg:px-12">
         <div className="grid gap-14 border-b border-ink-foreground/20 pb-16 lg:grid-cols-[1.35fr_2fr]">
           <div>
+            <Link to="/" aria-label="Jowam Coffee Roasters home" className="mb-8 inline-block">
+              <img
+                src={logo}
+                alt="Jowam Coffee Roasters logo"
+                width={128}
+                height={128}
+                className="size-28 rounded-full object-contain sm:size-32"
+              />
+            </Link>
             <p className="font-display text-5xl leading-none sm:text-6xl">Stay for<br />another cup.</p>
             <p className="mt-7 max-w-md text-sm leading-6 text-ink-foreground/70">A café and coffee roastery at Lavington Mall, Nairobi. Coffee we roast ourselves and a kitchen that keeps you fed all day.</p>
           </div>
