@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/jowam-bags-counter.jpg";
 import lineupImage from "@/assets/jowam-bags-lineup.jpg";
-import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
+import { Image, ParentCompanyLink, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { ProductCard } from "@/components/jowam/product-card";
 import { Button } from "@/components/ui/button";
 import { confirmChannel, siteInfo } from "@/data/site";
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/shop")({
 
 const assurances = [
   { title: "Roasted every week", body: "We roast in small batches at our Lavington Mall roastery each week, depending on demand." },
-  { title: "Kenyan coffee", body: "Our green coffee comes from our parent company, Jowam Coffee Traders Ltd." },
+  { title: "Kenyan coffee", body: <>Our green coffee comes from our parent company, <ParentCompanyLink />.</> },
   { title: "Delivery or collection", body: `We deliver within Nairobi and outside it, or you can collect at the café. We confirm the details by ${confirmChannel}.` },
 ];
 

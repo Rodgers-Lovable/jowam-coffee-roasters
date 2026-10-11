@@ -69,6 +69,11 @@ export function cafeJsonLd() {
     servesCuisine: ["Coffee", "Breakfast", "Kenyan", "Indian", "Pizza", "Burgers"],
     hasMenu: absoluteUrl("/menu"),
     currenciesAccepted: "KES",
+    parentOrganization: {
+      "@type": "Organization",
+      name: siteInfo.parentCompany.name,
+      url: siteInfo.parentCompany.url,
+    },
   });
 }
 

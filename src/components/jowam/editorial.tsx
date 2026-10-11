@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { MenuCategoryData } from "@/data/jowam";
+import { siteInfo } from "@/data/site";
 
 export function SectionIntro({
   eyebrow,
@@ -166,5 +167,17 @@ export function PlaceholderPage({
         </div>
       </section>
     </main>
+  );
+}
+
+export function ParentCompanyLink({
+  className = "underline underline-offset-4 hover:text-foreground",
+}: {
+  className?: string;
+}) {
+  return (
+    <a href={siteInfo.parentCompany.url} target="_blank" rel="noopener" className={className}>
+      {siteInfo.parentCompany.name}
+    </a>
   );
 }

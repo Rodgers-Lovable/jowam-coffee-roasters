@@ -10,6 +10,7 @@ import {
   parseSubmitOrder,
   resolveLines,
 } from "./order";
+import { LEGAL_UPDATED } from "@/data/legal";
 
 const products: Product[] = [
   {
@@ -98,6 +99,7 @@ describe("orderFormSchema", () => {
     method: "Pickup" as const,
     address: "",
     notes: "",
+    acceptTerms: true,
     company: "",
   };
 
@@ -115,6 +117,12 @@ describe("orderFormSchema", () => {
     const result = orderFormSchema.safeParse({ ...base, email: "" });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0]?.path).toEqual(["email"]);
+  });
+
+  it("requires the terms to be accepted", () => {
+    const result = orderFormSchema.safeParse({ ...base, acceptTerms: false });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.path).toEqual(["acceptTerms"]);
   });
 
   it("rejects a non Kenyan phone number", () => {
@@ -138,6 +146,7 @@ describe("orderFields", () => {
         method: "Delivery",
         address: "Lavington",
         notes: "",
+        acceptTerms: true,
         company: "",
       },
     });
@@ -151,6 +160,7 @@ describe("orderFields", () => {
       Method: "Delivery",
       Address: "Lavington",
       Notes: "",
+      Accepted: `Terms of Sale, Delivery and Refund policies; read Privacy Policy (version ${LEGAL_UPDATED})`,
     });
   });
 });
@@ -163,6 +173,7 @@ describe("parseSubmitOrder", () => {
     method: "Pickup",
     address: "",
     notes: "",
+    acceptTerms: true,
     company: "",
   };
   const line = { handle: "nyeri", variantId: "nyeri--250g", quantity: 1 };

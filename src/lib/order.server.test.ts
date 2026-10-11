@@ -26,6 +26,7 @@ const form = {
   method: "Delivery" as const,
   address: "Lavington",
   notes: "",
+  acceptTerms: true,
   company: "",
 };
 
