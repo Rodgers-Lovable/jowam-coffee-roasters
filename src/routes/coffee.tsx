@@ -8,13 +8,14 @@ import productsImage from "@/assets/jowam-bags-black-coffee.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro, TextLink } from "@/components/jowam/editorial";
 import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
+import { siteInfo } from "@/data/site";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/coffee")({
   head: () =>
     pageHead({
       title: "Our Coffee | Jowam Coffee Roasters",
-      description: "How Jowam sources and roasts Kenyan coffee from Bungoma, Nyeri, Meru, Murang’a and Kirinyaga, and how to pick one you will enjoy.",
+      description: "How Jowam sources and roasts Kenyan coffee from Bungoma, Nyeri, Meru, Murang’a, Kirinyaga and Kisii, and how to pick one you will enjoy.",
       path: "/coffee",
       ogDescription: "Kenyan coffee, roasted by Jowam in Nairobi.",
       image: heroImage,
@@ -103,7 +104,7 @@ function CoffeePage() {
             <em>our way.</em>
           </h1>
           <p className="mt-7 max-w-lg text-lg leading-7 text-ink-foreground/75">
-            Kenyan coffee from five growing regions, roasted by us.
+            Kenyan coffee from six growing regions, roasted by us.
           </p>
           <div className="mt-8">
             <Button asChild variant="hero" size="lg">
@@ -177,10 +178,11 @@ function CoffeePage() {
               are worth tasting side by side.
             </p>
             <p className="mt-5 leading-7 text-muted-foreground">
-              Our current bags come from five growing areas.
+              Our green coffee comes from our parent company, Jowam Coffee Traders Ltd, and our
+              current bags come from six growing areas.
             </p>
             <div className="mt-9 flex flex-wrap gap-3 text-sm">
-              {["Bungoma", "Nyeri", "Meru", "Murang’a", "Kirinyaga"].map((region) => (
+              {siteInfo.regions.map((region) => (
                 <span key={region} className="border-t border-foreground/30 pt-3">
                   {region}
                 </span>

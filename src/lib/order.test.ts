@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { confirmChannel } from "@/data/site";
 import type { Product } from "./products";
 import {
   formatItemsText,
@@ -145,7 +144,7 @@ describe("orderFields", () => {
     expect(fields).toEqual({
       Order: "JW-261001-ABCD",
       Items: "\n1 × Nyeri (250g) @ 1,200",
-      Subtotal: `KES 1,200 (delivery fee confirmed by ${confirmChannel})`,
+      Subtotal: "KES 1,200",
       Name: "Wanjiru",
       Phone: "254712345678",
       Email: "wanjiru@example.com",

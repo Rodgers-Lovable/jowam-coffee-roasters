@@ -12,7 +12,7 @@ export const Route = createFileRoute("/shop")({
   head: () =>
     pageHead({
       title: "Shop Coffee | Jowam Coffee Roasters",
-      description: "Buy Jowam's freshly roasted Kenyan specialty coffee online, with whole bean and ground options delivered across Nairobi.",
+      description: "Buy Jowam's freshly roasted Kenyan specialty coffee online, with whole bean and ground options delivered within Nairobi and beyond.",
       path: "/shop",
       ogTitle: "Shop Jowam Coffee",
       ogDescription: "Freshly roasted Kenyan specialty coffee and coffee goods from our Lavington roastery.",
@@ -24,9 +24,9 @@ export const Route = createFileRoute("/shop")({
 });
 
 const assurances = [
-  { title: "Roasted to order", body: "Every bag is roasted in small batches at our Lavington roastery and rested, never stockpiled." },
-  { title: "Kenyan single origins", body: "We buy from washing stations and smallholder groups whose work we can trace and taste." },
-  { title: "Nairobi delivery", body: `Order here and we confirm delivery or collection with you by ${confirmChannel}.` },
+  { title: "Roasted every week", body: "We roast in small batches at our Lavington Mall roastery each week, depending on demand." },
+  { title: "Kenyan coffee", body: "Our green coffee comes from our parent company, Jowam Coffee Traders Ltd." },
+  { title: "Delivery or collection", body: `We deliver within Nairobi and outside it, or you can collect at the café. We confirm the details by ${confirmChannel}.` },
 ];
 
 function ShopPage() {
@@ -50,7 +50,7 @@ function ShopPage() {
             </div>
           </div>
           <div className="aspect-[4/5] max-h-[70vh] overflow-hidden">
-            <Image src={heroImage} alt="Jowam coffees from Bungoma, Nyeri, Meru, Murang'a and Kirinyaga lined up on the café counter" width={1116} height={1200} priority sizes="(max-width: 1024px) 100vw, 55vw" />
+            <Image src={heroImage} alt="Jowam coffees from Bungoma, Nyeri, Meru, Murang'a, Kirinyaga and Kisii lined up on the café counter" width={1116} height={1200} priority sizes="(max-width: 1024px) 100vw, 55vw" />
           </div>
         </div>
       </section>
@@ -60,7 +60,7 @@ function ShopPage() {
         <SectionIntro
           eyebrow="Current releases"
           title="Freshly roasted, ready to brew."
-          body={`Bags are roasted to order. Pick what you like and we confirm delivery and payment by ${confirmChannel}.`}
+          body={`Bags are roasted weekly at Lavington Mall. Pick what you like and we confirm delivery and payment by ${confirmChannel}.`}
         />
         <p className="mt-4 text-sm text-muted-foreground">
           Questions about an order? Email{" "}

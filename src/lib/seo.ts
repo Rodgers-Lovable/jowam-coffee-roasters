@@ -50,6 +50,8 @@ export function cafeJsonLd() {
     name: siteInfo.name,
     url: siteInfo.url,
     email: siteInfo.contact.hello,
+    telephone: siteInfo.contact.phone,
+    sameAs: siteInfo.socials.map((s) => s.url),
     logo: absoluteUrl(logo),
     image: absoluteUrl(heroImage),
     address: {

@@ -81,7 +81,7 @@ function OrderPage() {
         <h1 className="mt-4 font-display text-5xl leading-[0.95] sm:text-6xl">Order received.</h1>
         <p className="mx-auto mt-6 max-w-md text-base leading-7 text-muted-foreground">
           We’ve emailed you a confirmation. We’ll be in touch by {confirmChannel} to confirm the
-          delivery fee and payment.
+          delivery and M-Pesa payment.
         </p>
         <div className="mt-8">
           <Link to="/shop" className="text-sm underline underline-offset-4">
@@ -218,7 +218,7 @@ function OrderPage() {
                       </label>
                       <label className="flex items-center gap-3 text-sm">
                         <RadioGroupItem value="Delivery" />
-                        Delivery in Nairobi
+                        Delivery within Nairobi or outside it
                       </label>
                     </RadioGroup>
                   </FormControl>
@@ -312,7 +312,7 @@ function OrderPage() {
             <span className="font-display text-3xl tabular-nums">{formatKes(subtotal)}</span>
           </div>
           <p className="mt-3 text-xs leading-5 text-muted-foreground">
-            Delivery fee and payment (M-Pesa or on pickup) are confirmed by {confirmChannel}.
+            Delivery and payment (M-Pesa paybill) are confirmed by {confirmChannel}.
           </p>
         </aside>
       </div>

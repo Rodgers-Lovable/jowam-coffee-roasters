@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { SiInstagram, SiTiktok } from "react-icons/si";
 import { siteInfo } from "@/data/site";
+
+const socialIcons = { Instagram: SiInstagram, TikTok: SiTiktok } as const;
 
 export function SiteFooter() {
   return (
@@ -23,6 +26,19 @@ export function SiteFooter() {
               </address>
               <p className="mt-4 text-sm leading-6 text-ink-foreground/70">{siteInfo.hoursSummary}</p>
               <a href={`mailto:${siteInfo.contact.hello}`} className="mt-4 block break-all text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground">{siteInfo.contact.hello}</a>
+              <a href={`tel:${siteInfo.contact.phone.replaceAll(" ", "")}`} className="mt-2 block whitespace-nowrap text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground">{siteInfo.contact.phone}</a>
+              <ul className="mt-5 flex gap-4">
+                {siteInfo.socials.map(({ label, url }) => {
+                  const Icon = socialIcons[label];
+                  return (
+                    <li key={label}>
+                      <a href={url} target="_blank" rel="noreferrer" aria-label={`Jowam on ${label}`} className="text-ink-foreground/75 transition-colors hover:text-ink-foreground">
+                        <Icon className="size-4" />
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </div>

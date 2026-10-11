@@ -2,7 +2,6 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import cuppingImage from "@/assets/jowam-cupping-table.jpg";
 import roasteryImage from "@/assets/jowam-team-roaster.jpg";
-import productsImage from "@/assets/jowam-french-press.jpg";
 import baristaImage from "@/assets/jowam-portafilter-grounds.jpg";
 import { Button } from "@/components/ui/button";
 import { Image, SectionIntro } from "@/components/jowam/editorial";
@@ -15,7 +14,7 @@ export const Route = createFileRoute("/experiences")({
     pageHead({
       title: "Coffee Experiences & Training | Jowam Coffee Roasters",
       description:
-        "Cuppings, roastery visits, brewing workshops and barista training planned by Jowam Coffee Roasters in Nairobi. Register to hear about dates first.",
+        "Cuppings, roastery visits, private events and barista training planned by Jowam Coffee Roasters in Nairobi. Register to hear about dates first.",
       path: "/experiences",
       ogTitle: "Coffee Experiences & Training | Jowam",
       ogDescription: "Taste. Ask. Discover. Coffee experiences at Jowam.",
@@ -37,12 +36,6 @@ const images = {
     alt: "Two people at a table with bags of Jowam coffee, the roaster and grinder behind them",
     width: 1600,
     height: 1066,
-  },
-  products: {
-    src: productsImage,
-    alt: "A French press brewing on a scale, with a gooseneck kettle and Chemex behind",
-    width: 1125,
-    height: 1400,
   },
   barista: {
     src: baristaImage,
