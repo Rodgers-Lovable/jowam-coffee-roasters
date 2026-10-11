@@ -18,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { legalPath } from "@/data/legal";
 import { confirmChannel, siteInfo } from "@/data/site";
+import { track } from "@/lib/analytics";
 import { formatKes } from "@/lib/money";
 import { orderFormSchema, resolveLines, type OrderForm } from "@/lib/order";
 import { submitOrder } from "@/lib/order.functions";
@@ -82,8 +83,16 @@ function OrderPage() {
         },
       });
       setPlaced(result);
+      track("order_submitted", {
+        revenue: subtotal,
+        currency: "KES",
+        items: items.reduce((sum, item) => sum + item.quantity, 0),
+        method: values.method,
+        notified: result.notified,
+      });
       clear();
     } catch (err) {
+      track("order_failed");
       setError(
         err instanceof Error ? err.message : "We could not place your order. Please try again.",
       );

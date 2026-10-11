@@ -6,6 +6,7 @@ import { GoogleReviews } from "@/components/jowam/google-reviews";
 import { LocationMap } from "@/components/jowam/location-map";
 import { Button } from "@/components/ui/button";
 import { siteInfo } from "@/data/site";
+import { trackLink } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/visit")({
@@ -56,19 +57,19 @@ function VisitPage() {
             </div>
             <div>
               <p className="eyebrow flex items-center gap-2 text-olive"><Mail className="size-3.5" /> Email</p>
-              <a href={`mailto:${siteInfo.contact.hello}`} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.hello}</a>
+              <a href={`mailto:${siteInfo.contact.hello}`} {...trackLink("email_click", { placement: "visit" })} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.hello}</a>
             </div>
             <div>
               <p className="eyebrow flex items-center gap-2 text-olive"><Phone className="size-3.5" /> Call or WhatsApp</p>
-              <a href={`tel:${siteInfo.contact.phone.replaceAll(" ", "")}`} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.phone}</a>
+              <a href={`tel:${siteInfo.contact.phone.replaceAll(" ", "")}`} {...trackLink("phone_click", { placement: "visit" })} className="mt-3 block text-sm underline-offset-4 hover:underline">{siteInfo.contact.phone}</a>
               {siteInfo.contact.whatsapp && (
-                <a href={`https://wa.me/${siteInfo.contact.whatsapp}`} target="_blank" rel="noreferrer" className="mt-1.5 flex items-center gap-2 text-sm underline-offset-4 hover:underline"><MessageCircle className="size-3.5" /> Message us on WhatsApp</a>
+                <a href={`https://wa.me/${siteInfo.contact.whatsapp}`} {...trackLink("whatsapp_click", { placement: "visit" })} target="_blank" rel="noreferrer" className="mt-1.5 flex items-center gap-2 text-sm underline-offset-4 hover:underline"><MessageCircle className="size-3.5" /> Message us on WhatsApp</a>
               )}
             </div>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-3">
-            <Button asChild><a href={directionsUrl} target="_blank" rel="noreferrer">Get directions</a></Button>
+            <Button asChild><a href={directionsUrl} {...trackLink("directions_click", { placement: "visit" })} target="_blank" rel="noreferrer">Get directions</a></Button>
             <Button asChild variant="outline"><Link to="/menu">See the menu</Link></Button>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/jowam/product-card";
 import { Button } from "@/components/ui/button";
 import { confirmChannel, siteInfo } from "@/data/site";
 import { getProducts } from "@/lib/products.functions";
+import { trackLink } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop")({
@@ -64,7 +65,11 @@ function ShopPage() {
         />
         <p className="mt-4 text-sm text-muted-foreground">
           Questions about an order? Email{" "}
-          <a href={`mailto:${siteInfo.contact.sales}`} className="underline underline-offset-4">
+          <a
+            href={`mailto:${siteInfo.contact.sales}`}
+            {...trackLink("email_click", { placement: "shop" })}
+            className="underline underline-offset-4"
+          >
             {siteInfo.contact.sales}
           </a>
           .
@@ -81,7 +86,12 @@ function ShopPage() {
               <div className="mt-7 flex flex-wrap justify-center gap-3">
                 {siteInfo.contact.whatsapp && (
                   <Button asChild>
-                    <a href={`https://wa.me/${siteInfo.contact.whatsapp}`}>Order on WhatsApp</a>
+                    <a
+                      href={`https://wa.me/${siteInfo.contact.whatsapp}`}
+                      {...trackLink("whatsapp_click", { placement: "shop" })}
+                    >
+                      Order on WhatsApp
+                    </a>
                   </Button>
                 )}
                 <Button asChild variant="outline">

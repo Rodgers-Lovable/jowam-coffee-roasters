@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import fallbackImage from "@/assets/jowam-bags-latte.jpg";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/analytics";
 import { formatKes } from "@/lib/money";
 import type { Product } from "@/lib/products";
 import { useCartStore } from "@/stores/cart-store";
@@ -17,6 +18,11 @@ export function ProductCard({ product }: { product: Product }) {
   const handleAdd = () => {
     if (!firstAvailable) return;
     addLine(product.handle, firstAvailable.id);
+    track("add_to_cart", {
+      product: product.handle,
+      price: firstAvailable.priceKes,
+      source: "card",
+    });
     toast.success(`${product.name} added to your bag`);
   };
 
