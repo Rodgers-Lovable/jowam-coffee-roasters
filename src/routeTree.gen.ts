@@ -19,6 +19,7 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as VisitRouteImport } from './routes/visit'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
+import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as ApiV1ImagesDriveIdRouteImport } from './routes/api.v1.images.$driveId'
 
@@ -72,6 +73,11 @@ const WholesaleRoute = WholesaleRouteImport.update({
   path: '/wholesale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalSlugRoute = LegalSlugRouteImport.update({
+  id: '/legal/$slug',
+  path: '/legal/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductHandleRoute = ProductHandleRouteImport.update({
   id: '/product/$handle',
   path: '/product/$handle',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$handle': typeof ProductHandleRoute
   '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$handle': typeof ProductHandleRoute
   '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/visit': typeof VisitRoute
   '/wholesale': typeof WholesaleRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$handle': typeof ProductHandleRoute
   '/api/v1/images/$driveId': typeof ApiV1ImagesDriveIdRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
+    | '/legal/$slug'
     | '/product/$handle'
     | '/api/v1/images/$driveId'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
+    | '/legal/$slug'
     | '/product/$handle'
     | '/api/v1/images/$driveId'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/visit'
     | '/wholesale'
+    | '/legal/$slug'
     | '/product/$handle'
     | '/api/v1/images/$driveId'
   fileRoutesById: FileRoutesById
@@ -182,6 +194,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VisitRoute: typeof VisitRoute
   WholesaleRoute: typeof WholesaleRoute
+  LegalSlugRoute: typeof LegalSlugRoute
   ProductHandleRoute: typeof ProductHandleRoute
   ApiV1ImagesDriveIdRoute: typeof ApiV1ImagesDriveIdRoute
 }
@@ -258,6 +271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WholesaleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/$slug': {
+      id: '/legal/$slug'
+      path: '/legal/$slug'
+      fullPath: '/legal/$slug'
+      preLoaderRoute: typeof LegalSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$handle': {
       id: '/product/$handle'
       path: '/product/$handle'
@@ -286,6 +306,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VisitRoute: VisitRoute,
   WholesaleRoute: WholesaleRoute,
+  LegalSlugRoute: LegalSlugRoute,
   ProductHandleRoute: ProductHandleRoute,
   ApiV1ImagesDriveIdRoute: ApiV1ImagesDriveIdRoute,
 }

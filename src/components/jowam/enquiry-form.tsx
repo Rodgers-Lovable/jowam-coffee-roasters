@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { legalPath } from "@/data/legal";
 import { siteInfo } from "@/data/site";
 import { enquiryForms, type EnquiryFormId } from "@/data/enquiry-forms";
 import {
@@ -259,7 +260,19 @@ export function EnquiryForm({
               </Button>
             )}
           </div>
-          <p className={`text-xs leading-5 ${muted}`}>We’ll email you a copy of your message.</p>
+          <p className={`text-xs leading-5 ${muted}`}>
+            We’ll email you a copy of your message. We use your details only to reply, as set out in
+            our{" "}
+            <a
+              href={legalPath("privacy")}
+              target="_blank"
+              rel="noopener"
+              className="underline underline-offset-4"
+            >
+              Privacy Policy
+            </a>
+            .
+          </p>
           {status?.state === "failed" && (
             <p role="alert" className="text-sm">
               {status.message}{" "}
