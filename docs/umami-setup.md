@@ -17,19 +17,19 @@ The script carries `data-domains="jowamroasters.com"`, so visits on localhost an
 
 ## Events
 
-| Event | When | Data |
-| --- | --- | --- |
-| `add_to_cart` | Add to bag on a product card or product page | `product`, `price`, `source` (`card` or `product`) |
-| `begin_checkout` | "Place order" in the bag drawer | |
-| `order_submitted` | Order accepted by the server | `revenue`, `currency` (KES), `items`, `method`, `notified` |
-| `order_failed` | Order submit returned an error | |
-| `wholesale_enquiry_submitted` | Wholesale form sent | |
-| `experiences_enquiry_submitted` | Experiences form sent | |
-| `enquiry_failed` | Enquiry submit returned an error | `form` |
-| `enquiry_whatsapp` | Enquiry sent through the WhatsApp button | `form` |
-| `whatsapp_click`, `phone_click`, `email_click`, `directions_click` | Contact links | `placement` (page or footer) |
-| `social_click` | Instagram or TikTok in the footer | `network` |
-| `reviews_click` | "Read on Google" under the reviews | |
+| Event                                                              | When                                         | Data                                                       |
+| ------------------------------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------- |
+| `add_to_cart`                                                      | Add to bag on a product card or product page | `product`, `price`, `source` (`card` or `product`)         |
+| `begin_checkout`                                                   | "Place order" in the bag drawer              |                                                            |
+| `order_submitted`                                                  | Order accepted by the server                 | `revenue`, `currency` (KES), `items`, `method`, `notified` |
+| `order_failed`                                                     | Order submit returned an error               |                                                            |
+| `wholesale_enquiry_submitted`                                      | Wholesale form sent                          |                                                            |
+| `experiences_enquiry_submitted`                                    | Experiences form sent                        |                                                            |
+| `enquiry_failed`                                                   | Enquiry submit returned an error             | `form`                                                     |
+| `enquiry_whatsapp`                                                 | Enquiry sent through the WhatsApp button     | `form`                                                     |
+| `whatsapp_click`, `phone_click`, `email_click`, `directions_click` | Contact links                                | `placement` (page or footer)                               |
+| `social_click`                                                     | Instagram or TikTok in the footer            | `network`                                                  |
+| `reviews_click`                                                    | "Read on Google" under the reviews           |                                                            |
 
 `revenue` is the coffee subtotal. Delivery fees are confirmed with the customer after the order, so they are not included. `notified: false` means the order email failed and the customer was asked to send the order by WhatsApp or email.
 
