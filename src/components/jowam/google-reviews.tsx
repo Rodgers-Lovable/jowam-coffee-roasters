@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Star } from "lucide-react";
+import { trackLink } from "@/lib/analytics";
 import { getPlaceReviews } from "@/lib/place.functions";
 
 function Stars({ rating, className = "" }: { rating: number; className?: string }) {
@@ -38,7 +39,7 @@ export function GoogleReviews({ tone = "light" }: { tone?: "light" | "deep" }) {
               </p>
             )}
             {data.mapsUri && (
-              <a href={data.mapsUri} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-semibold uppercase tracking-[0.12em] underline underline-offset-4">
+              <a href={data.mapsUri} {...trackLink("reviews_click")} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-semibold uppercase tracking-[0.12em] underline underline-offset-4">
                 Read on Google
               </a>
             )}

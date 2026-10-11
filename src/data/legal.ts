@@ -407,8 +407,9 @@ const privacy: LegalDoc = {
       id: "cookies",
       heading: "Cookies and browser storage",
       body: [
-        "We do not use advertising or analytics cookies. Your shopping bag is saved in your browser's local storage so it is still there when you come back. It stays on your device and only reaches us when you place an order. You can clear it at any time in your browser settings.",
-        "Third-party content such as the Google Maps embed may set its own cookies, as explained above. If we ever add analytics or advertising tools, we will update this policy and ask for your consent where the law requires it.",
+        "We do not use advertising cookies, and our analytics tool sets no cookies at all. Your shopping bag is saved in your browser's local storage so it is still there when you come back. It stays on your device and only reaches us when you place an order. You can clear it at any time in your browser settings.",
+        "We use Umami, an analytics tool we run on our own server, to count page visits and actions such as adding coffee to your bag, placing an order, sending an enquiry or tapping our WhatsApp, phone and directions links. Umami does not store your IP address and cannot tell us who you are. We only see totals, for example how many people opened the shop page and which country, browser and type of device they used. We use these numbers to improve the site and plan which coffees to stock.",
+        "Third-party content such as the Google Maps embed may set its own cookies, as explained above. If we ever add advertising tools, we will update this policy and ask for your consent where the law requires it.",
       ],
     },
     {

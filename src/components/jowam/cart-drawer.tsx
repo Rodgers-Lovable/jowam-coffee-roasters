@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { confirmChannel } from "@/data/site";
+import { trackLink } from "@/lib/analytics";
 import { formatKes } from "@/lib/money";
 import { resolveLines } from "@/lib/order";
 import { useProducts } from "@/lib/use-products";
@@ -156,7 +157,11 @@ export function CartDrawer() {
                   </>
                 ) : (
                   <Button asChild className="w-full" size="lg">
-                    <Link to="/order" onClick={() => setIsOpen(false)}>
+                    <Link
+                      to="/order"
+                      onClick={() => setIsOpen(false)}
+                      {...trackLink("begin_checkout")}
+                    >
                       Place order
                     </Link>
                   </Button>

@@ -32,6 +32,7 @@ import {
   labelledFields,
   type EnquiryValues,
 } from "@/lib/enquiry";
+import { track } from "@/lib/analytics";
 import { submitEnquiry } from "@/lib/enquiry.functions";
 
 export function EnquiryForm({
@@ -74,7 +75,9 @@ export function EnquiryForm({
     try {
       await submitEnquiry({ data: { form: formId, values } });
       setStatus({ state: "sent" });
+      track(`${formId}_enquiry_submitted`);
     } catch (err) {
+      track("enquiry_failed", { form: formId });
       setStatus({
         state: "failed",
         message: err instanceof Error ? err.message : "We couldn’t send your message just now.",
@@ -85,7 +88,9 @@ export function EnquiryForm({
 
   const sendWhatsApp = form.handleSubmit((values) => {
     const link = buildWhatsApp(subject(values), labelledFields(fields, values));
-    if (link) window.open(link, "_blank", "noopener,noreferrer");
+    if (!link) return;
+    track("enquiry_whatsapp", { form: formId });
+    window.open(link, "_blank", "noopener,noreferrer");
   });
 
   const line = inverse
