@@ -430,19 +430,15 @@ export const wholesaleVolumes = [
 export const wholesaleFaqs = [
   {
     q: "Is there a minimum order?",
-    a: "It depends on the coffees you choose and how often you need them. Send an enquiry with a rough weekly amount and we’ll give you a straight answer.",
+    a: "Yes, 5 kg per order. Send an enquiry with a rough weekly amount and we’ll suggest coffees and a delivery schedule.",
   },
   {
     q: "Where do you deliver?",
-    a: "We’re based at Lavington Mall in Nairobi. Tell us where you are and we’ll confirm delivery days and costs for your area.",
-  },
-  {
-    q: "Can you help with equipment?",
-    a: "Tell us what grinder and machine you use in your enquiry. We’ll be honest about what we can help with and what we can’t.",
+    a: "We deliver to restaurants and cafés within Nairobi and outside it. Tell us where you are and we’ll confirm delivery days for your area.",
   },
   {
     q: "Do you train our staff?",
-    a: "Barista training is one of the sessions we’re putting together. Mention it in your enquiry and we’ll talk about what your team needs.",
+    a: "Yes. We train baristas for our wholesale customers. Mention it in your enquiry and tell us about your team.",
   },
 ] as const;
 
@@ -461,15 +457,9 @@ export const experienceFormats = [
     image: "roastery",
   },
   {
-    id: "brewing",
-    title: "Home brewing workshop",
-    body: "Better coffee from the brewer you already own. We cover grind size, ratios and technique.",
-    image: "products",
-  },
-  {
     id: "training",
     title: "Barista training",
-    body: "Time behind the bar with our baristas, working on espresso, milk and the habits that keep every cup consistent.",
+    body: "For café, restaurant and office teams. Time behind the bar with our baristas, working on espresso, milk and the habits that keep every cup consistent.",
     image: "barista",
   },
 ] as const;

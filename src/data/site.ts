@@ -23,8 +23,19 @@ export const siteInfo = {
   contact: {
     hello: "hello@jowamroasters.com",
     sales: "sales@jowamroasters.com",
-    whatsapp: null as string | null,
+    whatsapp: "254115527473" as string | null,
+    phone: "+254 115 527 473",
   },
+  socials: [
+    { label: "Instagram", handle: "@jowamcoffee", url: "https://www.instagram.com/jowamcoffee" },
+    {
+      label: "TikTok",
+      handle: "@jowamcoffeeroasters",
+      url: "https://www.tiktok.com/@jowamcoffeeroasters",
+    },
+  ],
+  kitchenHours: "8:30 am to 6:30 pm",
+  regions: ["Bungoma", "Nyeri", "Meru", "Murang’a", "Kirinyaga", "Kisii"],
 } as const;
 
 // Where orders get confirmed: WhatsApp once a number is set, email until then.
