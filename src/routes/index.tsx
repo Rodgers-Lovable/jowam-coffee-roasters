@@ -14,6 +14,7 @@ import { FeaturedCoffees } from "@/components/jowam/featured-coffees";
 import { GoogleReviews } from "@/components/jowam/google-reviews";
 import { LocationMap } from "@/components/jowam/location-map";
 import { siteInfo } from "@/data/site";
+import { trackLink } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -209,6 +210,7 @@ function HomePage() {
             <Button asChild>
               <a
                 href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteInfo.mapsQuery)}`}
+                {...trackLink("directions_click", { placement: "home" })}
                 target="_blank"
                 rel="noreferrer"
               >

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import { legalDocs } from "@/data/legal";
 import { siteInfo } from "@/data/site";
+import { trackLink } from "@/lib/analytics";
 import logo from "@/assets/logo-256.jpg";
 
 const socialIcons = { Instagram: SiInstagram, TikTok: SiTiktok } as const;
@@ -69,12 +70,14 @@ export function SiteFooter() {
               </p>
               <a
                 href={`mailto:${siteInfo.contact.hello}`}
+                {...trackLink("email_click", { placement: "footer" })}
                 className="mt-4 block break-all text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground"
               >
                 {siteInfo.contact.hello}
               </a>
               <a
                 href={`tel:${siteInfo.contact.phone.replaceAll(" ", "")}`}
+                {...trackLink("phone_click", { placement: "footer" })}
                 className="mt-2 block whitespace-nowrap text-sm text-ink-foreground/75 transition-colors hover:text-ink-foreground"
               >
                 {siteInfo.contact.phone}
@@ -86,6 +89,7 @@ export function SiteFooter() {
                     <li key={label}>
                       <a
                         href={url}
+                        {...trackLink("social_click", { network: label })}
                         target="_blank"
                         rel="noreferrer"
                         aria-label={`Jowam on ${label}`}

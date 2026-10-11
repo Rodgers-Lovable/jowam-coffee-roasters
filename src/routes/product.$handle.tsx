@@ -5,6 +5,7 @@ import fallbackImage from "@/assets/jowam-bags-latte.jpg";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { confirmChannel } from "@/data/site";
+import { track } from "@/lib/analytics";
 import { formatKes } from "@/lib/money";
 import { pageHead, productJsonLd } from "@/lib/seo";
 import type { Product } from "@/lib/products";
@@ -75,6 +76,7 @@ function ProductDetail({ product }: { product: Product }) {
   const handleAdd = () => {
     if (!selected?.available) return;
     addLine(product.handle, selected.id);
+    track("add_to_cart", { product: product.handle, price: selected.priceKes, source: "product" });
     toast.success(`${product.name} added to your bag`);
   };
 
